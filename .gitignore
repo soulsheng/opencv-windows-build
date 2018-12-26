@@ -19,3 +19,4 @@ tegra/
 *x64
 *.sdf
 *.opensdf
+/build/*.suo

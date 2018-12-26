@@ -6,3 +6,10 @@
 .sw[a-z]
 tags
 tegra/
+*CMakeFiles
+/build/modules
+/build/win-install
+/build/unix-install
+/build/cmake_uninstall.cmake
+/build/version_string.tmp
+/build/junk

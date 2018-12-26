@@ -103,6 +103,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/3rdparty/libpng/libpng.vcxproj">
       <Project>11EAEA66-905A-3DEF-90A4-03118F18DEF7</Project>
     </ProjectReference>
+    <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/modules/datasets/opencv_datasets.vcxproj">
+      <Project>E0DAD84C-B2BB-3FE3-B1B2-BACEDA3B1F21</Project>
+    </ProjectReference>
+    <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/modules/face/opencv_face.vcxproj">
+      <Project>1FE9BC8F-4CB9-376E-86B4-611D63CF8481</Project>
+    </ProjectReference>
+    <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/modules/text/opencv_text.vcxproj">
+      <Project>257AE543-900A-313C-82F4-0ABFAE7F4F37</Project>
+    </ProjectReference>
+    <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/modules/tracking/opencv_tracking.vcxproj">
+      <Project>C8420597-2029-37EE-A28A-3955E1C8BE2E</Project>
+    </ProjectReference>
     <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/modules/ts/opencv_ts.vcxproj">
       <Project>2F7053E6-F792-3282-84F4-A6F3C2B69610</Project>
     </ProjectReference>

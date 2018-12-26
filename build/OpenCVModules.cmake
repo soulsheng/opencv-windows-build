@@ -16,7 +16,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_targetsDefined)
 set(_targetsNotDefined)
 set(_expectedTargets)
-foreach(_expectedTarget opencv_world opencv_ts)
+foreach(_expectedTarget opencv_world opencv_face opencv_text opencv_ts opencv_datasets opencv_tracking)
   list(APPEND _expectedTargets ${_expectedTarget})
   if(NOT TARGET ${_expectedTarget})
     list(APPEND _targetsNotDefined ${_expectedTarget})
@@ -44,8 +44,20 @@ unset(_expectedTargets)
 # Create imported target opencv_world
 add_library(opencv_world SHARED IMPORTED)
 
+# Create imported target opencv_face
+add_library(opencv_face SHARED IMPORTED)
+
+# Create imported target opencv_text
+add_library(opencv_text SHARED IMPORTED)
+
 # Create imported target opencv_ts
 add_library(opencv_ts STATIC IMPORTED)
+
+# Create imported target opencv_datasets
+add_library(opencv_datasets SHARED IMPORTED)
+
+# Create imported target opencv_tracking
+add_library(opencv_tracking SHARED IMPORTED)
 
 # Import target "opencv_world" for configuration "Debug"
 set_property(TARGET opencv_world APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
@@ -53,6 +65,22 @@ set_target_properties(opencv_world PROPERTIES
   IMPORTED_IMPLIB_DEBUG "G:/file/code/image/opencv-windows-build/build/lib/Debug/opencv_world310d.lib"
   IMPORTED_LINK_INTERFACE_LIBRARIES_DEBUG ""
   IMPORTED_LOCATION_DEBUG "G:/file/code/image/opencv-windows-build/build/bin/Debug/opencv_world310d.dll"
+  )
+
+# Import target "opencv_face" for configuration "Debug"
+set_property(TARGET opencv_face APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+set_target_properties(opencv_face PROPERTIES
+  IMPORTED_IMPLIB_DEBUG "G:/file/code/image/opencv-windows-build/build/lib/Debug/opencv_face310d.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_DEBUG "opencv_world"
+  IMPORTED_LOCATION_DEBUG "G:/file/code/image/opencv-windows-build/build/bin/Debug/opencv_face310d.dll"
+  )
+
+# Import target "opencv_text" for configuration "Debug"
+set_property(TARGET opencv_text APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+set_target_properties(opencv_text PROPERTIES
+  IMPORTED_IMPLIB_DEBUG "G:/file/code/image/opencv-windows-build/build/lib/Debug/opencv_text310d.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_DEBUG "opencv_world"
+  IMPORTED_LOCATION_DEBUG "G:/file/code/image/opencv-windows-build/build/bin/Debug/opencv_text310d.dll"
   )
 
 # Import target "opencv_ts" for configuration "Debug"
@@ -63,6 +91,22 @@ set_target_properties(opencv_ts PROPERTIES
   IMPORTED_LOCATION_DEBUG "G:/file/code/image/opencv-windows-build/build/lib/Debug/opencv_ts310d.lib"
   )
 
+# Import target "opencv_datasets" for configuration "Debug"
+set_property(TARGET opencv_datasets APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+set_target_properties(opencv_datasets PROPERTIES
+  IMPORTED_IMPLIB_DEBUG "G:/file/code/image/opencv-windows-build/build/lib/Debug/opencv_datasets310d.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_DEBUG "opencv_world;opencv_face;opencv_text"
+  IMPORTED_LOCATION_DEBUG "G:/file/code/image/opencv-windows-build/build/bin/Debug/opencv_datasets310d.dll"
+  )
+
+# Import target "opencv_tracking" for configuration "Debug"
+set_property(TARGET opencv_tracking APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+set_target_properties(opencv_tracking PROPERTIES
+  IMPORTED_IMPLIB_DEBUG "G:/file/code/image/opencv-windows-build/build/lib/Debug/opencv_tracking310d.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_DEBUG "opencv_world;opencv_face;opencv_text;opencv_datasets"
+  IMPORTED_LOCATION_DEBUG "G:/file/code/image/opencv-windows-build/build/bin/Debug/opencv_tracking310d.dll"
+  )
+
 # Import target "opencv_world" for configuration "Release"
 set_property(TARGET opencv_world APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_world PROPERTIES
@@ -71,12 +115,44 @@ set_target_properties(opencv_world PROPERTIES
   IMPORTED_LOCATION_RELEASE "G:/file/code/image/opencv-windows-build/build/bin/Release/opencv_world310.dll"
   )
 
+# Import target "opencv_face" for configuration "Release"
+set_property(TARGET opencv_face APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(opencv_face PROPERTIES
+  IMPORTED_IMPLIB_RELEASE "G:/file/code/image/opencv-windows-build/build/lib/Release/opencv_face310.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "opencv_world"
+  IMPORTED_LOCATION_RELEASE "G:/file/code/image/opencv-windows-build/build/bin/Release/opencv_face310.dll"
+  )
+
+# Import target "opencv_text" for configuration "Release"
+set_property(TARGET opencv_text APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(opencv_text PROPERTIES
+  IMPORTED_IMPLIB_RELEASE "G:/file/code/image/opencv-windows-build/build/lib/Release/opencv_text310.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "opencv_world"
+  IMPORTED_LOCATION_RELEASE "G:/file/code/image/opencv-windows-build/build/bin/Release/opencv_text310.dll"
+  )
+
 # Import target "opencv_ts" for configuration "Release"
 set_property(TARGET opencv_ts APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_ts PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
   IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "opencv_world"
   IMPORTED_LOCATION_RELEASE "G:/file/code/image/opencv-windows-build/build/lib/Release/opencv_ts310.lib"
+  )
+
+# Import target "opencv_datasets" for configuration "Release"
+set_property(TARGET opencv_datasets APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(opencv_datasets PROPERTIES
+  IMPORTED_IMPLIB_RELEASE "G:/file/code/image/opencv-windows-build/build/lib/Release/opencv_datasets310.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "opencv_world;opencv_face;opencv_text"
+  IMPORTED_LOCATION_RELEASE "G:/file/code/image/opencv-windows-build/build/bin/Release/opencv_datasets310.dll"
+  )
+
+# Import target "opencv_tracking" for configuration "Release"
+set_property(TARGET opencv_tracking APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(opencv_tracking PROPERTIES
+  IMPORTED_IMPLIB_RELEASE "G:/file/code/image/opencv-windows-build/build/lib/Release/opencv_tracking310.lib"
+  IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "opencv_world;opencv_face;opencv_text;opencv_datasets"
+  IMPORTED_LOCATION_RELEASE "G:/file/code/image/opencv-windows-build/build/bin/Release/opencv_tracking310.dll"
   )
 
 # This file does not depend on other imported targets which have

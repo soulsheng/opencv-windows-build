@@ -35,6 +35,10 @@ BUILD_JASPER:BOOL=OFF
 //Build libjpeg from source
 BUILD_JPEG:BOOL=ON
 
+//Force to build libprotobuf from sources (don't try to find it
+// in system)
+BUILD_LIBPROTOBUF_FROM_SOURCES:BOOL=OFF
+
 //Build openexr from source
 BUILD_OPENEXR:BOOL=OFF
 
@@ -74,20 +78,50 @@ BUILD_ZLIB:BOOL=ON
 //Build utility applications (used for example to train classifiers)
 BUILD_opencv_apps:BOOL=OFF
 
+//Include opencv_aruco module into the OpenCV build
+BUILD_opencv_aruco:BOOL=OFF
+
+//Include opencv_bgsegm module into the OpenCV build
+BUILD_opencv_bgsegm:BOOL=OFF
+
+//Include opencv_bioinspired module into the OpenCV build
+BUILD_opencv_bioinspired:BOOL=OFF
+
 //Include opencv_calib3d module into the OpenCV build
 BUILD_opencv_calib3d:BOOL=ON
+
+//Include opencv_ccalib module into the OpenCV build
+BUILD_opencv_ccalib:BOOL=OFF
 
 //Include opencv_contrib module into the OpenCV build
 BUILD_opencv_contrib:BOOL=ON
 
+//Include opencv_contrib_world module into the OpenCV build
+BUILD_opencv_contrib_world:BOOL=OFF
+
 //Include opencv_core module into the OpenCV build
 BUILD_opencv_core:BOOL=ON
+
+//Include opencv_datasets module into the OpenCV build
+BUILD_opencv_datasets:BOOL=ON
+
+//Include opencv_dnn module into the OpenCV build
+BUILD_opencv_dnn:BOOL=OFF
+
+//Include opencv_dpm module into the OpenCV build
+BUILD_opencv_dpm:BOOL=OFF
+
+//Include opencv_face module into the OpenCV build
+BUILD_opencv_face:BOOL=ON
 
 //Include opencv_features2d module into the OpenCV build
 BUILD_opencv_features2d:BOOL=ON
 
 //Include opencv_flann module into the OpenCV build
 BUILD_opencv_flann:BOOL=ON
+
+//Include opencv_fuzzy module into the OpenCV build
+BUILD_opencv_fuzzy:BOOL=OFF
 
 //Include opencv_gpu module into the OpenCV build
 BUILD_opencv_gpu:BOOL=ON
@@ -104,6 +138,9 @@ BUILD_opencv_imgproc:BOOL=ON
 //Include opencv_legacy module into the OpenCV build
 BUILD_opencv_legacy:BOOL=ON
 
+//Include opencv_line_descriptor module into the OpenCV build
+BUILD_opencv_line_descriptor:BOOL=OFF
+
 //Include opencv_ml module into the OpenCV build
 BUILD_opencv_ml:BOOL=ON
 
@@ -113,17 +150,47 @@ BUILD_opencv_nonfree:BOOL=ON
 //Include opencv_objdetect module into the OpenCV build
 BUILD_opencv_objdetect:BOOL=ON
 
+//Include opencv_optflow module into the OpenCV build
+BUILD_opencv_optflow:BOOL=OFF
+
 //Include opencv_photo module into the OpenCV build
 BUILD_opencv_photo:BOOL=ON
+
+//Include opencv_plot module into the OpenCV build
+BUILD_opencv_plot:BOOL=OFF
+
+//Include opencv_reg module into the OpenCV build
+BUILD_opencv_reg:BOOL=OFF
+
+//Include opencv_rgbd module into the OpenCV build
+BUILD_opencv_rgbd:BOOL=OFF
+
+//Include opencv_saliency module into the OpenCV build
+BUILD_opencv_saliency:BOOL=OFF
 
 //Include opencv_shape module into the OpenCV build
 BUILD_opencv_shape:BOOL=ON
 
+//Include opencv_stereo module into the OpenCV build
+BUILD_opencv_stereo:BOOL=OFF
+
 //Include opencv_stitching module into the OpenCV build
 BUILD_opencv_stitching:BOOL=ON
 
+//Include opencv_structured_light module into the OpenCV build
+BUILD_opencv_structured_light:BOOL=OFF
+
 //Include opencv_superres module into the OpenCV build
 BUILD_opencv_superres:BOOL=ON
+
+//Include opencv_surface_matching module into the OpenCV build
+BUILD_opencv_surface_matching:BOOL=OFF
+
+//Include opencv_text module into the OpenCV build
+BUILD_opencv_text:BOOL=ON
+
+//Include opencv_tracking module into the OpenCV build
+BUILD_opencv_tracking:BOOL=ON
 
 //Include opencv_ts module into the OpenCV build
 BUILD_opencv_ts:BOOL=ON
@@ -139,6 +206,18 @@ BUILD_opencv_videostab:BOOL=ON
 
 //Include opencv_world module into the OpenCV build
 BUILD_opencv_world:BOOL=ON
+
+//Include opencv_xfeatures2d module into the OpenCV build
+BUILD_opencv_xfeatures2d:BOOL=OFF
+
+//Include opencv_ximgproc module into the OpenCV build
+BUILD_opencv_ximgproc:BOOL=OFF
+
+//Include opencv_xobjdetect module into the OpenCV build
+BUILD_opencv_xobjdetect:BOOL=OFF
+
+//Include opencv_xphoto module into the OpenCV build
+BUILD_opencv_xphoto:BOOL=OFF
 
 //Configs
 CMAKE_CONFIGURATION_TYPES:STRING=Debug;Release
@@ -417,6 +496,15 @@ CUDA_nvcuvenc_LIBRARY:FILEPATH=CUDA_nvcuvenc_LIBRARY-NOTFOUND
 //"nvcuvid" library
 CUDA_nvcuvid_LIBRARY:FILEPATH=C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v8.0/lib/x64/nvcuvid.lib
 
+//Path to a file.
+Caffe_INCLUDE_DIR:PATH=Caffe_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+Caffe_LIBS:FILEPATH=Caffe_LIBS-NOTFOUND
+
+//The directory containing a CMake configuration file for Ceres.
+Ceres_DIR:PATH=Ceres_DIR-NOTFOUND
+
 //Download external test data (Python executable and OPENCV_TEST_DATA_PATH
 // environment variable may be required)
 DOWNLOAD_EXTERNAL_TEST_DATA:BOOL=OFF
@@ -556,6 +644,30 @@ GSTREAMER_gsttag_LIBRARY:FILEPATH=GSTREAMER_gsttag_LIBRARY-NOTFOUND
 //gstvideo library to link with
 GSTREAMER_gstvideo_LIBRARY:FILEPATH=GSTREAMER_gstvideo_LIBRARY-NOTFOUND
 
+//Path to a library.
+Glog_LIBS:FILEPATH=Glog_LIBS-NOTFOUND
+
+//HDF5 C Wrapper compiler.  Used only to detect HDF5 compile flags.
+HDF5_C_COMPILER_EXECUTABLE:FILEPATH=HDF5_C_COMPILER_EXECUTABLE-NOTFOUND
+
+//Path to a file.
+HDF5_C_INCLUDE_DIR:PATH=HDF5_C_INCLUDE_DIR-NOTFOUND
+
+//HDF5 file differencing tool.
+HDF5_DIFF_EXECUTABLE:FILEPATH=HDF5_DIFF_EXECUTABLE-NOTFOUND
+
+//The directory containing a CMake configuration file for HDF5.
+HDF5_DIR:PATH=HDF5_DIR-NOTFOUND
+
+//HDF5 library compiled with parallel IO support
+HDF5_IS_PARALLEL:BOOL=OFF
+
+//Path to a library.
+HDF5_hdf5_LIBRARY_DEBUG:FILEPATH=HDF5_hdf5_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+HDF5_hdf5_LIBRARY_RELEASE:FILEPATH=HDF5_hdf5_LIBRARY_RELEASE-NOTFOUND
+
 //Change install rules to build the distribution package
 INSTALL_CREATE_DISTRIB:BOOL=OFF
 
@@ -589,6 +701,9 @@ LATEX2HTML_CONVERTER:FILEPATH=LATEX2HTML_CONVERTER-NOTFOUND
 //Path to a program.
 LATEX_COMPILER:FILEPATH=LATEX_COMPILER-NOTFOUND
 
+//Path to a library.
+Lept_LIBRARY:FILEPATH=Lept_LIBRARY-NOTFOUND
+
 //Path to a program.
 MAKEINDEX_COMPILER:FILEPATH=MAKEINDEX_COMPILER-NOTFOUND
 
@@ -602,7 +717,7 @@ MIKTEX_BINARY_PATH:PATH=MIKTEX_BINARY_PATH-NOTFOUND
 OPENCV_CONFIG_FILE_INCLUDE_DIR:PATH=G:/file/code/image/opencv-windows-build/build
 
 //Where to look for additional OpenCV modules
-OPENCV_EXTRA_MODULES_PATH:PATH=
+OPENCV_EXTRA_MODULES_PATH:PATH=G:/file/code/image/opencv_contrib-3.1.0/modules
 
 //Headers with custom HAL implementation
 OPENCV_HAL_HEADERS:STRING=
@@ -679,8 +794,44 @@ PYTHON3_PACKAGES_PATH:PATH=C:/Users/Sixthlab/AppData/Local/Programs/Python/Pytho
 //Where to install the python packages.
 PYTHON_PACKAGES_PATH:PATH=C:/Users/Sixthlab/AppData/Local/Programs/Python/Python36/Lib/site-packages
 
+//Path to a file.
+Protobuf_INCLUDE_DIR:PATH=Protobuf_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+Protobuf_LIBRARY_DEBUG:FILEPATH=Protobuf_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+Protobuf_LIBRARY_RELEASE:FILEPATH=Protobuf_LIBRARY_RELEASE-NOTFOUND
+
+//Path to a library.
+Protobuf_LIBS:FILEPATH=Protobuf_LIBS-NOTFOUND
+
+//Path to a library.
+Protobuf_LITE_LIBRARY_DEBUG:FILEPATH=Protobuf_LITE_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+Protobuf_LITE_LIBRARY_RELEASE:FILEPATH=Protobuf_LITE_LIBRARY_RELEASE-NOTFOUND
+
+//The Google Protocol Buffers Compiler
+Protobuf_PROTOC_EXECUTABLE:FILEPATH=Protobuf_PROTOC_EXECUTABLE-NOTFOUND
+
+//Path to a library.
+Protobuf_PROTOC_LIBRARY_DEBUG:FILEPATH=Protobuf_PROTOC_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+Protobuf_PROTOC_LIBRARY_RELEASE:FILEPATH=Protobuf_PROTOC_LIBRARY_RELEASE-NOTFOUND
+
+//Path to a file.
+Protobuf_SRC_ROOT_FOLDER:PATH=Protobuf_SRC_ROOT_FOLDER-NOTFOUND
+
 //Path to a program.
 SPHINX_BUILD:FILEPATH=SPHINX_BUILD-NOTFOUND
+
+//Path to a file.
+Tesseract_INCLUDE_DIR:PATH=Tesseract_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+Tesseract_LIBRARY:FILEPATH=Tesseract_LIBRARY-NOTFOUND
 
 VISUAL_STUDIO_PATH:STRING=C:/registry
 
@@ -847,6 +998,42 @@ libpng_LIB_DEPENDS:STATIC=general;zlib;
 libpng_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/3rdparty/libpng
 
 //Value Computed by CMake
+libprotobuf_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/dnn/3rdparty/protobuf
+
+//Dependencies for target
+libprotobuf_LIB_DEPENDS:STATIC=
+
+//Value Computed by CMake
+libprotobuf_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/3rdparty/protobuf
+
+//Value Computed by CMake
+opencv_aruco_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/aruco
+
+//Dependencies for the target
+opencv_aruco_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_aruco_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/aruco
+
+//Value Computed by CMake
+opencv_bgsegm_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/bgsegm
+
+//Dependencies for the target
+opencv_bgsegm_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_bgsegm_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/bgsegm
+
+//Value Computed by CMake
+opencv_bioinspired_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/bioinspired
+
+//Dependencies for the target
+opencv_bioinspired_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_bioinspired_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired
+
+//Value Computed by CMake
 opencv_calib3d_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/calib3d
 
 //Dependencies for the target
@@ -854,6 +1041,15 @@ opencv_calib3d_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_flann;gener
 
 //Value Computed by CMake
 opencv_calib3d_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/calib3d
+
+//Value Computed by CMake
+opencv_ccalib_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/ccalib
+
+//Dependencies for the target
+opencv_ccalib_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_ccalib_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib
 
 //Value Computed by CMake
 opencv_contrib_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/contrib
@@ -874,6 +1070,45 @@ opencv_core_LIB_DEPENDS:STATIC=general;zlib;
 opencv_core_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/core
 
 //Value Computed by CMake
+opencv_datasets_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/datasets
+
+//Dependencies for the target
+opencv_datasets_LIB_DEPENDS:STATIC=general;opencv_world;general;opencv_face;general;opencv_text;
+
+//Value Computed by CMake
+opencv_datasets_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/datasets
+
+//Value Computed by CMake
+opencv_dnn_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/dnn
+
+//Build Torch model importer (experimental functionality!)
+opencv_dnn_BUILD_TORCH_IMPORTER:BOOL=OFF
+
+//Dependencies for the target
+opencv_dnn_LIB_DEPENDS:STATIC=general;opencv_world;general;libprotobuf;
+
+//Value Computed by CMake
+opencv_dnn_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/dnn
+
+//Value Computed by CMake
+opencv_dpm_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/dpm
+
+//Dependencies for the target
+opencv_dpm_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_dpm_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/dpm
+
+//Value Computed by CMake
+opencv_face_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/face
+
+//Dependencies for the target
+opencv_face_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_face_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/face
+
+//Value Computed by CMake
 opencv_features2d_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/features2d
 
 //Dependencies for the target
@@ -890,6 +1125,15 @@ opencv_flann_LIB_DEPENDS:STATIC=general;opencv_core;
 
 //Value Computed by CMake
 opencv_flann_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/flann
+
+//Value Computed by CMake
+opencv_fuzzy_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/fuzzy
+
+//Dependencies for the target
+opencv_fuzzy_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_fuzzy_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy
 
 //Value Computed by CMake
 opencv_gpu_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/gpu
@@ -937,6 +1181,15 @@ opencv_legacy_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_flann;genera
 opencv_legacy_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/legacy
 
 //Value Computed by CMake
+opencv_line_descriptor_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/line_descriptor
+
+//Dependencies for the target
+opencv_line_descriptor_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_line_descriptor_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor
+
+//Value Computed by CMake
 opencv_ml_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/ml
 
 //Dependencies for the target
@@ -964,6 +1217,15 @@ opencv_objdetect_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_imgproc;g
 opencv_objdetect_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/objdetect
 
 //Value Computed by CMake
+opencv_optflow_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/optflow
+
+//Dependencies for the target
+opencv_optflow_LIB_DEPENDS:STATIC=general;opencv_world;general;opencv_ximgproc;
+
+//Value Computed by CMake
+opencv_optflow_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/optflow
+
+//Value Computed by CMake
 opencv_photo_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/photo
 
 //Dependencies for the target
@@ -971,6 +1233,42 @@ opencv_photo_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_imgproc;
 
 //Value Computed by CMake
 opencv_photo_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/photo
+
+//Value Computed by CMake
+opencv_plot_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/plot
+
+//Dependencies for the target
+opencv_plot_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_plot_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/plot
+
+//Value Computed by CMake
+opencv_reg_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/reg
+
+//Dependencies for the target
+opencv_reg_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_reg_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/reg
+
+//Value Computed by CMake
+opencv_rgbd_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/rgbd
+
+//Dependencies for the target
+opencv_rgbd_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_rgbd_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd
+
+//Value Computed by CMake
+opencv_saliency_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/saliency
+
+//Dependencies for the target
+opencv_saliency_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_saliency_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/saliency
 
 //Value Computed by CMake
 opencv_shape_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/shape
@@ -982,6 +1280,15 @@ opencv_shape_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_imgproc;gener
 opencv_shape_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/shape
 
 //Value Computed by CMake
+opencv_stereo_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/stereo
+
+//Dependencies for the target
+opencv_stereo_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_stereo_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/stereo
+
+//Value Computed by CMake
 opencv_stitching_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/stitching
 
 //Dependencies for the target
@@ -991,6 +1298,15 @@ opencv_stitching_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_flann;gen
 opencv_stitching_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/stitching
 
 //Value Computed by CMake
+opencv_structured_light_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/structured_light
+
+//Dependencies for the target
+opencv_structured_light_LIB_DEPENDS:STATIC=general;opencv_world;general;opencv_rgbd;
+
+//Value Computed by CMake
+opencv_structured_light_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light
+
+//Value Computed by CMake
 opencv_superres_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/superres
 
 //Dependencies for the target
@@ -998,6 +1314,33 @@ opencv_superres_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_imgproc;ge
 
 //Value Computed by CMake
 opencv_superres_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/superres
+
+//Value Computed by CMake
+opencv_surface_matching_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/surface_matching
+
+//Dependencies for the target
+opencv_surface_matching_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_surface_matching_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching
+
+//Value Computed by CMake
+opencv_text_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/text
+
+//Dependencies for the target
+opencv_text_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_text_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/text
+
+//Value Computed by CMake
+opencv_tracking_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/tracking
+
+//Dependencies for the target
+opencv_tracking_LIB_DEPENDS:STATIC=general;opencv_world;general;opencv_face;general;opencv_text;general;opencv_datasets;
+
+//Value Computed by CMake
+opencv_tracking_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/tracking
 
 //Value Computed by CMake
 opencv_ts_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/ts
@@ -1036,6 +1379,12 @@ opencv_videostab_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_flann;gen
 opencv_videostab_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/videostab
 
 //Value Computed by CMake
+opencv_waldboost_detector_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/xobjdetect/tools/waldboost_detector
+
+//Value Computed by CMake
+opencv_waldboost_detector_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/tools/waldboost_detector
+
+//Value Computed by CMake
 opencv_world_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/world
 
 //Dependencies for the target
@@ -1043,6 +1392,42 @@ opencv_world_LIB_DEPENDS:STATIC=general;zlib;general;zlib;general;libjpeg;genera
 
 //Value Computed by CMake
 opencv_world_SOURCE_DIR:STATIC=G:/file/code/image/opencv-windows-build/modules/world
+
+//Value Computed by CMake
+opencv_xfeatures2d_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/xfeatures2d
+
+//Dependencies for the target
+opencv_xfeatures2d_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_xfeatures2d_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d
+
+//Value Computed by CMake
+opencv_ximgproc_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/ximgproc
+
+//Dependencies for the target
+opencv_ximgproc_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_ximgproc_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc
+
+//Value Computed by CMake
+opencv_xobjdetect_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/xobjdetect
+
+//Dependencies for the target
+opencv_xobjdetect_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_xobjdetect_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect
+
+//Value Computed by CMake
+opencv_xphoto_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/modules/xphoto
+
+//Dependencies for the target
+opencv_xphoto_LIB_DEPENDS:STATIC=general;opencv_world;
+
+//Value Computed by CMake
+opencv_xphoto_SOURCE_DIR:STATIC=G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto
 
 //Value Computed by CMake
 zlib_BINARY_DIR:STATIC=G:/file/code/image/opencv-windows-build/build/3rdparty/zlib
@@ -1134,7 +1519,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=41
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=75
 //ADVANCED property for variable: CMAKE_RC_COMPILER
 CMAKE_RC_COMPILER-ADVANCED:INTERNAL=1
 CMAKE_RC_COMPILER_WORKS:INTERNAL=1
@@ -1295,6 +1680,8 @@ HAVE_C_FSIGNED_CHAR:INTERNAL=
 HAVE_FSEEKO:INTERNAL=
 //Result of TRY_COMPILE
 HAVE_OFF64_T:INTERNAL=FALSE
+//Have includes pthread.h
+HAVE_PTHREAD:INTERNAL=
 //Have include stddef.h
 HAVE_STDDEF_H:INTERNAL=1
 //Have include stdint.h
@@ -1307,8 +1694,18 @@ HAVE_WIN32UI:INTERNAL=TRUE
 HAVE_WINRT_SDK:INTERNAL=TRUE
 //Result of TRY_COMPILE
 HAVE_WORDS_BIGENDIAN:INTERNAL=TRUE
+//Module opencv_aruco will not be built in current configuration
+HAVE_opencv_aruco:INTERNAL=OFF
+//Module opencv_bgsegm will not be built in current configuration
+HAVE_opencv_bgsegm:INTERNAL=OFF
+//Module opencv_bioinspired will not be built in current configuration
+HAVE_opencv_bioinspired:INTERNAL=OFF
 //Module opencv_calib3d will be built in current configuration
 HAVE_opencv_calib3d:INTERNAL=ON
+//Module opencv_ccalib will not be built in current configuration
+HAVE_opencv_ccalib:INTERNAL=OFF
+//Module opencv_contrib_world will not be built in current configuration
+HAVE_opencv_contrib_world:INTERNAL=OFF
 //Module opencv_core will be built in current configuration
 HAVE_opencv_core:INTERNAL=ON
 //Module opencv_cudaarithm can not be built in current configuration
@@ -1335,12 +1732,26 @@ HAVE_opencv_cudastereo:INTERNAL=OFF
 HAVE_opencv_cudawarping:INTERNAL=OFF
 //Module opencv_cudev can not be built in current configuration
 HAVE_opencv_cudev:INTERNAL=OFF
+//Module opencv_cvv can not be built in current configuration
+HAVE_opencv_cvv:INTERNAL=OFF
+//Module opencv_datasets will be built in current configuration
+HAVE_opencv_datasets:INTERNAL=ON
+//Module opencv_dnn will not be built in current configuration
+HAVE_opencv_dnn:INTERNAL=OFF
+//Module opencv_dpm will not be built in current configuration
+HAVE_opencv_dpm:INTERNAL=OFF
 //Module opencv_dynamicuda can not be built in current configuration
 HAVE_opencv_dynamicuda:INTERNAL=OFF
+//Module opencv_face will be built in current configuration
+HAVE_opencv_face:INTERNAL=ON
 //Module opencv_features2d will be built in current configuration
 HAVE_opencv_features2d:INTERNAL=ON
 //Module opencv_flann will be built in current configuration
 HAVE_opencv_flann:INTERNAL=ON
+//Module opencv_fuzzy will not be built in current configuration
+HAVE_opencv_fuzzy:INTERNAL=OFF
+//Module opencv_hdf can not be built in current configuration
+HAVE_opencv_hdf:INTERNAL=OFF
 //Module opencv_highgui will be built in current configuration
 HAVE_opencv_highgui:INTERNAL=ON
 //Module opencv_imgcodecs will be built in current configuration
@@ -1349,26 +1760,52 @@ HAVE_opencv_imgcodecs:INTERNAL=ON
 HAVE_opencv_imgproc:INTERNAL=ON
 //Module opencv_java can not be built in current configuration
 HAVE_opencv_java:INTERNAL=OFF
+//Module opencv_line_descriptor will not be built in current configuration
+HAVE_opencv_line_descriptor:INTERNAL=OFF
+//Module opencv_matlab can not be built in current configuration
+HAVE_opencv_matlab:INTERNAL=OFF
 //Module opencv_ml will be built in current configuration
 HAVE_opencv_ml:INTERNAL=ON
 //Module opencv_objdetect will be built in current configuration
 HAVE_opencv_objdetect:INTERNAL=ON
 //Module opencv_ocl can not be built in current configuration
 HAVE_opencv_ocl:INTERNAL=OFF
+//Module opencv_optflow will not be built in current configuration
+HAVE_opencv_optflow:INTERNAL=OFF
 //Module opencv_photo will be built in current configuration
 HAVE_opencv_photo:INTERNAL=ON
+//Module opencv_plot will not be built in current configuration
+HAVE_opencv_plot:INTERNAL=OFF
 //Module opencv_python can not be built in current configuration
 HAVE_opencv_python:INTERNAL=OFF
 //Module opencv_python2 can not be built in current configuration
 HAVE_opencv_python2:INTERNAL=OFF
 //Module opencv_python3 can not be built in current configuration
 HAVE_opencv_python3:INTERNAL=OFF
+//Module opencv_reg will not be built in current configuration
+HAVE_opencv_reg:INTERNAL=OFF
+//Module opencv_rgbd will not be built in current configuration
+HAVE_opencv_rgbd:INTERNAL=OFF
+//Module opencv_saliency will not be built in current configuration
+HAVE_opencv_saliency:INTERNAL=OFF
+//Module opencv_sfm can not be built in current configuration
+HAVE_opencv_sfm:INTERNAL=OFF
 //Module opencv_shape will be built in current configuration
 HAVE_opencv_shape:INTERNAL=ON
+//Module opencv_stereo will not be built in current configuration
+HAVE_opencv_stereo:INTERNAL=OFF
 //Module opencv_stitching will be built in current configuration
 HAVE_opencv_stitching:INTERNAL=ON
+//Module opencv_structured_light will not be built in current configuration
+HAVE_opencv_structured_light:INTERNAL=OFF
 //Module opencv_superres will be built in current configuration
 HAVE_opencv_superres:INTERNAL=ON
+//Module opencv_surface_matching will not be built in current configuration
+HAVE_opencv_surface_matching:INTERNAL=OFF
+//Module opencv_text will be built in current configuration
+HAVE_opencv_text:INTERNAL=ON
+//Module opencv_tracking will be built in current configuration
+HAVE_opencv_tracking:INTERNAL=ON
 //Module opencv_ts will be built in current configuration
 HAVE_opencv_ts:INTERNAL=ON
 //Module opencv_video will be built in current configuration
@@ -1381,6 +1818,26 @@ HAVE_opencv_videostab:INTERNAL=ON
 HAVE_opencv_viz:INTERNAL=OFF
 //Module opencv_world will be built in current configuration
 HAVE_opencv_world:INTERNAL=ON
+//Module opencv_xfeatures2d will not be built in current configuration
+HAVE_opencv_xfeatures2d:INTERNAL=OFF
+//Module opencv_ximgproc will not be built in current configuration
+HAVE_opencv_ximgproc:INTERNAL=OFF
+//Module opencv_xobjdetect will not be built in current configuration
+HAVE_opencv_xobjdetect:INTERNAL=OFF
+//Module opencv_xphoto will not be built in current configuration
+HAVE_opencv_xphoto:INTERNAL=OFF
+//ADVANCED property for variable: HDF5_C_COMPILER_EXECUTABLE
+HDF5_C_COMPILER_EXECUTABLE-ADVANCED:INTERNAL=1
+//Result of TRY_COMPILE
+HDF5_C_COMPILER_NO_INTERROGATE:INTERNAL=FALSE
+//ADVANCED property for variable: HDF5_DIFF_EXECUTABLE
+HDF5_DIFF_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: HDF5_IS_PARALLEL
+HDF5_IS_PARALLEL-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: HDF5_hdf5_LIBRARY_DEBUG
+HDF5_hdf5_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: HDF5_hdf5_LIBRARY_RELEASE
+HDF5_hdf5_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: JAVA_AWT_INCLUDE_PATH
 JAVA_AWT_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: JAVA_AWT_LIBRARY
@@ -1418,16 +1875,100 @@ OPENCV_EXTRA_FLAGS_DEBUG:INTERNAL=
 //Extra compiler options for Release build
 OPENCV_EXTRA_FLAGS_RELEASE:INTERNAL= /Zi
 //List of OpenCV modules included into the build
-OPENCV_MODULES_BUILD:INTERNAL=opencv_core;opencv_flann;opencv_imgproc;opencv_ml;opencv_photo;opencv_video;opencv_imgcodecs;opencv_shape;opencv_videoio;opencv_highgui;opencv_objdetect;opencv_superres;opencv_features2d;opencv_calib3d;opencv_stitching;opencv_videostab;opencv_world;opencv_ts
+OPENCV_MODULES_BUILD:INTERNAL=opencv_core;opencv_flann;opencv_imgproc;opencv_ml;opencv_photo;opencv_video;opencv_imgcodecs;opencv_shape;opencv_videoio;opencv_highgui;opencv_objdetect;opencv_superres;opencv_features2d;opencv_calib3d;opencv_stitching;opencv_videostab;opencv_world;opencv_face;opencv_text;opencv_ts;opencv_datasets;opencv_tracking
 OPENCV_MODULES_BUILD_ORDERED:INTERNAL=opencv_calib3d;opencv_contrib;opencv_core;opencv_features2d;opencv_flann;opencv_gpu;opencv_highgui;opencv_imgproc;opencv_legacy;opencv_ml;opencv_nonfree;opencv_objdetect;opencv_photo;opencv_stitching;opencv_superres;opencv_ts;opencv_video;opencv_videostab
 //List of OpenCV modules implicitly disabled due to dependencies
 OPENCV_MODULES_DISABLED_AUTO:INTERNAL=
 //List of OpenCV modules which can not be build in current configuration
-OPENCV_MODULES_DISABLED_FORCE:INTERNAL=opencv_cudaarithm;opencv_cudabgsegm;opencv_cudacodec;opencv_cudafeatures2d;opencv_cudafilters;opencv_cudaimgproc;opencv_cudalegacy;opencv_cudaobjdetect;opencv_cudaoptflow;opencv_cudastereo;opencv_cudawarping;opencv_cudev;opencv_java;opencv_python2;opencv_viz
+OPENCV_MODULES_DISABLED_FORCE:INTERNAL=opencv_cudaarithm;opencv_cudabgsegm;opencv_cudacodec;opencv_cudafeatures2d;opencv_cudafilters;opencv_cudaimgproc;opencv_cudalegacy;opencv_cudaobjdetect;opencv_cudaoptflow;opencv_cudastereo;opencv_cudawarping;opencv_cudev;opencv_java;opencv_python2;opencv_viz;opencv_cvv;opencv_hdf;opencv_matlab;opencv_sfm
 //List of OpenCV modules explicitly disabled by user
-OPENCV_MODULES_DISABLED_USER:INTERNAL=
+OPENCV_MODULES_DISABLED_USER:INTERNAL=opencv_aruco;opencv_bgsegm;opencv_bioinspired;opencv_ccalib;opencv_contrib_world;opencv_dnn;opencv_dpm;opencv_fuzzy;opencv_line_descriptor;opencv_optflow;opencv_plot;opencv_reg;opencv_rgbd;opencv_saliency;opencv_stereo;opencv_structured_light;opencv_surface_matching;opencv_xfeatures2d;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto
 //List of OpenCV modules marked for export
-OPENCV_MODULES_PUBLIC:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab;opencv_world
+OPENCV_MODULES_PUBLIC:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab;opencv_world;opencv_datasets;opencv_face;opencv_text;opencv_tracking
+OPENCV_MODULE_opencv_aruco_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/aruco
+//List of opencv_aruco submodules
+OPENCV_MODULE_opencv_aruco_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_aruco_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_aruco module (for linker)
+OPENCV_MODULE_opencv_aruco_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_aruco module
+OPENCV_MODULE_opencv_aruco_DESCRIPTION:INTERNAL=ArUco Marker Detection
+//List of header files for opencv_aruco
+OPENCV_MODULE_opencv_aruco_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/include/opencv2/aruco.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/include/opencv2/aruco/charuco.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/include/opencv2/aruco/dictionary.hpp
+OPENCV_MODULE_opencv_aruco_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_aruco_LABEL:INTERNAL=Extra;opencv_aruco
+OPENCV_MODULE_opencv_aruco_LINK_DEPS:INTERNAL=
+//Location of opencv_aruco module sources
+OPENCV_MODULE_opencv_aruco_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/aruco
+//Optional dependencies of opencv_aruco module
+OPENCV_MODULE_opencv_aruco_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_aruco module
+OPENCV_MODULE_opencv_aruco_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_aruco module
+OPENCV_MODULE_opencv_aruco_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_aruco module
+OPENCV_MODULE_opencv_aruco_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_calib3d
+//List of source files for opencv_aruco
+OPENCV_MODULE_opencv_aruco_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/src/aruco.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/src/charuco.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/src/dictionary.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/aruco/src/predefined_dictionaries.hpp
+//List of wrappers supporting module opencv_aruco
+OPENCV_MODULE_opencv_aruco_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_bgsegm_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/bgsegm
+//List of opencv_bgsegm submodules
+OPENCV_MODULE_opencv_bgsegm_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_bgsegm_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_bgsegm module (for linker)
+OPENCV_MODULE_opencv_bgsegm_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_bgsegm module
+OPENCV_MODULE_opencv_bgsegm_DESCRIPTION:INTERNAL=Background Segmentation Algorithms
+//List of header files for opencv_bgsegm
+OPENCV_MODULE_opencv_bgsegm_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/bgsegm/include/opencv2/bgsegm.hpp
+OPENCV_MODULE_opencv_bgsegm_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_bgsegm_LABEL:INTERNAL=Extra;opencv_bgsegm
+OPENCV_MODULE_opencv_bgsegm_LINK_DEPS:INTERNAL=
+//Location of opencv_bgsegm module sources
+OPENCV_MODULE_opencv_bgsegm_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/bgsegm
+//Optional dependencies of opencv_bgsegm module
+OPENCV_MODULE_opencv_bgsegm_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_bgsegm module
+OPENCV_MODULE_opencv_bgsegm_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_bgsegm module
+OPENCV_MODULE_opencv_bgsegm_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_bgsegm module
+OPENCV_MODULE_opencv_bgsegm_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_video;opencv_highgui
+//List of source files for opencv_bgsegm
+OPENCV_MODULE_opencv_bgsegm_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/bgsegm/src/bgfg_gaussmix.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bgsegm/src/bgfg_gmg.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bgsegm/src/precomp.hpp
+//List of wrappers supporting module opencv_bgsegm
+OPENCV_MODULE_opencv_bgsegm_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_bioinspired_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/bioinspired
+//List of opencv_bioinspired submodules
+OPENCV_MODULE_opencv_bioinspired_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_bioinspired_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_bioinspired module (for linker)
+OPENCV_MODULE_opencv_bioinspired_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_bioinspired module
+OPENCV_MODULE_opencv_bioinspired_DESCRIPTION:INTERNAL=Biologically inspired algorithms
+//List of header files for opencv_bioinspired
+OPENCV_MODULE_opencv_bioinspired_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/include/opencv2/bioinspired.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/include/opencv2/bioinspired/bioinspired.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/include/opencv2/bioinspired/retina.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/include/opencv2/bioinspired/retinafasttonemapping.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/include/opencv2/bioinspired/transientareassegmentationmodule.hpp
+OPENCV_MODULE_opencv_bioinspired_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_bioinspired_LABEL:INTERNAL=Extra;opencv_bioinspired
+OPENCV_MODULE_opencv_bioinspired_LINK_DEPS:INTERNAL=
+//Location of opencv_bioinspired module sources
+OPENCV_MODULE_opencv_bioinspired_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired
+//Optional dependencies of opencv_bioinspired module
+OPENCV_MODULE_opencv_bioinspired_OPT_DEPS:INTERNAL=opencv_highgui;opencv_ocl
+//Optional private dependencies of opencv_bioinspired module
+OPENCV_MODULE_opencv_bioinspired_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_bioinspired module
+OPENCV_MODULE_opencv_bioinspired_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_bioinspired module
+OPENCV_MODULE_opencv_bioinspired_REQ_DEPS:INTERNAL=opencv_core
+//List of source files for opencv_bioinspired
+OPENCV_MODULE_opencv_bioinspired_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/basicretinafilter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/imagelogpolprojection.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/magnoretinafilter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/parvoretinafilter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retina.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retina_ocl.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retinacolor.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retinafasttonemapping.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retinafilter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/transientareassegmentationmodule.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/opencl/retina_kernel.cl;G:/file/code/image/opencv-windows-build/build/modules/bioinspired/opencl_kernels_bioinspired.cpp;G:/file/code/image/opencv-windows-build/build/modules/bioinspired/opencl_kernels_bioinspired.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/basicretinafilter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/imagelogpolprojection.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/magnoretinafilter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/parvoretinafilter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retina_ocl.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retinacolor.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/retinafilter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/bioinspired/src/templatebuffer.hpp
+//List of wrappers supporting module opencv_bioinspired
+OPENCV_MODULE_opencv_bioinspired_WRAPPERS:INTERNAL=java;python2;python3
 OPENCV_MODULE_opencv_calib3d_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_calib3d submodules
 OPENCV_MODULE_opencv_calib3d_CHILDREN:INTERNAL=
@@ -1461,6 +2002,34 @@ OPENCV_MODULE_opencv_calib3d_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_features2d
 OPENCV_MODULE_opencv_calib3d_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/calib3d/src/calibinit.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/calibration.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/checkchessboard.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/circlesgrid.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/compat_ptsetreg.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/compat_stereo.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/dls.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/epnp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/fisheye.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/five-point.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/fundam.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/homography_decomp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/levmarq.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/main.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/p3p.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/polynom_solver.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/posit.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/ptsetreg.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/quadsubpix.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/rho.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/solvepnp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/stereobm.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/stereosgbm.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/triangulate.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/upnp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/opencl/stereobm.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_calib3d.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_calib3d.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/circlesgrid.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/fisheye.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/dls.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/epnp.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/p3p.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/polynom_solver.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/rho.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/upnp.h
 //List of wrappers supporting module opencv_calib3d
 OPENCV_MODULE_opencv_calib3d_WRAPPERS:INTERNAL=java;python2;python3
+OPENCV_MODULE_opencv_ccalib_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/ccalib
+//List of opencv_ccalib submodules
+OPENCV_MODULE_opencv_ccalib_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_ccalib_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_ccalib module (for linker)
+OPENCV_MODULE_opencv_ccalib_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_ccalib module
+OPENCV_MODULE_opencv_ccalib_DESCRIPTION:INTERNAL=Custom Calibration Pattern
+//List of header files for opencv_ccalib
+OPENCV_MODULE_opencv_ccalib_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/include/opencv2/ccalib.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/include/opencv2/ccalib/multicalib.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/include/opencv2/ccalib/omnidir.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/include/opencv2/ccalib/randpattern.hpp
+OPENCV_MODULE_opencv_ccalib_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_ccalib_LABEL:INTERNAL=Extra;opencv_ccalib
+OPENCV_MODULE_opencv_ccalib_LINK_DEPS:INTERNAL=
+//Location of opencv_ccalib module sources
+OPENCV_MODULE_opencv_ccalib_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib
+//Optional dependencies of opencv_ccalib module
+OPENCV_MODULE_opencv_ccalib_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_ccalib module
+OPENCV_MODULE_opencv_ccalib_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_ccalib module
+OPENCV_MODULE_opencv_ccalib_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_ccalib module
+OPENCV_MODULE_opencv_ccalib_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_calib3d;opencv_features2d
+//List of source files for opencv_ccalib
+OPENCV_MODULE_opencv_ccalib_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/src/ccalib.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/src/multicalib.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/src/omnidir.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/src/randpattern.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ccalib/src/precomp.hpp
+//List of wrappers supporting module opencv_ccalib
+OPENCV_MODULE_opencv_ccalib_WRAPPERS:INTERNAL=python2;python3
 //The cathegory of the module
 OPENCV_MODULE_opencv_contrib_CLASS:INTERNAL=PUBLIC
 OPENCV_MODULE_opencv_contrib_DEPS_ORDERED:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_gpu;opencv_highgui;opencv_imgproc;opencv_legacy;opencv_ml;opencv_nonfree;opencv_objdetect;opencv_photo;opencv_video
@@ -1472,6 +2041,27 @@ OPENCV_MODULE_opencv_contrib_HEADERS:INTERNAL=G:/file/code/image/opencv-windows-
 OPENCV_MODULE_opencv_contrib_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/contrib
 //List of source files for opencv_contrib
 OPENCV_MODULE_opencv_contrib_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/contrib/src/adaptiveskindetector.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/ba.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/basicretinafilter.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/bowmsctrainer.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/chamfermatching.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/chowliutree.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/colormap.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/colortracker.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/contrib_init.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/detection_based_tracker.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/facerec.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/featuretracker.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/fuzzymeanshifttracker.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/gencolors.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/hybridtracker.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/imagelogpolprojection.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/inputoutput.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/lda.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/logpolar_bsm.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/magnoretinafilter.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/octree.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/openfabmap.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/parvoretinafilter.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/polyfit.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/retina.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/retinacolor.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/retinafilter.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/rgbdodometry.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/selfsimilarity.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/spinimages.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/stereovar.cpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/basicretinafilter.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/imagelogpolprojection.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/magnoretinafilter.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/parvoretinafilter.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/retinacolor.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/retinafilter.hpp;G:/file/code/image/opencv-windows-build/modules/contrib/src/templatebuffer.hpp
+//List of opencv_contrib_world submodules
+OPENCV_MODULE_opencv_contrib_world_CHILDREN:INTERNAL=opencv_bgsegm;opencv_bioinspired;opencv_ccalib;opencv_cvv;opencv_datasets;opencv_face;opencv_latentsvm;opencv_line_descriptor;opencv_optflow;opencv_reg;opencv_rgbd;opencv_saliency;opencv_surface_matching;opencv_text;opencv_tracking;opencv_xfeatures2d;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto
+//The category of the module
+OPENCV_MODULE_opencv_contrib_world_CLASS:INTERNAL=PUBLIC
+//Brief description of opencv_contrib_world module
+OPENCV_MODULE_opencv_contrib_world_DESCRIPTION:INTERNAL=Separate world module containing all contrib modules
+OPENCV_MODULE_opencv_contrib_world_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_contrib_world_LABEL:INTERNAL=Extra;opencv_contrib_world
+OPENCV_MODULE_opencv_contrib_world_LINK_DEPS:INTERNAL=
+//Location of opencv_contrib_world module sources
+OPENCV_MODULE_opencv_contrib_world_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/contrib_world
+//Optional dependencies of opencv_contrib_world module
+OPENCV_MODULE_opencv_contrib_world_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_contrib_world module
+OPENCV_MODULE_opencv_contrib_world_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_contrib_world module
+OPENCV_MODULE_opencv_contrib_world_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_contrib_world module
+OPENCV_MODULE_opencv_contrib_world_REQ_DEPS:INTERNAL=
+//List of wrappers supporting module opencv_contrib_world
+OPENCV_MODULE_opencv_contrib_world_WRAPPERS:INTERNAL=
 OPENCV_MODULE_opencv_core_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_core submodules
 OPENCV_MODULE_opencv_core_CHILDREN:INTERNAL=
@@ -1529,8 +2119,130 @@ OPENCV_MODULE_opencv_cudastereo_LOCATION:INTERNAL=G:/file/code/image/opencv-wind
 OPENCV_MODULE_opencv_cudawarping_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/cudawarping
 //Location of opencv_cudev module sources
 OPENCV_MODULE_opencv_cudev_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/cudev
+//Location of opencv_cvv module sources
+OPENCV_MODULE_opencv_cvv_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/cvv
+OPENCV_MODULE_opencv_datasets_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/datasets
+//List of opencv_datasets submodules
+OPENCV_MODULE_opencv_datasets_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_datasets_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_DEPS:INTERNAL=opencv_core;opencv_flann;opencv_imgproc;opencv_ml;opencv_photo;opencv_video;opencv_imgcodecs;opencv_shape;opencv_videoio;opencv_highgui;opencv_objdetect;opencv_superres;opencv_features2d;opencv_calib3d;opencv_stitching;opencv_videostab;opencv_world;opencv_face;opencv_text
+//Extra dependencies of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_DEPS_EXT:INTERNAL=
+//Flattened dependencies of opencv_datasets module (for linker)
+OPENCV_MODULE_opencv_datasets_DEPS_TO_LINK:INTERNAL=opencv_world;opencv_face;opencv_text
+//Brief description of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_DESCRIPTION:INTERNAL=datasets framework
+//List of header files for opencv_datasets
+OPENCV_MODULE_opencv_datasets_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/ar_hmdb.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/ar_sports.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/dataset.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/fr_adience.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/fr_lfw.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/gr_chalearn.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/gr_skig.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/hpe_humaneva.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/hpe_parse.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/ir_affine.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/ir_robot.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/is_bsds.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/is_weizmann.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/msm_epfl.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/msm_middlebury.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/or_imagenet.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/or_mnist.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/or_pascal.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/or_sun.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/pd_caltech.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/pd_inria.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/slam_kitti.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/slam_tumindoor.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/tr_chars.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/tr_icdar.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/tr_svt.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/track_vot.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/include/opencv2/datasets/util.hpp
+OPENCV_MODULE_opencv_datasets_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_datasets_LABEL:INTERNAL=Extra;opencv_datasets
+OPENCV_MODULE_opencv_datasets_LINK_DEPS:INTERNAL=;
+//Location of opencv_datasets module sources
+OPENCV_MODULE_opencv_datasets_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/datasets
+//Optional dependencies of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_datasets module
+OPENCV_MODULE_opencv_datasets_REQ_DEPS:INTERNAL=opencv_core;opencv_face;opencv_ml;opencv_flann;opencv_text
+//List of source files for opencv_datasets
+OPENCV_MODULE_opencv_datasets_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/ar_hmdb.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/ar_sports.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/dataset.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/fr_adience.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/fr_lfw.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/gr_chalearn.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/gr_skig.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/hpe_humaneva.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/hpe_parse.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/ir_affine.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/ir_robot.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/is_bsds.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/is_weizmann.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/msm_epfl.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/msm_middlebury.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/or_imagenet.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/or_mnist.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/or_pascal.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/or_sun.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/pd_caltech.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/pd_inria.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/slam_kitti.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/slam_tumindoor.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/tinyxml2/tinyxml2.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/tr_chars.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/tr_icdar.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/tr_svt.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/track_vot.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/datasets/src/util.cpp
+//List of wrappers supporting module opencv_datasets
+OPENCV_MODULE_opencv_datasets_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_dnn_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/dnn
+//List of opencv_dnn submodules
+OPENCV_MODULE_opencv_dnn_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_dnn_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_dnn module (for linker)
+OPENCV_MODULE_opencv_dnn_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_dnn module
+OPENCV_MODULE_opencv_dnn_DESCRIPTION:INTERNAL=Deep neural network module. It allows to load models from different frameworks and to make forward pass
+//List of header files for opencv_dnn
+OPENCV_MODULE_opencv_dnn_HEADERS:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/dnn/caffe.pb.cc;G:/file/code/image/opencv-windows-build/build/modules/dnn/caffe.pb.h;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn/blob.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn/blob.inl.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn/dict.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn/dnn.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn/dnn.inl.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/include/opencv2/dnn/layer.hpp
+OPENCV_MODULE_opencv_dnn_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_dnn_LABEL:INTERNAL=Extra;opencv_dnn
+OPENCV_MODULE_opencv_dnn_LINK_DEPS:INTERNAL=
+//Location of opencv_dnn module sources
+OPENCV_MODULE_opencv_dnn_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/dnn
+//Optional dependencies of opencv_dnn module
+OPENCV_MODULE_opencv_dnn_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_dnn module
+OPENCV_MODULE_opencv_dnn_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_dnn module
+OPENCV_MODULE_opencv_dnn_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_dnn module
+OPENCV_MODULE_opencv_dnn_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc
+//List of source files for opencv_dnn
+OPENCV_MODULE_opencv_dnn_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/blob.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/caffe/caffe_importer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/caffe/caffe_io.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/dnn.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/init.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/concat_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/convolution_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/fully_connected_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/im2col.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/layers_common.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/lrn_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/mvn_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/pooling_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/reshape_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/slice_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/softmax_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/split_layer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THDiskFile.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THFile.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THGeneral.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/torch_importer.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/opencl/im2col.cl;G:/file/code/image/opencv-windows-build/build/modules/dnn/opencl_kernels_dnn.cpp;G:/file/code/image/opencv-windows-build/build/modules/dnn/opencl_kernels_dnn.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/caffe/caffe_io.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/caffe/glog_emulator.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/blank_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/concat_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/convolution_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/elementwise_layers.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/fully_connected_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/im2col.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/layers_common.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/lrn_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/mvn_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/pooling_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/reshape_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/slice_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/softmax_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/layers/split_layer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THDiskFile.h;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THFile.h;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THFilePrivate.h;G:/file/code/image/opencv_contrib-3.1.0/modules/dnn/src/torch/THGeneral.h
+//List of wrappers supporting module opencv_dnn
+OPENCV_MODULE_opencv_dnn_WRAPPERS:INTERNAL=matlab;python2;python3
+OPENCV_MODULE_opencv_dpm_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/dpm
+//List of opencv_dpm submodules
+OPENCV_MODULE_opencv_dpm_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_dpm_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_dpm module (for linker)
+OPENCV_MODULE_opencv_dpm_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_dpm module
+OPENCV_MODULE_opencv_dpm_DESCRIPTION:INTERNAL=Object Detection
+//List of header files for opencv_dpm
+OPENCV_MODULE_opencv_dpm_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/include/opencv2/dpm.hpp
+OPENCV_MODULE_opencv_dpm_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_dpm_LABEL:INTERNAL=Extra;opencv_dpm
+OPENCV_MODULE_opencv_dpm_LINK_DEPS:INTERNAL=
+//Location of opencv_dpm module sources
+OPENCV_MODULE_opencv_dpm_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/dpm
+//Optional dependencies of opencv_dpm module
+OPENCV_MODULE_opencv_dpm_OPT_DEPS:INTERNAL=opencv_highgui
+//Optional private dependencies of opencv_dpm module
+OPENCV_MODULE_opencv_dpm_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_dpm module
+OPENCV_MODULE_opencv_dpm_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_dpm module
+OPENCV_MODULE_opencv_dpm_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_objdetect
+//List of source files for opencv_dpm
+OPENCV_MODULE_opencv_dpm_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_cascade.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_cascade_detector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_convolution.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_feature.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_model.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_nms.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/precomp.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_cascade.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_convolution.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_feature.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_model.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/dpm_nms.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/dpm/src/precomp.hpp
+//List of wrappers supporting module opencv_dpm
+OPENCV_MODULE_opencv_dpm_WRAPPERS:INTERNAL=python2;python3
 //Location of opencv_dynamicuda module sources
 OPENCV_MODULE_opencv_dynamicuda_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/dynamicuda
+OPENCV_MODULE_opencv_face_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/face
+//List of opencv_face submodules
+OPENCV_MODULE_opencv_face_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_face_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_face module
+OPENCV_MODULE_opencv_face_DEPS:INTERNAL=opencv_core;opencv_flann;opencv_imgproc;opencv_ml;opencv_photo;opencv_video;opencv_imgcodecs;opencv_shape;opencv_videoio;opencv_highgui;opencv_objdetect;opencv_superres;opencv_features2d;opencv_calib3d;opencv_stitching;opencv_videostab;opencv_world
+//Extra dependencies of opencv_face module
+OPENCV_MODULE_opencv_face_DEPS_EXT:INTERNAL=
+//Flattened dependencies of opencv_face module (for linker)
+OPENCV_MODULE_opencv_face_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_face module
+OPENCV_MODULE_opencv_face_DESCRIPTION:INTERNAL=Face recognition etc
+//List of header files for opencv_face
+OPENCV_MODULE_opencv_face_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/face/include/opencv2/face.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/include/opencv2/face/facerec.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/include/opencv2/face/predict_collector.hpp
+OPENCV_MODULE_opencv_face_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_face_LABEL:INTERNAL=Extra;opencv_face
+OPENCV_MODULE_opencv_face_LINK_DEPS:INTERNAL=;
+//Location of opencv_face module sources
+OPENCV_MODULE_opencv_face_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/face
+//Optional dependencies of opencv_face module
+OPENCV_MODULE_opencv_face_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_face module
+OPENCV_MODULE_opencv_face_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_face module
+OPENCV_MODULE_opencv_face_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_face module
+OPENCV_MODULE_opencv_face_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_objdetect
+//List of source files for opencv_face
+OPENCV_MODULE_opencv_face_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/eigen_faces.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/facerec.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/fisher_faces.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/lbph_faces.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/predict_collector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/face_basic.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/face/src/precomp.hpp
+//List of wrappers supporting module opencv_face
+OPENCV_MODULE_opencv_face_WRAPPERS:INTERNAL=python2;python3
 OPENCV_MODULE_opencv_features2d_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_features2d submodules
 OPENCV_MODULE_opencv_features2d_CHILDREN:INTERNAL=
@@ -1597,6 +2309,34 @@ OPENCV_MODULE_opencv_flann_REQ_DEPS:INTERNAL=opencv_core
 OPENCV_MODULE_opencv_flann_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/flann/src/flann.cpp;G:/file/code/image/opencv-windows-build/modules/flann/src/miniflann.cpp;G:/file/code/image/opencv-windows-build/modules/flann/src/precomp.hpp
 //List of wrappers supporting module opencv_flann
 OPENCV_MODULE_opencv_flann_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_fuzzy_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/fuzzy
+//List of opencv_fuzzy submodules
+OPENCV_MODULE_opencv_fuzzy_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_fuzzy_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_fuzzy module (for linker)
+OPENCV_MODULE_opencv_fuzzy_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_fuzzy module
+OPENCV_MODULE_opencv_fuzzy_DESCRIPTION:INTERNAL=Fuzzy mathematical image processing
+//List of header files for opencv_fuzzy
+OPENCV_MODULE_opencv_fuzzy_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/include/opencv2/fuzzy.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/include/opencv2/fuzzy/fuzzy_F0_math.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/include/opencv2/fuzzy/fuzzy_image.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/include/opencv2/fuzzy/types.hpp
+OPENCV_MODULE_opencv_fuzzy_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_fuzzy_LABEL:INTERNAL=Extra;opencv_fuzzy
+OPENCV_MODULE_opencv_fuzzy_LINK_DEPS:INTERNAL=
+//Location of opencv_fuzzy module sources
+OPENCV_MODULE_opencv_fuzzy_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy
+//Optional dependencies of opencv_fuzzy module
+OPENCV_MODULE_opencv_fuzzy_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_fuzzy module
+OPENCV_MODULE_opencv_fuzzy_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_fuzzy module
+OPENCV_MODULE_opencv_fuzzy_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_fuzzy module
+OPENCV_MODULE_opencv_fuzzy_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_core
+//List of source files for opencv_fuzzy
+OPENCV_MODULE_opencv_fuzzy_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/src/fuzzy_F0_math.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/src/fuzzy_image.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/fuzzy/src/precomp.hpp
+//List of wrappers supporting module opencv_fuzzy
+OPENCV_MODULE_opencv_fuzzy_WRAPPERS:INTERNAL=
 //The cathegory of the module
 OPENCV_MODULE_opencv_gpu_CLASS:INTERNAL=PUBLIC
 OPENCV_MODULE_opencv_gpu_DEPS_ORDERED:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgproc;opencv_legacy;opencv_ml;opencv_objdetect;opencv_photo;opencv_video
@@ -1608,6 +2348,8 @@ OPENCV_MODULE_opencv_gpu_HEADERS:INTERNAL=G:/file/code/image/opencv-windows-buil
 OPENCV_MODULE_opencv_gpu_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/gpu
 //List of source files for opencv_gpu
 OPENCV_MODULE_opencv_gpu_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/gpu/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cu_safe_call.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuvid_video_source.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/cvt_color_internal.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/ffmpeg_video_source.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/frame_queue.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/thread_wrappers.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/video_decoder.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/video_parser.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/fgd_bgfg_common.hpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/internal_shared.hpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/lbp.hpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/safe_call.hpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/texture_binder.hpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/column_filter.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuda/row_filter.h;G:/file/code/image/opencv-windows-build/modules/gpu/src/arithm.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/bgfg_gmg.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/bgfg_mog.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/bilateral_filter.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/blend.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/brute_force_matcher.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/calib3d.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cascadeclassifier.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/color.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cu_safe_call.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cudastream.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/cuvid_video_source.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/denoising.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/element_operations.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/error.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/fast.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/ffmpeg_video_source.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/fgd_bgfg.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/filtering.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/frame_queue.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/gftt.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/global_motion.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/graphcuts.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/hog.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/hough.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/imgproc.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/match_template.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/matrix_operations.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/matrix_reductions.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/mssegmentation.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/optflowbm.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/optical_flow.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/optical_flow_farneback.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/orb.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/precomp.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/pyramids.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/pyrlk.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/remap.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/resize.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/speckle_filtering.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/split_merge.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/stereobm.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/stereobp.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/stereocsbp.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/thread_wrappers.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/tvl1flow.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/video_decoder.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/video_parser.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/video_reader.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/video_writer.cpp;G:/file/code/image/opencv-windows-build/modules/gpu/src/warp.cpp
+//Location of opencv_hdf module sources
+OPENCV_MODULE_opencv_hdf_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/hdf
 OPENCV_MODULE_opencv_highgui_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_highgui submodules
 OPENCV_MODULE_opencv_highgui_CHILDREN:INTERNAL=
@@ -1709,7 +2451,7 @@ OPENCV_MODULE_opencv_imgproc_WRAPPERS:INTERNAL=java;python2;python3
 //Location of opencv_java module sources
 OPENCV_MODULE_opencv_java_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/java
 //Optional dependencies of opencv_java module
-OPENCV_MODULE_opencv_java_OPT_DEPS:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_video;opencv_videoio
+OPENCV_MODULE_opencv_java_OPT_DEPS:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_video;opencv_videoio;opencv_bioinspired
 //Optional private dependencies of opencv_java module
 OPENCV_MODULE_opencv_java_PRIVATE_OPT_DEPS:INTERNAL=
 //Required private dependencies of opencv_java module
@@ -1729,6 +2471,47 @@ OPENCV_MODULE_opencv_legacy_HEADERS:INTERNAL=G:/file/code/image/opencv-windows-b
 OPENCV_MODULE_opencv_legacy_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/legacy
 //List of source files for opencv_legacy
 OPENCV_MODULE_opencv_legacy_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/legacy/src/3dtracker.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/auxutils.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/bgfg_acmmm2003.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/bgfg_codebook.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/bgfg_common.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/bgfg_estimation.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/bgfg_gaussmix.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrack.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackanalysis.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackanalysishist.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackanalysisior.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackanalysistrackdist.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackgen1.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackgenyml.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackingauto.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackingcc.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackingccwithcr.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackinglist.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackingmsfg.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackingmsfgs.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackpostprockalman.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackpostproclinear.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/blobtrackpostproclist.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/calcimagehomography.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/calibfilter.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/calonder.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/camshift.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/clique.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/compat.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/condens.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/contourtree.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/correspond.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/corrimages.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/createhandmask.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/decomppoly.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/dominants.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/dpstereo.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/eigenobjects.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/em.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/enmin.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/enteringblobdetection.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/enteringblobdetectionreal.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/epilines.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/extendededges.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/face.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/facedetection.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/facetemplate.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/features2d.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/featuretree.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/findface.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/findhandregion.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/hmm.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/hmm1d.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/hmmobs.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/image.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/kdtree.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/lcm.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/lee.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/levmar.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/levmarprojbandle.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/levmartrif.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/lines.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/lmeds.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/lsh.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/morphcontours.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/morphing.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/oneway.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/optflowbm.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/optflowhs.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/optflowlk.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/pgh.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/planardetect.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/prewarp.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/pyrsegmentation.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/scanlines.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/segment.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/snakes.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/spilltree.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/stereogc.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/subdiv2.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/testseq.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/texture.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/trifocal.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/vecfacetracking.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/video.cpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/_kdtree.hpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/legacy/src/_facedetection.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/_featuretree.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/_matrix.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/_vectrack.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/_vm.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/face.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/facedetection.h;G:/file/code/image/opencv-windows-build/modules/legacy/src/facetemplate.h
+OPENCV_MODULE_opencv_line_descriptor_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/line_descriptor
+//List of opencv_line_descriptor submodules
+OPENCV_MODULE_opencv_line_descriptor_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_line_descriptor_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_line_descriptor module (for
+// linker)
+OPENCV_MODULE_opencv_line_descriptor_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_line_descriptor module
+OPENCV_MODULE_opencv_line_descriptor_DESCRIPTION:INTERNAL=Line descriptor
+//List of header files for opencv_line_descriptor
+OPENCV_MODULE_opencv_line_descriptor_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/include/opencv2/line_descriptor.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/include/opencv2/line_descriptor/descriptor.hpp
+OPENCV_MODULE_opencv_line_descriptor_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_line_descriptor_LABEL:INTERNAL=Extra;opencv_line_descriptor
+OPENCV_MODULE_opencv_line_descriptor_LINK_DEPS:INTERNAL=
+//Location of opencv_line_descriptor module sources
+OPENCV_MODULE_opencv_line_descriptor_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor
+//Optional dependencies of opencv_line_descriptor module
+OPENCV_MODULE_opencv_line_descriptor_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_line_descriptor module
+OPENCV_MODULE_opencv_line_descriptor_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_line_descriptor module
+OPENCV_MODULE_opencv_line_descriptor_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_line_descriptor module
+OPENCV_MODULE_opencv_line_descriptor_REQ_DEPS:INTERNAL=opencv_features2d;opencv_imgproc;opencv_highgui
+//List of source files for opencv_line_descriptor
+OPENCV_MODULE_opencv_line_descriptor_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/LSDDetector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/binary_descriptor.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/binary_descriptor_matcher.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/draw.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/bitarray.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/bitops.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/line_descriptor/src/types.hpp
+//List of wrappers supporting module opencv_line_descriptor
+OPENCV_MODULE_opencv_line_descriptor_WRAPPERS:INTERNAL=python2;python3
+//Location of opencv_matlab module sources
+OPENCV_MODULE_opencv_matlab_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/matlab
+//Optional dependencies of opencv_matlab module
+OPENCV_MODULE_opencv_matlab_OPT_DEPS:INTERNAL=opencv_dnn
+//Optional private dependencies of opencv_matlab module
+OPENCV_MODULE_opencv_matlab_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_matlab module
+OPENCV_MODULE_opencv_matlab_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_matlab module
+OPENCV_MODULE_opencv_matlab_REQ_DEPS:INTERNAL=
+//List of wrappers supporting module opencv_matlab
+OPENCV_MODULE_opencv_matlab_WRAPPERS:INTERNAL=
 OPENCV_MODULE_opencv_ml_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_ml submodules
 OPENCV_MODULE_opencv_ml_CHILDREN:INTERNAL=
@@ -1808,6 +2591,34 @@ OPENCV_MODULE_opencv_objdetect_SOURCES:INTERNAL=G:/file/code/image/opencv-window
 OPENCV_MODULE_opencv_objdetect_WRAPPERS:INTERNAL=java;python2;python3
 //Location of opencv_ocl module sources
 OPENCV_MODULE_opencv_ocl_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/ocl
+OPENCV_MODULE_opencv_optflow_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/optflow
+//List of opencv_optflow submodules
+OPENCV_MODULE_opencv_optflow_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_optflow_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_optflow module (for linker)
+OPENCV_MODULE_opencv_optflow_DEPS_TO_LINK:INTERNAL=opencv_world;opencv_ximgproc
+//Brief description of opencv_optflow module
+OPENCV_MODULE_opencv_optflow_DESCRIPTION:INTERNAL=Optical Flow Algorithms
+//List of header files for opencv_optflow
+OPENCV_MODULE_opencv_optflow_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/include/opencv2/optflow.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/include/opencv2/optflow/motempl.hpp
+OPENCV_MODULE_opencv_optflow_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_optflow_LABEL:INTERNAL=Extra;opencv_optflow
+OPENCV_MODULE_opencv_optflow_LINK_DEPS:INTERNAL=
+//Location of opencv_optflow module sources
+OPENCV_MODULE_opencv_optflow_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/optflow
+//Optional dependencies of opencv_optflow module
+OPENCV_MODULE_opencv_optflow_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_optflow module
+OPENCV_MODULE_opencv_optflow_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_optflow module
+OPENCV_MODULE_opencv_optflow_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_optflow module
+OPENCV_MODULE_opencv_optflow_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_video;opencv_highgui;opencv_ximgproc
+//List of source files for opencv_optflow
+OPENCV_MODULE_opencv_optflow_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/deepflow.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/interfaces.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/motempl.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/optical_flow_io.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/simpleflow.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/sparsetodenseflow.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/opencl/updatemotionhistory.cl;G:/file/code/image/opencv-windows-build/build/modules/optflow/opencl_kernels_optflow.cpp;G:/file/code/image/opencv-windows-build/build/modules/optflow/opencl_kernels_optflow.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/optflow/src/precomp.hpp
+//List of wrappers supporting module opencv_optflow
+OPENCV_MODULE_opencv_optflow_WRAPPERS:INTERNAL=python2;python3
 OPENCV_MODULE_opencv_photo_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_photo submodules
 OPENCV_MODULE_opencv_photo_CHILDREN:INTERNAL=
@@ -1841,10 +2652,38 @@ OPENCV_MODULE_opencv_photo_REQ_DEPS:INTERNAL=opencv_imgproc
 OPENCV_MODULE_opencv_photo_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/photo/src/align.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/calibrate.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/contrast_preserve.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/denoise_tvl1.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/denoising.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/denoising.cuda.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/hdr_common.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/inpaint.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/merge.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/npr.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/seamless_cloning.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/seamless_cloning_impl.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/tonemap.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/opencl/nlmeans.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_photo.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_photo.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/arrays.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/contrast_preserve.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_denoising_invoker.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_denoising_invoker_commons.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_denoising_opencl.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_multi_denoising_invoker.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/hdr_common.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/npr.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/seamless_cloning.hpp
 //List of wrappers supporting module opencv_photo
 OPENCV_MODULE_opencv_photo_WRAPPERS:INTERNAL=java;python2;python3
+OPENCV_MODULE_opencv_plot_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/plot
+//List of opencv_plot submodules
+OPENCV_MODULE_opencv_plot_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_plot_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_plot module (for linker)
+OPENCV_MODULE_opencv_plot_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_plot module
+OPENCV_MODULE_opencv_plot_DESCRIPTION:INTERNAL=Plot function for Mat data.
+//List of header files for opencv_plot
+OPENCV_MODULE_opencv_plot_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/plot/include/opencv2/plot.hpp
+OPENCV_MODULE_opencv_plot_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_plot_LABEL:INTERNAL=Extra;opencv_plot
+OPENCV_MODULE_opencv_plot_LINK_DEPS:INTERNAL=
+//Location of opencv_plot module sources
+OPENCV_MODULE_opencv_plot_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/plot
+//Optional dependencies of opencv_plot module
+OPENCV_MODULE_opencv_plot_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_plot module
+OPENCV_MODULE_opencv_plot_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_plot module
+OPENCV_MODULE_opencv_plot_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_plot module
+OPENCV_MODULE_opencv_plot_REQ_DEPS:INTERNAL=opencv_core;opencv_highgui
+//List of source files for opencv_plot
+OPENCV_MODULE_opencv_plot_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/plot/src/plot.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/plot/src/precomp.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/plot/src/precomp.hpp
+//List of wrappers supporting module opencv_plot
+OPENCV_MODULE_opencv_plot_WRAPPERS:INTERNAL=
 //Location of opencv_python2 module sources
 OPENCV_MODULE_opencv_python2_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/python
 //Optional dependencies of opencv_python2 module
-OPENCV_MODULE_opencv_python2_OPT_DEPS:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab
+OPENCV_MODULE_opencv_python2_OPT_DEPS:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab;opencv_aruco;opencv_bgsegm;opencv_bioinspired;opencv_ccalib;opencv_datasets;opencv_dnn;opencv_dpm;opencv_face;opencv_line_descriptor;opencv_optflow;opencv_reg;opencv_rgbd;opencv_saliency;opencv_surface_matching;opencv_text;opencv_tracking;opencv_xfeatures2d;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto
 //Optional private dependencies of opencv_python2 module
 OPENCV_MODULE_opencv_python2_PRIVATE_OPT_DEPS:INTERNAL=
 //Required private dependencies of opencv_python2 module
@@ -1856,7 +2695,7 @@ OPENCV_MODULE_opencv_python2_WRAPPERS:INTERNAL=
 //Location of opencv_python3 module sources
 OPENCV_MODULE_opencv_python3_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/python/python3
 //Optional dependencies of opencv_python3 module
-OPENCV_MODULE_opencv_python3_OPT_DEPS:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab
+OPENCV_MODULE_opencv_python3_OPT_DEPS:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab;opencv_aruco;opencv_bgsegm;opencv_bioinspired;opencv_ccalib;opencv_datasets;opencv_dnn;opencv_dpm;opencv_face;opencv_line_descriptor;opencv_optflow;opencv_reg;opencv_rgbd;opencv_saliency;opencv_surface_matching;opencv_text;opencv_tracking;opencv_xfeatures2d;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto
 //Optional private dependencies of opencv_python3 module
 OPENCV_MODULE_opencv_python3_PRIVATE_OPT_DEPS:INTERNAL=
 //Required private dependencies of opencv_python3 module
@@ -1867,6 +2706,92 @@ OPENCV_MODULE_opencv_python3_REQ_DEPS:INTERNAL=
 OPENCV_MODULE_opencv_python3_WRAPPERS:INTERNAL=
 //Location of opencv_python module sources
 OPENCV_MODULE_opencv_python_LOCATION:INTERNAL=G:/file/code/image/opencv-windows-build/modules/python
+OPENCV_MODULE_opencv_reg_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/reg
+//List of opencv_reg submodules
+OPENCV_MODULE_opencv_reg_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_reg_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_reg module (for linker)
+OPENCV_MODULE_opencv_reg_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_reg module
+OPENCV_MODULE_opencv_reg_DESCRIPTION:INTERNAL=Image Registration
+//List of header files for opencv_reg
+OPENCV_MODULE_opencv_reg_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/map.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mapaffine.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mapper.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mappergradaffine.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mappergradeuclid.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mappergradproj.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mappergradshift.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mappergradsimilar.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mapperpyramid.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mapprojec.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/include/opencv2/reg/mapshift.hpp
+OPENCV_MODULE_opencv_reg_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_reg_LABEL:INTERNAL=Extra;opencv_reg
+OPENCV_MODULE_opencv_reg_LINK_DEPS:INTERNAL=
+//Location of opencv_reg module sources
+OPENCV_MODULE_opencv_reg_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/reg
+//Optional dependencies of opencv_reg module
+OPENCV_MODULE_opencv_reg_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_reg module
+OPENCV_MODULE_opencv_reg_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_reg module
+OPENCV_MODULE_opencv_reg_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_reg module
+OPENCV_MODULE_opencv_reg_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_core
+//List of source files for opencv_reg
+OPENCV_MODULE_opencv_reg_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/map.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mapaffine.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mapper.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mappergradaffine.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mappergradeuclid.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mappergradproj.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mappergradshift.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mappergradsimilar.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mapperpyramid.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mapprojec.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/mapshift.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/precomp.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/reg/src/precomp.hpp
+//List of wrappers supporting module opencv_reg
+OPENCV_MODULE_opencv_reg_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_rgbd_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/rgbd
+//List of opencv_rgbd submodules
+OPENCV_MODULE_opencv_rgbd_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_rgbd_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_rgbd module (for linker)
+OPENCV_MODULE_opencv_rgbd_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_rgbd module
+OPENCV_MODULE_opencv_rgbd_DESCRIPTION:INTERNAL=RGBD algorithms
+//List of header files for opencv_rgbd
+OPENCV_MODULE_opencv_rgbd_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/include/opencv2/rgbd.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/include/opencv2/rgbd/linemod.hpp
+OPENCV_MODULE_opencv_rgbd_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_rgbd_LABEL:INTERNAL=Extra;opencv_rgbd
+OPENCV_MODULE_opencv_rgbd_LINK_DEPS:INTERNAL=
+//Location of opencv_rgbd module sources
+OPENCV_MODULE_opencv_rgbd_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd
+//Optional dependencies of opencv_rgbd module
+OPENCV_MODULE_opencv_rgbd_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_rgbd module
+OPENCV_MODULE_opencv_rgbd_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_rgbd module
+OPENCV_MODULE_opencv_rgbd_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_rgbd module
+OPENCV_MODULE_opencv_rgbd_REQ_DEPS:INTERNAL=opencv_core;opencv_calib3d;opencv_highgui;opencv_imgproc
+//List of source files for opencv_rgbd
+OPENCV_MODULE_opencv_rgbd_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/depth_cleaner.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/depth_registration.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/depth_to_3d.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/linemod.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/normal.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/odometry.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/plane.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/utils.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/depth_to_3d.h;G:/file/code/image/opencv_contrib-3.1.0/modules/rgbd/src/utils.h
+//List of wrappers supporting module opencv_rgbd
+OPENCV_MODULE_opencv_rgbd_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_saliency_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/saliency
+//List of opencv_saliency submodules
+OPENCV_MODULE_opencv_saliency_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_saliency_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_saliency module (for linker)
+OPENCV_MODULE_opencv_saliency_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_saliency module
+OPENCV_MODULE_opencv_saliency_DESCRIPTION:INTERNAL=Saliency API
+//List of header files for opencv_saliency
+OPENCV_MODULE_opencv_saliency_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/include/opencv2/saliency.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/include/opencv2/saliency/saliencyBaseClasses.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/include/opencv2/saliency/saliencySpecializedClasses.hpp
+OPENCV_MODULE_opencv_saliency_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_saliency_LABEL:INTERNAL=Extra;opencv_saliency
+OPENCV_MODULE_opencv_saliency_LINK_DEPS:INTERNAL=
+//Location of opencv_saliency module sources
+OPENCV_MODULE_opencv_saliency_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/saliency
+//Optional dependencies of opencv_saliency module
+OPENCV_MODULE_opencv_saliency_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_saliency module
+OPENCV_MODULE_opencv_saliency_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_saliency module
+OPENCV_MODULE_opencv_saliency_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_saliency module
+OPENCV_MODULE_opencv_saliency_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_highgui;opencv_features2d
+//List of source files for opencv_saliency
+OPENCV_MODULE_opencv_saliency_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/CmFile.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/CmShow.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/FilterTIG.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/ValStructVec.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/objectnessBING.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/motionSaliency.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/motionSaliencyBinWangApr2014.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/objectness.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/saliency.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/staticSaliency.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/staticSaliencySpectralResidual.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/CmFile.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/CmShow.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/CmTimer.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/BING/kyheader.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/saliency/src/precomp.hpp
+//List of wrappers supporting module opencv_saliency
+OPENCV_MODULE_opencv_saliency_WRAPPERS:INTERNAL=python2;python3
+//Location of opencv_sfm module sources
+OPENCV_MODULE_opencv_sfm_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/sfm
 OPENCV_MODULE_opencv_shape_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_shape submodules
 OPENCV_MODULE_opencv_shape_CHILDREN:INTERNAL=
@@ -1899,6 +2824,34 @@ OPENCV_MODULE_opencv_shape_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_v
 OPENCV_MODULE_opencv_shape_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/shape/src/aff_trans.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/emdL1.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/haus_dis.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/hist_cost.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/precomp.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/sc_dis.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/tps_trans.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/emdL1_def.hpp;G:/file/code/image/opencv-windows-build/modules/shape/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/shape/src/scd_def.hpp
 //List of wrappers supporting module opencv_shape
 OPENCV_MODULE_opencv_shape_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_stereo_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/stereo
+//List of opencv_stereo submodules
+OPENCV_MODULE_opencv_stereo_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_stereo_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_stereo module (for linker)
+OPENCV_MODULE_opencv_stereo_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_stereo module
+OPENCV_MODULE_opencv_stereo_DESCRIPTION:INTERNAL=Stereo Correspondence
+//List of header files for opencv_stereo
+OPENCV_MODULE_opencv_stereo_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/include/opencv2/stereo.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/include/opencv2/stereo/descriptor.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/include/opencv2/stereo/matching.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/include/opencv2/stereo/stereo.hpp
+OPENCV_MODULE_opencv_stereo_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_stereo_LABEL:INTERNAL=Extra;opencv_stereo
+OPENCV_MODULE_opencv_stereo_LINK_DEPS:INTERNAL=
+//Location of opencv_stereo module sources
+OPENCV_MODULE_opencv_stereo_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/stereo
+//Optional dependencies of opencv_stereo module
+OPENCV_MODULE_opencv_stereo_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_stereo module
+OPENCV_MODULE_opencv_stereo_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_stereo module
+OPENCV_MODULE_opencv_stereo_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_stereo module
+OPENCV_MODULE_opencv_stereo_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_features2d;opencv_core;opencv_highgui;opencv_calib3d
+//List of source files for opencv_stereo
+OPENCV_MODULE_opencv_stereo_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/src/descriptor.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/src/stereo_binary_bm.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/src/stereo_binary_sgbm.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/stereo/src/precomp.hpp
+//List of wrappers supporting module opencv_stereo
+OPENCV_MODULE_opencv_stereo_WRAPPERS:INTERNAL=
 OPENCV_MODULE_opencv_stitching_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_stitching submodules
 OPENCV_MODULE_opencv_stitching_CHILDREN:INTERNAL=
@@ -1932,6 +2885,35 @@ OPENCV_MODULE_opencv_stitching_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_features2
 OPENCV_MODULE_opencv_stitching_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/stitching/src/autocalib.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/blenders.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/camera.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/exposure_compensate.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/matchers.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/motion_estimators.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/seam_finders.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/stitcher.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/timelapsers.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/util.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/warpers.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/warpers_cuda.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/opencl/multibandblend.cl;G:/file/code/image/opencv-windows-build/modules/stitching/src/opencl/warpers.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_stitching.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_stitching.hpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/precomp.hpp
 //List of wrappers supporting module opencv_stitching
 OPENCV_MODULE_opencv_stitching_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_structured_light_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/structured_light
+//List of opencv_structured_light submodules
+OPENCV_MODULE_opencv_structured_light_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_structured_light_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_structured_light module (for
+// linker)
+OPENCV_MODULE_opencv_structured_light_DEPS_TO_LINK:INTERNAL=opencv_world;opencv_rgbd
+//Brief description of opencv_structured_light module
+OPENCV_MODULE_opencv_structured_light_DESCRIPTION:INTERNAL=Structured Light API
+//List of header files for opencv_structured_light
+OPENCV_MODULE_opencv_structured_light_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light/include/opencv2/structured_light.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light/include/opencv2/structured_light/graycodepattern.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light/include/opencv2/structured_light/structured_light.hpp
+OPENCV_MODULE_opencv_structured_light_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_structured_light_LABEL:INTERNAL=Extra;opencv_structured_light
+OPENCV_MODULE_opencv_structured_light_LINK_DEPS:INTERNAL=
+//Location of opencv_structured_light module sources
+OPENCV_MODULE_opencv_structured_light_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light
+//Optional dependencies of opencv_structured_light module
+OPENCV_MODULE_opencv_structured_light_OPT_DEPS:INTERNAL=opencv_viz
+//Optional private dependencies of opencv_structured_light module
+OPENCV_MODULE_opencv_structured_light_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_structured_light module
+OPENCV_MODULE_opencv_structured_light_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_structured_light module
+OPENCV_MODULE_opencv_structured_light_REQ_DEPS:INTERNAL=opencv_core;opencv_calib3d;opencv_imgproc;opencv_highgui;opencv_features2d;opencv_rgbd
+//List of source files for opencv_structured_light
+OPENCV_MODULE_opencv_structured_light_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light/src/graycodepattern.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/structured_light/src/precomp.hpp
+//List of wrappers supporting module opencv_structured_light
+OPENCV_MODULE_opencv_structured_light_WRAPPERS:INTERNAL=
 OPENCV_MODULE_opencv_superres_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world
 //List of opencv_superres submodules
 OPENCV_MODULE_opencv_superres_CHILDREN:INTERNAL=
@@ -1965,6 +2947,99 @@ OPENCV_MODULE_opencv_superres_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_video
 OPENCV_MODULE_opencv_superres_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/modules/superres/src/btv_l1.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/btv_l1_cuda.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/frame_source.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/input_array_utility.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/optical_flow.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/super_resolution.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/opencl/superres_btvl1.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_superres.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_superres.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/input_array_utility.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/ring_buffer.hpp
 //List of wrappers supporting module opencv_superres
 OPENCV_MODULE_opencv_superres_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_surface_matching_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/surface_matching
+//List of opencv_surface_matching submodules
+OPENCV_MODULE_opencv_surface_matching_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_surface_matching_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_surface_matching module (for
+// linker)
+OPENCV_MODULE_opencv_surface_matching_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_surface_matching module
+OPENCV_MODULE_opencv_surface_matching_DESCRIPTION:INTERNAL=3D point features
+//List of header files for opencv_surface_matching
+OPENCV_MODULE_opencv_surface_matching_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/include/opencv2/surface_matching.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/include/opencv2/surface_matching/icp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/include/opencv2/surface_matching/pose_3d.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/include/opencv2/surface_matching/ppf_helpers.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/include/opencv2/surface_matching/ppf_match_3d.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/include/opencv2/surface_matching/t_hash_int.hpp
+OPENCV_MODULE_opencv_surface_matching_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_surface_matching_LABEL:INTERNAL=Extra;opencv_surface_matching
+OPENCV_MODULE_opencv_surface_matching_LINK_DEPS:INTERNAL=
+//Location of opencv_surface_matching module sources
+OPENCV_MODULE_opencv_surface_matching_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching
+//Optional dependencies of opencv_surface_matching module
+OPENCV_MODULE_opencv_surface_matching_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_surface_matching module
+OPENCV_MODULE_opencv_surface_matching_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_surface_matching module
+OPENCV_MODULE_opencv_surface_matching_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_surface_matching module
+OPENCV_MODULE_opencv_surface_matching_REQ_DEPS:INTERNAL=opencv_core;opencv_flann
+//List of source files for opencv_surface_matching
+OPENCV_MODULE_opencv_surface_matching_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/icp.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/pose_3d.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/ppf_helpers.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/ppf_match_3d.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/t_hash_int.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/c_utils.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/hash_murmur.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/hash_murmur64.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/hash_murmur86.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/surface_matching/src/precomp.hpp
+//List of wrappers supporting module opencv_surface_matching
+OPENCV_MODULE_opencv_surface_matching_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_text_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/text
+//List of opencv_text submodules
+OPENCV_MODULE_opencv_text_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_text_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_text module
+OPENCV_MODULE_opencv_text_DEPS:INTERNAL=opencv_core;opencv_flann;opencv_imgproc;opencv_ml;opencv_photo;opencv_video;opencv_imgcodecs;opencv_shape;opencv_videoio;opencv_highgui;opencv_objdetect;opencv_superres;opencv_features2d;opencv_calib3d;opencv_stitching;opencv_videostab;opencv_world
+//Extra dependencies of opencv_text module
+OPENCV_MODULE_opencv_text_DEPS_EXT:INTERNAL=
+//Flattened dependencies of opencv_text module (for linker)
+OPENCV_MODULE_opencv_text_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_text module
+OPENCV_MODULE_opencv_text_DESCRIPTION:INTERNAL=Text Detection and Recognition
+//List of header files for opencv_text
+OPENCV_MODULE_opencv_text_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/text/include/opencv2/text.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/text/include/opencv2/text/erfilter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/text/include/opencv2/text/ocr.hpp
+OPENCV_MODULE_opencv_text_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_text_LABEL:INTERNAL=Extra;opencv_text
+OPENCV_MODULE_opencv_text_LINK_DEPS:INTERNAL=;
+//Location of opencv_text module sources
+OPENCV_MODULE_opencv_text_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/text
+//Optional dependencies of opencv_text module
+OPENCV_MODULE_opencv_text_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_text module
+OPENCV_MODULE_opencv_text_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_text module
+OPENCV_MODULE_opencv_text_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_text module
+OPENCV_MODULE_opencv_text_REQ_DEPS:INTERNAL=opencv_ml;opencv_highgui;opencv_imgproc;opencv_core;opencv_features2d
+//List of source files for opencv_text
+OPENCV_MODULE_opencv_text_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/text/src/erfilter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/text/src/ocr_beamsearch_decoder.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/text/src/ocr_hmm_decoder.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/text/src/ocr_tesseract.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/text/src/precomp.hpp
+//List of wrappers supporting module opencv_text
+OPENCV_MODULE_opencv_text_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_tracking_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/tracking
+//List of opencv_tracking submodules
+OPENCV_MODULE_opencv_tracking_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_tracking_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_DEPS:INTERNAL=opencv_core;opencv_flann;opencv_imgproc;opencv_ml;opencv_photo;opencv_video;opencv_imgcodecs;opencv_shape;opencv_videoio;opencv_highgui;opencv_objdetect;opencv_superres;opencv_features2d;opencv_calib3d;opencv_stitching;opencv_videostab;opencv_world;opencv_face;opencv_text;opencv_datasets
+//Extra dependencies of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_DEPS_EXT:INTERNAL=
+//Flattened dependencies of opencv_tracking module (for linker)
+OPENCV_MODULE_opencv_tracking_DEPS_TO_LINK:INTERNAL=opencv_world;opencv_face;opencv_text;opencv_datasets
+//Brief description of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_DESCRIPTION:INTERNAL=Tracking API
+//List of header files for opencv_tracking
+OPENCV_MODULE_opencv_tracking_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/feature.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/kalman_filters.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/onlineBoosting.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/onlineMIL.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/tldDataset.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/tracker.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/include/opencv2/tracking/tracking.hpp
+OPENCV_MODULE_opencv_tracking_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_tracking_LABEL:INTERNAL=Extra;opencv_tracking
+OPENCV_MODULE_opencv_tracking_LINK_DEPS:INTERNAL=;
+//Location of opencv_tracking module sources
+OPENCV_MODULE_opencv_tracking_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/tracking
+//Optional dependencies of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_tracking module
+OPENCV_MODULE_opencv_tracking_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_core;opencv_video;opencv_highgui;opencv_datasets
+//List of source files for opencv_tracking
+OPENCV_MODULE_opencv_tracking_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/augmented_unscented_kalman.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/feature.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/featureColorName.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/multiTracker.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/multiTracker_alt.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/onlineBoosting.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/onlineMIL.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/roiSelector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldDataset.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldDetector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldEnsembleClassifier.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldModel.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldTracker.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldUtils.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tracker.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerBoosting.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerBoostingModel.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerFeature.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerFeatureSet.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerKCF.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerMIL.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerMILModel.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerMedianFlow.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerModel.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerSampler.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerSamplerAlgorithm.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerStateEstimator.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/unscented_kalman.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/opencl/tldDetector.cl;G:/file/code/image/opencv-windows-build/build/modules/tracking/opencl_kernels_tracking.cpp;G:/file/code/image/opencv-windows-build/build/modules/tracking/opencl_kernels_tracking.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/PFSolver.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/TrackingFunctionPF.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/multiTracker.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldDetector.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldEnsembleClassifier.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldModel.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldTracker.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/tldUtils.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerBoostingModel.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/tracking/src/trackerMILModel.hpp
+//List of wrappers supporting module opencv_tracking
+OPENCV_MODULE_opencv_tracking_WRAPPERS:INTERNAL=python2;python3
 OPENCV_MODULE_opencv_ts_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/ts
 //List of opencv_ts submodules
 OPENCV_MODULE_opencv_ts_CHILDREN:INTERNAL=
@@ -2130,10 +3205,122 @@ OPENCV_MODULE_opencv_world_REQ_DEPS:INTERNAL=opencv_core
 OPENCV_MODULE_opencv_world_SOURCES:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/world/version_string.inc;G:/file/code/image/opencv-windows-build/modules/core/src/algorithm.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/alloc.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/arithm.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/array.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/command_line_parser.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/conjugate_gradient.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/convert.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/copy.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/cuda_gpu_mat.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/cuda_host_mem.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/cuda_info.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/cuda_stream.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/datastructs.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/directx.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/downhill_simplex.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/dxt.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/gl_core_3_1.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/glob.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/kmeans.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/lapack.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/lda.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/lpsolver.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/mathfuncs.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/mathfuncs_core.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/matmul.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/matop.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/matrix.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/matrix_decomp.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/merge.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/ocl.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/opencl_clamdblas.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/opencl_clamdfft.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/opencl_core.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/opengl.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/out.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/parallel.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/parallel_pthreads.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/pca.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/persistence.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/rand.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/split.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/stat.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/stl.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/system.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/tables.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/types.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/umatrix.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/va_intel.cpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/arithm.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/convert.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/copymakeborder.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/copyset.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/cvtclr_dx.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/fft.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/flip.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/gemm.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/inrange.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/lut.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/meanstddev.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/minmaxloc.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/mixchannels.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/mulspectrums.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/normalize.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/reduce.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/reduce2.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/repeat.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/set_identity.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/split_merge.cl;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/transpose.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_core.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_core.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/arithm_core.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/arithm_simd.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/bufferpool.impl.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/directx.inc.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/gl_core_3_1.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/hal_replacement.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/autogenerated/opencl_clamdblas_impl.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/autogenerated/opencl_clamdfft_impl.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/autogenerated/opencl_core_impl.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/autogenerated/opencl_gl_impl.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/opencl/runtime/runtime_common.hpp;G:/file/code/image/opencv-windows-build/modules/core/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/flann/src/flann.cpp;G:/file/code/image/opencv-windows-build/modules/flann/src/miniflann.cpp;G:/file/code/image/opencv-windows-build/modules/flann/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/accum.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/approx.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/blend.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/canny.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/clahe.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/color.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/colormap.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/connectedcomponents.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/contours.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/convhull.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/corner.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/cornersubpix.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/demosaicing.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/deriv.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/distransform.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/drawing.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/emd.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/featureselect.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/filter.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/floodfill.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/gabor.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/generalized_hough.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/geometry.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/grabcut.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/hershey_fonts.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/histogram.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/hough.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/imgwarp.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/intersection.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/linefit.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/lsd.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/main.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/matchcontours.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/min_enclosing_triangle.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/moments.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/morph.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/phasecorr.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/pyramids.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/rotcalipers.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/samplers.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/segmentation.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/shapedescr.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/smooth.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/spatialgradient.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/subdivision2d.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/sumpixels.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/tables.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/templmatch.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/thresh.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/undistort.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/utils.cpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/accumulate.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/bilateral.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/blend_linear.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/boxFilter.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/calc_back_project.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/canny.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/clahe.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/corner.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/covardata.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/cvtcolor.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/filter2D.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/filter2DSmall.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/filterSepCol.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/filterSepRow.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/filterSep_singlePass.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/filterSmall.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/gftt.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/histogram.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/hough_lines.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/integral_sum.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/laplacian5.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/match_template.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/medianFilter.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/moments.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/morph.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/precornerdetect.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/pyr_down.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/pyr_up.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/remap.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/resize.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/threshold.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/warp_affine.cl;G:/file/code/image/opencv-windows-build/modules/imgproc/src/opencl/warp_perspective.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_imgproc.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_imgproc.hpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/filterengine.hpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/gcgraph.hpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/imgproc/src/_geom.h;G:/file/code/image/opencv-windows-build/modules/ml/src/ann_mlp.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/boost.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/data.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/em.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/gbt.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/inner_functions.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/kdtree.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/knearest.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/lr.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/nbayes.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/rtrees.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/svm.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/testset.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/tree.cpp;G:/file/code/image/opencv-windows-build/modules/ml/src/kdtree.hpp;G:/file/code/image/opencv-windows-build/modules/ml/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/align.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/calibrate.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/contrast_preserve.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/denoise_tvl1.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/denoising.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/denoising.cuda.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/hdr_common.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/inpaint.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/merge.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/npr.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/seamless_cloning.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/seamless_cloning_impl.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/tonemap.cpp;G:/file/code/image/opencv-windows-build/modules/photo/src/opencl/nlmeans.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_photo.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_photo.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/arrays.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/contrast_preserve.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_denoising_invoker.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_denoising_invoker_commons.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_denoising_opencl.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/fast_nlmeans_multi_denoising_invoker.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/hdr_common.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/npr.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/photo/src/seamless_cloning.hpp;G:/file/code/image/opencv-windows-build/modules/video/src/bgfg_KNN.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/bgfg_gaussmix2.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/camshift.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/compat_video.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/ecc.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/kalman.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/lkpyramid.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/optflowgf.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/tvl1flow.cpp;G:/file/code/image/opencv-windows-build/modules/video/src/opencl/bgfg_mog2.cl;G:/file/code/image/opencv-windows-build/modules/video/src/opencl/optical_flow_farneback.cl;G:/file/code/image/opencv-windows-build/modules/video/src/opencl/optical_flow_tvl1.cl;G:/file/code/image/opencv-windows-build/modules/video/src/opencl/pyrlk.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_video.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_video.hpp;G:/file/code/image/opencv-windows-build/modules/video/src/lkpyramid.hpp;G:/file/code/image/opencv-windows-build/modules/video/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/loadsave.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/utils.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/utils.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_base.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_bmp.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_exr.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_gdal.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_hdr.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_jpeg.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_jpeg2000.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_png.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_pxm.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_sunras.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_tiff.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_webp.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/bitstrm.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/rgbe.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/jpeg_exif.cpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_base.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_bmp.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_exr.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_gdal.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_hdr.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_jpeg.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_jpeg2000.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_png.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_pxm.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_sunras.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_tiff.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmt_webp.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/grfmts.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/bitstrm.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/rgbe.hpp;G:/file/code/image/opencv-windows-build/modules/imgcodecs/src/jpeg_exif.hpp;G:/file/code/image/opencv-windows-build/modules/shape/src/aff_trans.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/emdL1.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/haus_dis.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/hist_cost.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/precomp.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/sc_dis.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/tps_trans.cpp;G:/file/code/image/opencv-windows-build/modules/shape/src/emdL1_def.hpp;G:/file/code/image/opencv-windows-build/modules/shape/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/shape/src/scd_def.hpp;G:/file/code/image/opencv-windows-build/modules/videoio/src/cap.cpp;G:/file/code/image/opencv-windows-build/modules/videoio/src/cap_images.cpp;G:/file/code/image/opencv-windows-build/modules/videoio/src/cap_mjpeg_encoder.cpp;G:/file/code/image/opencv-windows-build/modules/videoio/src/cap_mjpeg_decoder.cpp;G:/file/code/image/opencv-windows-build/modules/videoio/src/cap_cmu.cpp;G:/file/code/image/opencv-windows-build/modules/videoio/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/highgui/src/window.cpp;G:/file/code/image/opencv-windows-build/modules/highgui/src/window_w32.cpp;G:/file/code/image/opencv-windows-build/modules/highgui/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/cascadedetect.cpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/cascadedetect_convert.cpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/detection_based_tracker.cpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/haar.cpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/hog.cpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/main.cpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/opencl/cascadedetect.cl;G:/file/code/image/opencv-windows-build/modules/objdetect/src/opencl/objdetect_hog.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_objdetect.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_objdetect.hpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/cascadedetect.hpp;G:/file/code/image/opencv-windows-build/modules/objdetect/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/btv_l1.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/btv_l1_cuda.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/frame_source.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/input_array_utility.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/optical_flow.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/super_resolution.cpp;G:/file/code/image/opencv-windows-build/modules/superres/src/opencl/superres_btvl1.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_superres.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_superres.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/input_array_utility.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/superres/src/ring_buffer.hpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/agast.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/agast_score.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/akaze.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/bagofwords.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/blobdetector.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/brisk.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/draw.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/dynamic.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/evaluation.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/fast.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/fast_score.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/feature2d.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/gftt.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/AKAZEFeatures.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/KAZEFeatures.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/fed.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/nldiffusion_functions.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/keypoint.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/main.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/matchers.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/mser.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/orb.cpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/opencl/brute_force_match.cl;G:/file/code/image/opencv-windows-build/modules/features2d/src/opencl/fast.cl;G:/file/code/image/opencv-windows-build/modules/features2d/src/opencl/orb.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_features2d.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_features2d.hpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/agast_score.hpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/fast_score.hpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/AKAZEConfig.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/AKAZEFeatures.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/KAZEConfig.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/KAZEFeatures.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/TEvolution.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/fed.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/nldiffusion_functions.h;G:/file/code/image/opencv-windows-build/modules/features2d/src/kaze/utils.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/calibinit.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/calibration.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/checkchessboard.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/circlesgrid.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/compat_ptsetreg.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/compat_stereo.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/dls.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/epnp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/fisheye.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/five-point.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/fundam.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/homography_decomp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/levmarq.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/main.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/p3p.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/polynom_solver.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/posit.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/ptsetreg.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/quadsubpix.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/rho.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/solvepnp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/stereobm.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/stereosgbm.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/triangulate.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/upnp.cpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/opencl/stereobm.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_calib3d.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_calib3d.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/circlesgrid.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/fisheye.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/calib3d/src/dls.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/epnp.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/p3p.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/polynom_solver.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/rho.h;G:/file/code/image/opencv-windows-build/modules/calib3d/src/upnp.h;G:/file/code/image/opencv-windows-build/modules/stitching/src/autocalib.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/blenders.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/camera.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/exposure_compensate.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/matchers.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/motion_estimators.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/seam_finders.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/stitcher.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/timelapsers.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/util.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/warpers.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/warpers_cuda.cpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/opencl/multibandblend.cl;G:/file/code/image/opencv-windows-build/modules/stitching/src/opencl/warpers.cl;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_stitching.cpp;G:/file/code/image/opencv-windows-build/build/modules/world/opencl_kernels_stitching.hpp;G:/file/code/image/opencv-windows-build/modules/stitching/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/deblurring.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/fast_marching.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/frame_source.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/global_motion.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/inpainting.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/log.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/motion_stabilizing.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/optical_flow.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/outlier_rejection.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/stabilizer.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/wobble_suppression.cpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/clp.hpp;G:/file/code/image/opencv-windows-build/modules/videostab/src/precomp.hpp;G:/file/code/image/opencv-windows-build/modules/world/src/world_init.cpp;G:/file/code/image/opencv-windows-build/modules/world/src/precomp.hpp
 //List of wrappers supporting module opencv_world
 OPENCV_MODULE_opencv_world_WRAPPERS:INTERNAL=
+OPENCV_MODULE_opencv_xfeatures2d_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/xfeatures2d
+//List of opencv_xfeatures2d submodules
+OPENCV_MODULE_opencv_xfeatures2d_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_xfeatures2d_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_xfeatures2d module (for linker)
+OPENCV_MODULE_opencv_xfeatures2d_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_xfeatures2d module
+OPENCV_MODULE_opencv_xfeatures2d_DESCRIPTION:INTERNAL=Contributed/Experimental Algorithms for Salient 2D Features Detection
+//List of header files for opencv_xfeatures2d
+OPENCV_MODULE_opencv_xfeatures2d_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/include/opencv2/xfeatures2d.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/include/opencv2/xfeatures2d/cuda.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/include/opencv2/xfeatures2d/nonfree.hpp
+OPENCV_MODULE_opencv_xfeatures2d_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_xfeatures2d_LABEL:INTERNAL=Extra;opencv_xfeatures2d
+OPENCV_MODULE_opencv_xfeatures2d_LINK_DEPS:INTERNAL=
+//Location of opencv_xfeatures2d module sources
+OPENCV_MODULE_opencv_xfeatures2d_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d
+//Optional dependencies of opencv_xfeatures2d module
+OPENCV_MODULE_opencv_xfeatures2d_OPT_DEPS:INTERNAL=opencv_cudaarithm
+//Optional private dependencies of opencv_xfeatures2d module
+OPENCV_MODULE_opencv_xfeatures2d_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_xfeatures2d module
+OPENCV_MODULE_opencv_xfeatures2d_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_xfeatures2d module
+OPENCV_MODULE_opencv_xfeatures2d_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_features2d;opencv_calib3d;opencv_shape;opencv_highgui;opencv_videoio;opencv_ml
+//List of source files for opencv_xfeatures2d
+OPENCV_MODULE_opencv_xfeatures2d_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/brief.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/daisy.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/freak.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/latch.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/lucid.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/msd.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/sift.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/stardetector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/surf.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/surf.cuda.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/surf.ocl.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/xfeatures2d_init.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/opencl/surf.cl;G:/file/code/image/opencv-windows-build/build/modules/xfeatures2d/opencl_kernels_xfeatures2d.cpp;G:/file/code/image/opencv-windows-build/build/modules/xfeatures2d/opencl_kernels_xfeatures2d.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xfeatures2d/src/surf.hpp
+//List of wrappers supporting module opencv_xfeatures2d
+OPENCV_MODULE_opencv_xfeatures2d_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_ximgproc_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/ximgproc
+//List of opencv_ximgproc submodules
+OPENCV_MODULE_opencv_ximgproc_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_ximgproc_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_ximgproc module (for linker)
+OPENCV_MODULE_opencv_ximgproc_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_ximgproc module
+OPENCV_MODULE_opencv_ximgproc_DESCRIPTION:INTERNAL=Extended image processing module. It includes edge-aware filters and etc.
+//List of header files for opencv_ximgproc
+OPENCV_MODULE_opencv_ximgproc_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/disparity_filter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/edge_filter.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/estimated_covariance.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/fast_hough_transform.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/lsc.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/seeds.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/segmentation.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/slic.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/sparse_match_interpolator.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/include/opencv2/ximgproc/structured_edge_detection.hpp
+OPENCV_MODULE_opencv_ximgproc_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_ximgproc_LABEL:INTERNAL=Extra;opencv_ximgproc
+OPENCV_MODULE_opencv_ximgproc_LINK_DEPS:INTERNAL=
+//Location of opencv_ximgproc module sources
+OPENCV_MODULE_opencv_ximgproc_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc
+//Optional dependencies of opencv_ximgproc module
+OPENCV_MODULE_opencv_ximgproc_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_ximgproc module
+OPENCV_MODULE_opencv_ximgproc_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_ximgproc module
+OPENCV_MODULE_opencv_ximgproc_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_ximgproc module
+OPENCV_MODULE_opencv_ximgproc_REQ_DEPS:INTERNAL=opencv_imgproc;opencv_core;opencv_highgui;opencv_calib3d
+//List of source files for opencv_ximgproc
+OPENCV_MODULE_opencv_ximgproc_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/adaptive_manifold_filter_n.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/disparity_filters.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/domain_transform.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/dtfilter_cpu.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/edgeaware_filters_common.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/estimated_covariance.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/fast_hough_transform.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/fgs_filter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/graphsegmentation.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/guided_filter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/joint_bilateral_filter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/l0_smooth.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/lsc.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/niblack_thresholding.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/rolling_guidance_filter.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/seeds.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/slic.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/sparse_match_interpolators.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/structured_edge_detection.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/advanced_types.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/dtfilter_cpu.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/dtfilter_cpu.inl.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/edgeaware_filters_common.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/ximgproc/src/precomp.hpp
+//List of wrappers supporting module opencv_ximgproc
+OPENCV_MODULE_opencv_ximgproc_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_xobjdetect_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/xobjdetect
+//List of opencv_xobjdetect submodules
+OPENCV_MODULE_opencv_xobjdetect_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_xobjdetect_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_xobjdetect module (for linker)
+OPENCV_MODULE_opencv_xobjdetect_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_xobjdetect module
+OPENCV_MODULE_opencv_xobjdetect_DESCRIPTION:INTERNAL=Object detection algorithms
+//List of header files for opencv_xobjdetect
+OPENCV_MODULE_opencv_xobjdetect_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/include/opencv2/xobjdetect.hpp
+OPENCV_MODULE_opencv_xobjdetect_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_xobjdetect_LABEL:INTERNAL=Extra;opencv_xobjdetect
+OPENCV_MODULE_opencv_xobjdetect_LINK_DEPS:INTERNAL=
+//Location of opencv_xobjdetect module sources
+OPENCV_MODULE_opencv_xobjdetect_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect
+//Optional dependencies of opencv_xobjdetect module
+OPENCV_MODULE_opencv_xobjdetect_OPT_DEPS:INTERNAL=
+//Optional private dependencies of opencv_xobjdetect module
+OPENCV_MODULE_opencv_xobjdetect_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_xobjdetect module
+OPENCV_MODULE_opencv_xobjdetect_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_xobjdetect module
+OPENCV_MODULE_opencv_xobjdetect_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc;opencv_highgui;opencv_objdetect
+//List of source files for opencv_xobjdetect
+OPENCV_MODULE_opencv_xobjdetect_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/feature_evaluator.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/lbpfeatures.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/waldboost.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/wbdetector.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/feature_evaluator.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/precomp.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/waldboost.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/wbdetector.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/cascadeclassifier.h;G:/file/code/image/opencv_contrib-3.1.0/modules/xobjdetect/src/lbpfeatures.h
+//List of wrappers supporting module opencv_xobjdetect
+OPENCV_MODULE_opencv_xobjdetect_WRAPPERS:INTERNAL=python2;python3
+OPENCV_MODULE_opencv_xphoto_BINARY_DIR:INTERNAL=G:/file/code/image/opencv-windows-build/build/modules/xphoto
+//List of opencv_xphoto submodules
+OPENCV_MODULE_opencv_xphoto_CHILDREN:INTERNAL=
+//The category of the module
+OPENCV_MODULE_opencv_xphoto_CLASS:INTERNAL=PUBLIC
+//Flattened dependencies of opencv_xphoto module (for linker)
+OPENCV_MODULE_opencv_xphoto_DEPS_TO_LINK:INTERNAL=opencv_world
+//Brief description of opencv_xphoto module
+OPENCV_MODULE_opencv_xphoto_DESCRIPTION:INTERNAL=Addon to basic photo module
+//List of header files for opencv_xphoto
+OPENCV_MODULE_opencv_xphoto_HEADERS:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/include/opencv2/xphoto.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/include/opencv2/xphoto/dct_image_denoising.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/include/opencv2/xphoto/inpainting.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/include/opencv2/xphoto/white_balance.hpp
+OPENCV_MODULE_opencv_xphoto_IS_PART_OF_WORLD:INTERNAL=OFF
+OPENCV_MODULE_opencv_xphoto_LABEL:INTERNAL=Extra;opencv_xphoto
+OPENCV_MODULE_opencv_xphoto_LINK_DEPS:INTERNAL=
+//Location of opencv_xphoto module sources
+OPENCV_MODULE_opencv_xphoto_LOCATION:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto
+//Optional dependencies of opencv_xphoto module
+OPENCV_MODULE_opencv_xphoto_OPT_DEPS:INTERNAL=opencv_photo;opencv_highgui
+//Optional private dependencies of opencv_xphoto module
+OPENCV_MODULE_opencv_xphoto_PRIVATE_OPT_DEPS:INTERNAL=
+//Required private dependencies of opencv_xphoto module
+OPENCV_MODULE_opencv_xphoto_PRIVATE_REQ_DEPS:INTERNAL=
+//Required dependencies of opencv_xphoto module
+OPENCV_MODULE_opencv_xphoto_REQ_DEPS:INTERNAL=opencv_core;opencv_imgproc
+//List of source files for opencv_xphoto
+OPENCV_MODULE_opencv_xphoto_SOURCES:INTERNAL=G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/dct_image_denoising.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/grayworld_white_balance.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/inpainting.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/simple_color_balance.cpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/advanced_types.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/annf.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/blending.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/gcgraph.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/norm2.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/photomontage.hpp;G:/file/code/image/opencv_contrib-3.1.0/modules/xphoto/src/whs.hpp
+//List of wrappers supporting module opencv_xphoto
+OPENCV_MODULE_opencv_xphoto_WRAPPERS:INTERNAL=python2;python3
 //List of OpenCV modules included into the world
 OPENCV_WORLD_MODULES:INTERNAL=opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab
 //List of OpenCVModules targets
-OpenCVModules_TARGETS:INTERNAL=opencv_world;opencv_ts
+OpenCVModules_TARGETS:INTERNAL=opencv_world;opencv_face;opencv_text;opencv_ts;opencv_datasets;opencv_tracking
 //ADVANCED property for variable: PDFLATEX_COMPILER
 PDFLATEX_COMPILER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PNG_LIBRARY_DEBUG
@@ -2142,6 +3329,24 @@ PNG_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 PNG_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PS2PDF_CONVERTER
 PS2PDF_CONVERTER-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_INCLUDE_DIR
+Protobuf_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_LIBRARY_DEBUG
+Protobuf_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_LIBRARY_RELEASE
+Protobuf_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_LITE_LIBRARY_DEBUG
+Protobuf_LITE_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_LITE_LIBRARY_RELEASE
+Protobuf_LITE_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_PROTOC_EXECUTABLE
+Protobuf_PROTOC_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_PROTOC_LIBRARY_DEBUG
+Protobuf_PROTOC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Protobuf_PROTOC_LIBRARY_RELEASE
+Protobuf_PROTOC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//Result of TRY_COMPILE
+SFM_DEPS_OK:INTERNAL=FALSE
 //Result of TEST_BIG_ENDIAN
 WORDS_BIGENDIAN:INTERNAL=0
 //ADVANCED property for variable: ZLIB_LIBRARY_DEBUG

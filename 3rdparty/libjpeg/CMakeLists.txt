@@ -9,6 +9,19 @@ ocv_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 file(GLOB lib_srcs *.c)
 file(GLOB lib_hdrs *.h)
 
+if(ANDROID OR IOS OR APPLE)
+  ocv_list_filterout(lib_srcs jmemansi.c)
+else()
+  ocv_list_filterout(lib_srcs jmemnobs.c)
+endif()
+
+if(WINRT)
+    add_definitions(-DNO_GETENV)
+    get_directory_property( DirDefs COMPILE_DEFINITIONS )
+    message(STATUS "Adding NO_GETENV to compiler definitions for WINRT:")
+    message(STATUS "   COMPILE_DEFINITIONS = ${DirDefs}")
+endif()
+
 # ----------------------------------------------------------------------------------
 #         Define the library target:
 # ----------------------------------------------------------------------------------
@@ -27,6 +40,7 @@ endif()
 
 ocv_warnings_disable(CMAKE_C_FLAGS -Wcast-align -Wshadow -Wunused)
 ocv_warnings_disable(CMAKE_C_FLAGS -Wunused-parameter) # clang
+ocv_warnings_disable(CMAKE_C_FLAGS /wd4013 /wd4244 /wd4267) # vs2005
 
 set_target_properties(${JPEG_LIBRARY}
   PROPERTIES OUTPUT_NAME ${JPEG_LIBRARY}
@@ -39,5 +53,5 @@ if(ENABLE_SOLUTION_FOLDERS)
 endif()
 
 if(NOT BUILD_SHARED_LIBS)
-  ocv_install_target(${JPEG_LIBRARY} EXPORT OpenCVModules ARCHIVE DESTINATION ${OPENCV_3P_LIB_INSTALL_PATH} COMPONENT main)
+  ocv_install_target(${JPEG_LIBRARY} EXPORT OpenCVModules ARCHIVE DESTINATION ${OPENCV_3P_LIB_INSTALL_PATH} COMPONENT dev)
 endif()

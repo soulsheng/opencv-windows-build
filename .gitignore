@@ -13,3 +13,9 @@ tegra/
 /build/cmake_uninstall.cmake
 /build/version_string.tmp
 /build/junk
+*lib
+*.dir
+*bin
+*x64
+*.sdf
+*.opensdf

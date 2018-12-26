@@ -65,7 +65,10 @@ CV_IMPL void cvSetWindowProperty(const char* name, int prop_id, double prop_valu
             cvSetModeWindow_CARBON(name,prop_value);
         #elif defined (HAVE_COCOA)
             cvSetModeWindow_COCOA(name,prop_value);
+        #elif defined (WINRT)
+            cvSetModeWindow_WinRT(name, prop_value);
         #endif
+
     break;
 
     case CV_WND_PROP_AUTOSIZE:
@@ -104,6 +107,8 @@ CV_IMPL double cvGetWindowProperty(const char* name, int prop_id)
             return cvGetModeWindow_CARBON(name);
         #elif defined (HAVE_COCOA)
             return cvGetModeWindow_COCOA(name);
+        #elif defined (WINRT)
+            return cvGetModeWindow_WinRT(name);
         #else
             return -1;
         #endif
@@ -209,6 +214,11 @@ void cv::setTrackbarPos( const String& trackbarName, const String& winName, int 
 void cv::setTrackbarMax(const String& trackbarName, const String& winName, int maxval)
 {
     cvSetTrackbarMax(trackbarName.c_str(), winName.c_str(), maxval);
+}
+
+void cv::setTrackbarMin(const String& trackbarName, const String& winName, int minval)
+{
+    cvSetTrackbarMin(trackbarName.c_str(), winName.c_str(), minval);
 }
 
 int cv::getTrackbarPos( const String& trackbarName, const String& winName )
@@ -481,11 +491,12 @@ int cv::createButton(const String&, ButtonCallback, void*, int , bool )
 
 #endif
 
-#if   defined(HAVE_WIN32UI)   // see window_w32.cpp
+#if   defined (HAVE_WIN32UI)  // see window_w32.cpp
 #elif defined (HAVE_GTK)      // see window_gtk.cpp
 #elif defined (HAVE_COCOA)    // see window_carbon.cpp
 #elif defined (HAVE_CARBON)
-#elif defined (HAVE_QT)       //YV see window_QT.cpp
+#elif defined (HAVE_QT)       // see window_QT.cpp
+#elif defined (WINRT) && !defined (WINRT_8_0) // see window_winrt.cpp
 
 #else
 
@@ -581,6 +592,11 @@ CV_IMPL void cvSetTrackbarPos( const char*, const char*, int )
 CV_IMPL void cvSetTrackbarMax(const char*, const char*, int)
 {
     CV_NO_GUI_ERROR( "cvSetTrackbarMax" );
+}
+
+CV_IMPL void cvSetTrackbarMin(const char*, const char*, int)
+{
+    CV_NO_GUI_ERROR( "cvSetTrackbarMin" );
 }
 
 CV_IMPL void* cvGetWindowHandle( const char* )

@@ -47,7 +47,7 @@
                                     Base Image Filter
 \****************************************************************************************/
 
-#if IPP_VERSION_X100 >= 701
+#if IPP_VERSION_X100 >= 710
 #define USE_IPP_SEP_FILTERS 1
 #else
 #undef USE_IPP_SEP_FILTERS
@@ -1415,14 +1415,14 @@ struct RowVec_32f
     {
         kernel = _kernel;
         haveSSE = checkHardwareSupport(CV_CPU_SSE);
-#if defined USE_IPP_SEP_FILTERS && 0
+#if defined USE_IPP_SEP_FILTERS && IPP_DISABLE_BLOCK
         bufsz = -1;
 #endif
     }
 
     int operator()(const uchar* _src, uchar* _dst, int width, int cn) const
     {
-#if defined USE_IPP_SEP_FILTERS && 0
+#if defined USE_IPP_SEP_FILTERS && IPP_DISABLE_BLOCK
         CV_IPP_CHECK()
         {
             int ret = ippiOperator(_src, _dst, width, cn);
@@ -1463,7 +1463,7 @@ struct RowVec_32f
 
     Mat kernel;
     bool haveSSE;
-#if defined USE_IPP_SEP_FILTERS && 0
+#if defined USE_IPP_SEP_FILTERS && IPP_DISABLE_BLOCK
 private:
     mutable int bufsz;
     int ippiOperator(const uchar* _src, uchar* _dst, int width, int cn) const
@@ -4031,7 +4031,7 @@ static bool ocl_filter2D( InputArray _src, OutputArray _dst, int ddepth,
 
     cv::Mat kernelMat = _kernel.getMat();
     cv::Size sz = _src.size(), wholeSize;
-    size_t globalsize[2] = { sz.width, sz.height };
+    size_t globalsize[2] = { (size_t)sz.width, (size_t)sz.height };
     size_t localsize_general[2] = {0, 1};
     size_t* localsize = NULL;
 
@@ -4555,6 +4555,140 @@ cv::Ptr<cv::FilterEngine> cv::createLinearFilter( int _srcType, int _dstType,
         _rowBorderType, _columnBorderType, _borderValue );
 }
 
+#ifdef HAVE_IPP
+namespace cv
+{
+static bool ipp_filter2D( InputArray _src, OutputArray _dst, int ddepth,
+        InputArray _kernel, Point anchor0,
+        double delta, int borderType )
+{
+#if !HAVE_ICV
+    Mat src = _src.getMat(), kernel = _kernel.getMat();
+
+    if( ddepth < 0 )
+        ddepth = src.depth();
+
+    _dst.create( src.size(), CV_MAKETYPE(ddepth, src.channels()) );
+    Mat dst = _dst.getMat();
+    Point anchor = normalizeAnchor(anchor0, kernel.size());
+
+    typedef IppStatus (CV_STDCALL * ippiFilterBorder)(const void * pSrc, int srcStep, void * pDst, int dstStep, IppiSize dstRoiSize,
+        IppiBorderType border, const void * borderValue,
+        const IppiFilterBorderSpec* pSpec, Ipp8u* pBuffer);
+
+    int stype = src.type(), sdepth = CV_MAT_DEPTH(stype), cn = CV_MAT_CN(stype),
+        ktype = kernel.type(), kdepth = CV_MAT_DEPTH(ktype);
+    bool isolated = (borderType & BORDER_ISOLATED) != 0;
+#if IPP_VERSION_X100 >= 900
+    Point ippAnchor((kernel.cols-1)/2, (kernel.rows-1)/2);
+#else
+    Point ippAnchor(kernel.cols >> 1, kernel.rows >> 1);
+#endif
+    int borderTypeNI = borderType & ~BORDER_ISOLATED;
+    IppiBorderType ippBorderType = ippiGetBorderType(borderTypeNI);
+
+    if (borderTypeNI == BORDER_CONSTANT || borderTypeNI == BORDER_REPLICATE)
+    {
+        ippiFilterBorder ippFunc =
+            stype == CV_8UC1 ? (ippiFilterBorder)ippiFilterBorder_8u_C1R :
+            stype == CV_8UC3 ? (ippiFilterBorder)ippiFilterBorder_8u_C3R :
+            stype == CV_8UC4 ? (ippiFilterBorder)ippiFilterBorder_8u_C4R :
+            stype == CV_16UC1 ? (ippiFilterBorder)ippiFilterBorder_16u_C1R :
+            stype == CV_16UC3 ? (ippiFilterBorder)ippiFilterBorder_16u_C3R :
+            stype == CV_16UC4 ? (ippiFilterBorder)ippiFilterBorder_16u_C4R :
+            stype == CV_16SC1 ? (ippiFilterBorder)ippiFilterBorder_16s_C1R :
+            stype == CV_16SC3 ? (ippiFilterBorder)ippiFilterBorder_16s_C3R :
+            stype == CV_16SC4 ? (ippiFilterBorder)ippiFilterBorder_16s_C4R :
+            stype == CV_32FC1 ? (ippiFilterBorder)ippiFilterBorder_32f_C1R :
+            stype == CV_32FC3 ? (ippiFilterBorder)ippiFilterBorder_32f_C3R :
+            stype == CV_32FC4 ? (ippiFilterBorder)ippiFilterBorder_32f_C4R : 0;
+
+        if (sdepth == ddepth && (ktype == CV_16SC1 || ktype == CV_32FC1) &&
+            ippFunc && (int)ippBorderType >= 0 && (!src.isSubmatrix() || isolated) &&
+            std::fabs(delta - 0) < DBL_EPSILON && ippAnchor == anchor && dst.data != src.data)
+        {
+            IppiSize kernelSize = { kernel.cols, kernel.rows }, dstRoiSize = { dst.cols, dst.rows };
+            IppDataType dataType = ippiGetDataType(ddepth), kernelType = ippiGetDataType(kdepth);
+            Ipp32s specSize = 0, bufsize = 0;
+            IppStatus status = (IppStatus)-1;
+
+            if ((status = ippiFilterBorderGetSize(kernelSize, dstRoiSize, dataType, kernelType, cn, &specSize, &bufsize)) >= 0)
+            {
+                IppAutoBuffer<IppiFilterBorderSpec> spec(specSize);
+                IppAutoBuffer<Ipp8u> buffer(bufsize);
+                Ipp32f borderValue[4] = { 0, 0, 0, 0 };
+
+                if(kdepth == CV_32F)
+                {
+                    Ipp32f *pKerBuffer = (Ipp32f*)kernel.data;
+                    IppAutoBuffer<Ipp32f> kerTmp;
+                    int kerStep = sizeof(Ipp32f)*kernelSize.width;
+#if IPP_VERSION_X100 >= 900
+                    if((int)kernel.step != kerStep)
+                    {
+                        kerTmp.Alloc(kerStep*kernelSize.height);
+                        if(ippiCopy_32f_C1R((Ipp32f*)kernel.data, (int)kernel.step, kerTmp, kerStep, kernelSize) < 0)
+                            return false;
+                        pKerBuffer = kerTmp;
+                    }
+#else
+                    kerTmp.Alloc(kerStep*kernelSize.height);
+                    Mat kerFlip(Size(kernelSize.width, kernelSize.height), CV_32FC1, kerTmp, kerStep);
+                    flip(kernel, kerFlip, -1);
+                    pKerBuffer = kerTmp;
+#endif
+
+                    if((status = ippiFilterBorderInit_32f(pKerBuffer, kernelSize,
+                        dataType, cn, ippRndFinancial, spec)) >= 0 )
+                    {
+                        status = ippFunc(src.data, (int)src.step, dst.data, (int)dst.step, dstRoiSize,
+                            ippBorderType, borderValue, spec, buffer);
+                    }
+                }
+                else if(kdepth == CV_16S)
+                {
+                    Ipp16s *pKerBuffer = (Ipp16s*)kernel.data;
+                    IppAutoBuffer<Ipp16s> kerTmp;
+                    int kerStep = sizeof(Ipp16s)*kernelSize.width;
+#if IPP_VERSION_X100 >= 900
+                    if((int)kernel.step != kerStep)
+                    {
+                        kerTmp.Alloc(kerStep*kernelSize.height);
+                        if(ippiCopy_16s_C1R((Ipp16s*)kernel.data, (int)kernel.step, kerTmp, kerStep, kernelSize) < 0)
+                            return false;
+                        pKerBuffer = kerTmp;
+                    }
+#else
+                    kerTmp.Alloc(kerStep*kernelSize.height);
+                    Mat kerFlip(Size(kernelSize.width, kernelSize.height), CV_16SC1, kerTmp, kerStep);
+                    flip(kernel, kerFlip, -1);
+                    pKerBuffer = kerTmp;
+#endif
+
+                    if((status = ippiFilterBorderInit_16s(pKerBuffer, kernelSize,
+                        0, dataType, cn, ippRndFinancial, spec)) >= 0)
+                    {
+                        status = ippFunc(src.data, (int)src.step, dst.data, (int)dst.step, dstRoiSize,
+                            ippBorderType, borderValue, spec, buffer);
+                    }
+                }
+            }
+
+            if (status >= 0)
+            {
+                CV_IMPL_ADD(CV_IMPL_IPP);
+                return true;
+            }
+        }
+    }
+#else
+    CV_UNUSED(_src); CV_UNUSED(_dst); CV_UNUSED(ddepth); CV_UNUSED(_kernel), CV_UNUSED(anchor0), CV_UNUSED(delta), CV_UNUSED(borderType);
+#endif
+    return false;
+}
+}
+#endif
+
 
 void cv::filter2D( InputArray _src, OutputArray _dst, int ddepth,
                    InputArray _kernel, Point anchor0,
@@ -4579,77 +4713,8 @@ void cv::filter2D( InputArray _src, OutputArray _dst, int ddepth,
     Mat dst = _dst.getMat();
     Point anchor = normalizeAnchor(anchor0, kernel.size());
 
-#if IPP_VERSION_X100 > 0 && !defined HAVE_IPP_ICV_ONLY
-    CV_IPP_CHECK()
-    {
-        typedef IppStatus (CV_STDCALL * ippiFilterBorder)(const void * pSrc, int srcStep, void * pDst, int dstStep, IppiSize dstRoiSize,
-                                                          IppiBorderType border, const void * borderValue,
-                                                          const IppiFilterBorderSpec* pSpec, Ipp8u* pBuffer);
+    CV_IPP_RUN(true, ipp_filter2D(_src, _dst, ddepth, _kernel, anchor0, delta, borderType));
 
-        int stype = src.type(), sdepth = CV_MAT_DEPTH(stype), cn = CV_MAT_CN(stype),
-                ktype = kernel.type(), kdepth = CV_MAT_DEPTH(ktype);
-        bool isolated = (borderType & BORDER_ISOLATED) != 0;
-        Point ippAnchor(kernel.cols >> 1, kernel.rows >> 1);
-        int borderTypeNI = borderType & ~BORDER_ISOLATED;
-        IppiBorderType ippBorderType = ippiGetBorderType(borderTypeNI);
-
-        if (borderTypeNI == BORDER_CONSTANT || borderTypeNI == BORDER_REPLICATE)
-        {
-            ippiFilterBorder ippFunc =
-                stype == CV_8UC1 ? (ippiFilterBorder)ippiFilterBorder_8u_C1R :
-                stype == CV_8UC3 ? (ippiFilterBorder)ippiFilterBorder_8u_C3R :
-                stype == CV_8UC4 ? (ippiFilterBorder)ippiFilterBorder_8u_C4R :
-                stype == CV_16UC1 ? (ippiFilterBorder)ippiFilterBorder_16u_C1R :
-                stype == CV_16UC3 ? (ippiFilterBorder)ippiFilterBorder_16u_C3R :
-                stype == CV_16UC4 ? (ippiFilterBorder)ippiFilterBorder_16u_C4R :
-                stype == CV_16SC1 ? (ippiFilterBorder)ippiFilterBorder_16s_C1R :
-                stype == CV_16SC3 ? (ippiFilterBorder)ippiFilterBorder_16s_C3R :
-                stype == CV_16SC4 ? (ippiFilterBorder)ippiFilterBorder_16s_C4R :
-                stype == CV_32FC1 ? (ippiFilterBorder)ippiFilterBorder_32f_C1R :
-                stype == CV_32FC3 ? (ippiFilterBorder)ippiFilterBorder_32f_C3R :
-                stype == CV_32FC4 ? (ippiFilterBorder)ippiFilterBorder_32f_C4R : 0;
-
-            if (sdepth == ddepth && (ktype == CV_16SC1 || ktype == CV_32FC1) &&
-                    ippFunc && (int)ippBorderType >= 0 && (!src.isSubmatrix() || isolated) &&
-                    std::fabs(delta - 0) < DBL_EPSILON && ippAnchor == anchor && dst.data != src.data)
-            {
-                IppiSize kernelSize = { kernel.cols, kernel.rows }, dstRoiSize = { dst.cols, dst.rows };
-                IppDataType dataType = ippiGetDataType(ddepth), kernelType = ippiGetDataType(kdepth);
-                Ipp32s specSize = 0, bufsize = 0;
-                IppStatus status = (IppStatus)-1;
-
-                if ((status = ippiFilterBorderGetSize(kernelSize, dstRoiSize, dataType, kernelType, cn, &specSize, &bufsize)) >= 0)
-                {
-                    IppiFilterBorderSpec * spec = (IppiFilterBorderSpec *)ippMalloc(specSize);
-                    Ipp8u * buffer = ippsMalloc_8u(bufsize);
-                    Ipp32f borderValue[4] = { 0, 0, 0, 0 };
-
-                    Mat reversedKernel;
-                    flip(kernel, reversedKernel, -1);
-
-                    if ((kdepth == CV_32F && (status = ippiFilterBorderInit_32f((const Ipp32f *)reversedKernel.data, kernelSize,
-                            dataType, cn, ippRndFinancial, spec)) >= 0 ) ||
-                        (kdepth == CV_16S && (status = ippiFilterBorderInit_16s((const Ipp16s *)reversedKernel.data,
-                            kernelSize, 0, dataType, cn, ippRndFinancial, spec)) >= 0))
-                    {
-                        status = ippFunc(src.data, (int)src.step, dst.data, (int)dst.step, dstRoiSize,
-                                         ippBorderType, borderValue, spec, buffer);
-                    }
-
-                    ippsFree(buffer);
-                    ippsFree(spec);
-                }
-
-                if (status >= 0)
-                {
-                    CV_IMPL_ADD(CV_IMPL_IPP);
-                    return;
-                }
-                setIppErrorStatus();
-            }
-        }
-    }
-#endif
 
 #ifdef HAVE_TEGRA_OPTIMIZATION
     if( tegra::useTegra() && tegra::filter2D(src, dst, kernel, anchor, delta, borderType) )

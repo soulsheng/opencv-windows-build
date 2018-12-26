@@ -20,3 +20,8 @@ tegra/
 *.sdf
 *.opensdf
 /build/*.suo
+*PACKAGE.vcxproj
+*PACKAGE.vcxproj.filters
+*RUN_TESTS.vcxproj
+*RUN_TESTS.vcxproj.filters
+*CTestTestfile.cmake

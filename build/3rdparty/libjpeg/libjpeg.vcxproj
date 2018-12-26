@@ -55,13 +55,16 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsC</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4013;4244;4267</DisableSpecificWarnings>
       <ExceptionHandling>
       </ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>4</ProcessorNumber>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -90,13 +93,16 @@
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4013;4244;4267</DisableSpecificWarnings>
       <ExceptionHandling>
       </ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>4</ProcessorNumber>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -149,10 +155,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jchuff.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jconfig.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdct.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdhuff.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jerror.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jinclude.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jmemsys.h" />
@@ -160,9 +164,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jpegint.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jpeglib.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jversion.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\transupp.h" />
+    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jaricom.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcapimin.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcapistd.c"  />
+    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcarith.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jccoefct.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jccolor.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcdctmgr.c"  />
@@ -173,12 +178,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcmaster.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcomapi.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcparam.c"  />
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcphuff.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcprepct.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcsample.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jctrans.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdapimin.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdapistd.c"  />
+    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdarith.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdatadst.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdatasrc.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdcoefct.c"  />
@@ -190,7 +195,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdmarker.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdmaster.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdmerge.c"  />
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdphuff.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdpostct.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdsample.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdtrans.c"  />
@@ -201,13 +205,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jidctflt.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jidctfst.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jidctint.c"  />
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jidctred.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jmemansi.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jmemmgr.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jquant1.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jquant2.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jutils.c"  />
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\transupp.c"  />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="G:/file/code/image/opencv-windows-build/build/ZERO_CHECK.vcxproj">

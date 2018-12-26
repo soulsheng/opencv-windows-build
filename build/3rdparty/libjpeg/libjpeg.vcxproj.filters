@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jaricom.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcapimin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcapistd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcarith.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jccoefct.c">
@@ -37,9 +43,6 @@
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcparam.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcphuff.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jcprepct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -53,6 +56,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdapistd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdarith.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdatadst.c">
@@ -88,9 +94,6 @@
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdmerge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdphuff.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdpostct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -121,9 +124,6 @@
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jidctint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jidctred.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jmemansi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,21 +139,12 @@
     <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jutils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\transupp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jchuff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jdhuff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jerror.h">
@@ -175,9 +166,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\jversion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="G:\file\code\image\opencv-windows-build\3rdparty\libjpeg\transupp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

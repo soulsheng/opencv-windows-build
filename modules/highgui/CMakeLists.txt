@@ -1,5 +1,5 @@
 set(the_description "High-level GUI and Media I/O")
-ocv_add_module(highgui opencv_imgproc opencv_imgcodecs opencv_videoio WRAP python)
+ocv_add_module(highgui opencv_imgproc OPTIONAL opencv_imgcodecs opencv_videoio WRAP python)
 
 # ----------------------------------------------------------------------------
 #  CMake file for highgui. See root CMakeLists.txt
@@ -7,7 +7,7 @@ ocv_add_module(highgui opencv_imgproc opencv_imgcodecs opencv_videoio WRAP pytho
 #   Jose Luis Blanco, 2008
 # ----------------------------------------------------------------------------
 
-if(WINRT_8_1)
+if(DEFINED WINRT AND NOT DEFINED ENABLE_WINRT_MODE_NATIVE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /ZW")
 endif()
 

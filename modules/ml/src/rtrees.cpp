@@ -296,6 +296,7 @@ public:
         if( roots.empty() )
             CV_Error( CV_StsBadArg, "RTrees have not been trained" );
 
+        writeFormat(fs);
         writeParams(fs);
 
         fs << "oob_error" << oobError;
@@ -381,6 +382,8 @@ public:
 
     bool train( const Ptr<TrainData>& trainData, int flags )
     {
+        if (impl.getCVFolds() != 0)
+            CV_Error(Error::StsBadArg, "Cross validation for RTrees is not implemented");
         return impl.train(trainData, flags);
     }
 

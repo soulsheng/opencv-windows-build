@@ -83,7 +83,7 @@ void FAST_t(InputArray _img, std::vector<KeyPoint>& keypoints, int threshold, bo
 
     AutoBuffer<uchar> _buf((img.cols+16)*3*(sizeof(int) + sizeof(uchar)) + 128);
     uchar* buf[3];
-    buf[0] = _buf; buf[1] = buf[0] + img.cols; buf[2] = buf[1] + img.cols;
+    buf[0] = _buf.data(); buf[1] = buf[0] + img.cols; buf[2] = buf[1] + img.cols;
     int* cpbuf[3];
     cpbuf[0] = (int*)alignPtr(buf[2] + img.cols, sizeof(int)) + 1;
     cpbuf[1] = cpbuf[0] + img.cols + 1;
@@ -401,11 +401,11 @@ static bool openvx_FAST(InputArray _img, std::vector<KeyPoint>& keypoints,
         img.swapHandle();
 #endif
     }
-    catch (RuntimeError & e)
+    catch (const RuntimeError & e)
     {
         VX_DbgThrow(e.what());
     }
-    catch (WrapperError & e)
+    catch (const WrapperError & e)
     {
         VX_DbgThrow(e.what());
     }
@@ -474,7 +474,7 @@ static inline int hal_FAST(cv::Mat& src, std::vector<KeyPoint>& keypoints, int t
 
 void FAST(InputArray _img, std::vector<KeyPoint>& keypoints, int threshold, bool nonmax_suppression, int type)
 {
-    CV_INSTRUMENT_REGION()
+    CV_INSTRUMENT_REGION();
 
     CV_OCL_RUN(_img.isUMat() && type == FastFeatureDetector::TYPE_9_16,
                ocl_FAST(_img, keypoints, threshold, nonmax_suppression, 10000));
@@ -509,22 +509,28 @@ void FAST(InputArray _img, std::vector<KeyPoint>& keypoints, int threshold, bool
 
 void FAST(InputArray _img, std::vector<KeyPoint>& keypoints, int threshold, bool nonmax_suppression)
 {
-    CV_INSTRUMENT_REGION()
+    CV_INSTRUMENT_REGION();
 
     FAST(_img, keypoints, threshold, nonmax_suppression, FastFeatureDetector::TYPE_9_16);
 }
 
 
-class FastFeatureDetector_Impl : public FastFeatureDetector
+class FastFeatureDetector_Impl CV_FINAL : public FastFeatureDetector
 {
 public:
     FastFeatureDetector_Impl( int _threshold, bool _nonmaxSuppression, int _type )
     : threshold(_threshold), nonmaxSuppression(_nonmaxSuppression), type((short)_type)
     {}
 
-    void detect( InputArray _image, std::vector<KeyPoint>& keypoints, InputArray _mask )
+    void detect( InputArray _image, std::vector<KeyPoint>& keypoints, InputArray _mask ) CV_OVERRIDE
     {
-        CV_INSTRUMENT_REGION()
+        CV_INSTRUMENT_REGION();
+
+        if(_image.empty())
+        {
+            keypoints.clear();
+            return;
+        }
 
         Mat mask = _mask.getMat(), grayImage;
         UMat ugrayImage;
@@ -563,14 +569,14 @@ public:
         return 0;
     }
 
-    void setThreshold(int threshold_) { threshold = threshold_; }
-    int getThreshold() const { return threshold; }
+    void setThreshold(int threshold_) CV_OVERRIDE { threshold = threshold_; }
+    int getThreshold() const CV_OVERRIDE { return threshold; }
 
-    void setNonmaxSuppression(bool f) { nonmaxSuppression = f; }
-    bool getNonmaxSuppression() const { return nonmaxSuppression; }
+    void setNonmaxSuppression(bool f) CV_OVERRIDE { nonmaxSuppression = f; }
+    bool getNonmaxSuppression() const CV_OVERRIDE { return nonmaxSuppression; }
 
-    void setType(int type_) { type = type_; }
-    int getType() const { return type; }
+    void setType(int type_) CV_OVERRIDE { type = type_; }
+    int getType() const CV_OVERRIDE { return type; }
 
     int threshold;
     bool nonmaxSuppression;

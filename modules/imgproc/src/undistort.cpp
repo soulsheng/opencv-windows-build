@@ -98,7 +98,7 @@ public:
 #endif
     }
 
-    void operator()( const cv::Range& range ) const
+    void operator()( const cv::Range& range ) const CV_OVERRIDE
     {
         const int begin = range.start;
         const int end = range.end;
@@ -273,7 +273,7 @@ void cv::initUndistortRectifyMap( InputArray _cameraMatrix, InputArray _distCoef
 void cv::undistort( InputArray _src, OutputArray _dst, InputArray _cameraMatrix,
                     InputArray _distCoeffs, InputArray _newCameraMatrix )
 {
-    CV_INSTRUMENT_REGION()
+    CV_INSTRUMENT_REGION();
 
     Mat src = _src.getMat(), cameraMatrix = _cameraMatrix.getMat();
     Mat distCoeffs = _distCoeffs.getMat(), newCameraMatrix = _newCameraMatrix.getMat();
@@ -370,6 +370,7 @@ static void cvUndistortPointsInternal( const CvMat* _src, CvMat* _dst, const CvM
                    const CvMat* _distCoeffs,
                    const CvMat* matR, const CvMat* matP, cv::TermCriteria criteria)
 {
+    CV_Assert(criteria.isValid());
     double A[3][3], RR[3][3], k[14]={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     CvMat matA=cvMat(3, 3, CV_64F, A), _Dk;
     CvMat _RR=cvMat(3, 3, CV_64F, RR);
@@ -566,14 +567,14 @@ void cv::undistortPoints( InputArray _src, OutputArray _dst,
     _dst.create(src.size(), src.type(), -1, true);
     Mat dst = _dst.getMat();
 
-    CvMat _csrc = src, _cdst = dst, _ccameraMatrix = cameraMatrix;
+    CvMat _csrc = cvMat(src), _cdst = cvMat(dst), _ccameraMatrix = cvMat(cameraMatrix);
     CvMat matR, matP, _cdistCoeffs, *pR=0, *pP=0, *pD=0;
     if( !R.empty() )
-        pR = &(matR = R);
+        pR = &(matR = cvMat(R));
     if( !P.empty() )
-        pP = &(matP = P);
+        pP = &(matP = cvMat(P));
     if( !distCoeffs.empty() )
-        pD = &(_cdistCoeffs = distCoeffs);
+        pD = &(_cdistCoeffs = cvMat(distCoeffs));
     cvUndistortPointsInternal(&_csrc, &_cdst, &_ccameraMatrix, pD, pR, pP, criteria);
 }
 
@@ -613,7 +614,6 @@ static Point2f mapPointSpherical(const Point2f& p, float alpha, Vec4d* J, int pr
         return Point2f((float)asin(x1), (float)asin(y1));
     }
     CV_Error(CV_StsBadArg, "Unknown projection type");
-    return Point2f();
 }
 
 

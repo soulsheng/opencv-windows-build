@@ -350,6 +350,9 @@ private:
             // Look for single small sub-diagonal element
             int l = n1;
             while (l > low) {
+                if (norm < FLT_EPSILON) {
+                    break;
+                }
                 s = std::abs(H[l - 1][l - 1]) + std::abs(H[l][l]);
                 if (s == 0.0) {
                     s = norm;
@@ -594,7 +597,7 @@ private:
 
         // Backsubstitute to find vectors of upper triangular form
 
-        if (norm == 0.0) {
+        if (norm < FLT_EPSILON) {
             return;
         }
 
@@ -863,7 +866,7 @@ private:
         d = alloc_1d<double> (n);
         e = alloc_1d<double> (n);
         ort = alloc_1d<double> (n);
-        CV_TRY {
+        try {
             // Reduce to Hessenberg form.
             orthes();
             // Reduce Hessenberg to real Schur form.
@@ -881,10 +884,10 @@ private:
             // Deallocate the memory by releasing all internal working data.
             release();
         }
-        CV_CATCH_ALL
+        catch (...)
         {
             release();
-            CV_RETHROW();
+            throw;
         }
     }
 
@@ -903,7 +906,7 @@ public:
     // National Institute of Standards and Technology (NIST).
     void compute(InputArray src, bool fallbackSymmetric)
     {
-        CV_INSTRUMENT_REGION()
+        CV_INSTRUMENT_REGION();
 
         if(fallbackSymmetric && isSymmetric(src)) {
             // Fall back to OpenCV for a symmetric matrix!
@@ -941,7 +944,7 @@ public:
 
 void eigenNonSymmetric(InputArray _src, OutputArray _evals, OutputArray _evects)
 {
-    CV_INSTRUMENT_REGION()
+    CV_INSTRUMENT_REGION();
 
     Mat src = _src.getMat();
     int type = src.type();

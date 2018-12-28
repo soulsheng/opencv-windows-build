@@ -599,13 +599,9 @@ class FuncInfo(object):
         # Convert unicode chars to xml representation, but keep as string instead of bytes
         full_docstring = full_docstring.encode('ascii', errors='xmlcharrefreplace').decode()
 
-        flags = ["METH_VARARGS", "METH_KEYWORDS"]
-        if self.isclassmethod:
-            flags.append("METH_CLASS")
-
-        return Template('    {"$py_funcname", (PyCFunction)$wrap_funcname, $flags, "$py_docstring"},\n'
+        return Template('    {"$py_funcname", CV_PY_FN_WITH_KW_($wrap_funcname, $flags), "$py_docstring"},\n'
                         ).substitute(py_funcname = self.variants[0].wname, wrap_funcname=self.get_wrapper_name(),
-                                     flags = " | ".join(flags), py_docstring = full_docstring)
+                                     flags = 'METH_CLASS' if self.isclassmethod else '0', py_docstring = full_docstring)
 
     def gen_code(self, codegen):
         all_classes = codegen.classes
@@ -1095,6 +1091,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         dstdir = sys.argv[1]
     if len(sys.argv) > 2:
-        srcfiles = [f.strip() for f in open(sys.argv[2], 'r').readlines()]
+        with open(sys.argv[2], 'r') as f:
+            srcfiles = [l.strip() for l in f.readlines()]
     generator = PythonWrapperGenerator()
     generator.gen(srcfiles, dstdir)

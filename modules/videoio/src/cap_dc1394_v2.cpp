@@ -192,7 +192,11 @@ CvDC1394::~CvDC1394()
     dc = 0;
 }
 
-static CvDC1394 dc1394;
+static CvDC1394& getDC1394()
+{
+    static CvDC1394 dc1394;
+    return dc1394;
+}
 
 class CvCaptureCAM_DC1394_v2_CPP : public CvCapture
 {
@@ -207,11 +211,11 @@ public:
     virtual bool open(int index);
     virtual void close();
 
-    virtual double getProperty(int) const;
-    virtual bool setProperty(int, double);
-    virtual bool grabFrame();
-    virtual IplImage* retrieveFrame(int);
-    virtual int getCaptureDomain() { return CV_CAP_DC1394; } // Return the type of the capture object: CV_CAP_VFW, etc...
+    virtual double getProperty(int) const CV_OVERRIDE;
+    virtual bool setProperty(int, double) CV_OVERRIDE;
+    virtual bool grabFrame() CV_OVERRIDE;
+    virtual IplImage* retrieveFrame(int) CV_OVERRIDE;
+    virtual int getCaptureDomain() CV_OVERRIDE { return CV_CAP_DC1394; }
 
 
 protected:
@@ -451,7 +455,7 @@ bool CvCaptureCAM_DC1394_v2_CPP::startCapture()
     code = dc1394_capture_setup(dcCam, nDMABufs, DC1394_CAPTURE_FLAGS_DEFAULT);
     if (code >= 0)
     {
-        FD_SET(dc1394_capture_get_fileno(dcCam), &dc1394.camFds);
+        FD_SET(dc1394_capture_get_fileno(dcCam), &getDC1394().camFds);
         dc1394_video_set_transmission(dcCam, DC1394_ON);
         if (cameraId == VIDERE)
         {
@@ -477,15 +481,15 @@ bool CvCaptureCAM_DC1394_v2_CPP::open(int index)
 
     close();
 
-    if (!dc1394.dc)
+    if (!getDC1394().dc)
         goto _exit_;
 
-    err = dc1394_camera_enumerate(dc1394.dc, &cameraList);
+    err = dc1394_camera_enumerate(getDC1394().dc, &cameraList);
     if (err < 0 || !cameraList || (unsigned)index >= (unsigned)cameraList->num)
         goto _exit_;
 
     guid = cameraList->ids[index].guid;
-    dcCam = dc1394_camera_new(dc1394.dc, guid);
+    dcCam = dc1394_camera_new(getDC1394().dc, guid);
     if (!dcCam)
         goto _exit_;
 
@@ -510,8 +514,8 @@ void CvCaptureCAM_DC1394_v2_CPP::close()
         // check for fileno valid before using
         int fileno=dc1394_capture_get_fileno(dcCam);
 
-        if (fileno>=0 && FD_ISSET(fileno, &dc1394.camFds))
-            FD_CLR(fileno, &dc1394.camFds);
+        if (fileno>=0 && FD_ISSET(fileno, &getDC1394().camFds))
+            FD_CLR(fileno, &getDC1394().camFds);
         dc1394_video_set_transmission(dcCam, DC1394_OFF);
         dc1394_capture_stop(dcCam);
         dc1394_camera_free(dcCam);

@@ -1573,7 +1573,7 @@ namespace cv
 }
 #endif
 
-#if defined(HAVE_IPP)
+#if defined(HAVE_IPP) && OPENCV_IPP_REDUCE_SIZE == 0
 namespace cv
 {
 static bool ipp_boxfilter(Mat &src, Mat &dst, Size ksize, Point anchor, bool normalize, int borderType)
@@ -1663,7 +1663,9 @@ void cv::boxFilter( InputArray _src, OutputArray _dst, int ddepth,
     CV_OVX_RUN(true,
                openvx_boxfilter(src, dst, ddepth, ksize, anchor, normalize, borderType))
 
+#if OPENCV_IPP_REDUCE_SIZE == 0
     CV_IPP_RUN_FAST(ipp_boxfilter(src, dst, ksize, anchor, normalize, borderType));
+#endif
 
     borderType = (borderType&~BORDER_ISOLATED);
 

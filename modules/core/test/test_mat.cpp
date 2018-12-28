@@ -3,12 +3,6 @@
 // of this distribution and at http://opencv.org/license.html.
 #include "test_precomp.hpp"
 
-#ifdef HAVE_EIGEN
-#include <Eigen/Core>
-#include <Eigen/Dense>
-#include "opencv2/core/eigen.hpp"
-#endif
-
 namespace opencv_test { namespace {
 
 class Core_ReduceTest : public cvtest::BaseTest
@@ -952,7 +946,7 @@ void Core_ArrayOpTest::run( int /* start_from */)
 }
 
 
-template <class ElemType>
+template <class T>
 int calcDiffElemCountImpl(const vector<Mat>& mv, const Mat& m)
 {
     int diffElemCount = 0;
@@ -961,12 +955,12 @@ int calcDiffElemCountImpl(const vector<Mat>& mv, const Mat& m)
     {
         for(int x = 0; x < m.cols; x++)
         {
-            const ElemType* mElem = &m.at<ElemType>(y,x*mChannels);
+            const T* mElem = &m.at<T>(y, x*mChannels);
             size_t loc = 0;
             for(size_t i = 0; i < mv.size(); i++)
             {
                 const size_t mvChannel = mv[i].channels();
-                const ElemType* mvElem = &mv[i].at<ElemType>(y,x*(int)mvChannel);
+                const T* mvElem = &mv[i].at<T>(y, x*(int)mvChannel);
                 for(size_t li = 0; li < mvChannel; li++)
                     if(mElem[loc + li] != mvElem[li])
                         diffElemCount++;
@@ -1350,8 +1344,6 @@ TEST(Core_Matx, fromMat_)
     ASSERT_EQ( cvtest::norm(a, b, NORM_INF), 0.);
 }
 
-#ifdef CV_CXX11
-
 TEST(Core_Matx, from_initializer_list)
 {
     Mat_<double> a = (Mat_<double>(2,2) << 10, 11, 12, 13);
@@ -1365,8 +1357,6 @@ TEST(Core_Mat, regression_9507)
     cv::Mat m2{m};
     EXPECT_EQ(25u, m2.total());
 }
-
-#endif // CXX11
 
 TEST(Core_InputArray, empty)
 {
@@ -1644,7 +1634,6 @@ TEST(Mat, regression_10507_mat_setTo)
     }
 }
 
-#ifdef CV_CXX_STD_ARRAY
 TEST(Core_Mat_array, outputArray_create_getMat)
 {
     cv::Mat_<uchar> src_base(5, 1);
@@ -1733,7 +1722,6 @@ TEST(Core_Mat_array, SplitMerge)
         EXPECT_EQ(0, cvtest::norm(src[i], dst[i], NORM_INF));
     }
 }
-#endif
 
 TEST(Mat, regression_8680)
 {
@@ -1742,8 +1730,6 @@ TEST(Mat, regression_8680)
    mat.release();
    ASSERT_EQ(mat.channels(), 2);
 }
-
-#ifdef CV_CXX11
 
 TEST(Mat_, range_based_for)
 {
@@ -1805,8 +1791,6 @@ TEST(Mat_, template_based_ptr)
     int idx[4] = {1, 0, 0, 1};
     ASSERT_FLOAT_EQ(66.0f, *(mat.ptr<float>(idx)));
 }
-
-#endif
 
 
 BIGDATA_TEST(Mat, push_back_regression_4158)  // memory usage: ~10.6 Gb
@@ -1977,23 +1961,5 @@ TEST(Core_Vectors, issue_13078_workaround)
     ASSERT_EQ(5, ints[2]);
     ASSERT_EQ(7, ints[3]);
 }
-
-
-#ifdef HAVE_EIGEN
-TEST(Core_Eigen, eigen2cv_check_Mat_type)
-{
-    Mat A(4, 4, CV_32FC1, Scalar::all(0));
-    Eigen::MatrixXf eigen_A;
-    cv2eigen(A, eigen_A);
-
-    Mat_<float> f_mat;
-    EXPECT_NO_THROW(eigen2cv(eigen_A, f_mat));
-    EXPECT_EQ(CV_32FC1, f_mat.type());
-
-    Mat_<double> d_mat;
-    EXPECT_ANY_THROW(eigen2cv(eigen_A, d_mat));
-    //EXPECT_EQ(CV_64FC1, d_mat.type());
-}
-#endif // HAVE_EIGEN
 
 }} // namespace

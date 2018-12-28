@@ -683,25 +683,6 @@ OPENCV_HAL_IMPL_CMP_OP(==)
 For all types except 64-bit integer values. */
 OPENCV_HAL_IMPL_CMP_OP(!=)
 
-template<int n>
-inline v_reg<float, n> v_not_nan(const v_reg<float, n>& a)
-{
-    typedef typename V_TypeTraits<float>::int_type itype;
-    v_reg<float, n> c;
-    for (int i = 0; i < n; i++)
-        c.s[i] = V_TypeTraits<float>::reinterpret_from_int((itype)-(int)(a.s[i] == a.s[i]));
-    return c;
-}
-template<int n>
-inline v_reg<double, n> v_not_nan(const v_reg<double, n>& a)
-{
-    typedef typename V_TypeTraits<double>::int_type itype;
-    v_reg<double, n> c;
-    for (int i = 0; i < n; i++)
-        c.s[i] = V_TypeTraits<double>::reinterpret_from_int((itype)-(int)(a.s[i] == a.s[i]));
-    return c;
-}
-
 //! @brief Helper macro
 //! @ingroup core_hal_intrin_impl
 #define OPENCV_HAL_IMPL_ARITHM_OP(func, bin_op, cast_op, _Tp2) \
@@ -1061,21 +1042,6 @@ inline v_float32x4 v_reduce_sum4(const v_float32x4& a, const v_float32x4& b,
     r.s[2] = c.s[0] + c.s[1] + c.s[2] + c.s[3];
     r.s[3] = d.s[0] + d.s[1] + d.s[2] + d.s[3];
     return r;
-}
-
-/** @brief Sum absolute differences of values
-
-Scheme:
-@code
-{A1 A2 A3 ...} {B1 B2 B3 ...} => sum{ABS(A1-B1),abs(A2-B2),abs(A3-B3),...}
-@endcode
-For all types except 64-bit types.*/
-template<typename _Tp, int n> inline typename V_TypeTraits< typename V_TypeTraits<_Tp>::abs_type >::sum_type v_reduce_sad(const v_reg<_Tp, n>& a, const v_reg<_Tp, n>& b)
-{
-    typename V_TypeTraits< typename V_TypeTraits<_Tp>::abs_type >::sum_type c = _absdiff(a.s[0], b.s[0]);
-    for (int i = 1; i < n; i++)
-        c += _absdiff(a.s[i], b.s[i]);
-    return c;
 }
 
 /** @brief Get negative values mask

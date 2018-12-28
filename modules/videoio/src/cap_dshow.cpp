@@ -2160,6 +2160,12 @@ void videoInput::setPhyCon(int id, int conn){
         case 4:
             VDList[id]->connection = PhysConn_Video_1394;
             break;
+        case 5:
+            VDList[id]->connection = PhysConn_Video_YRYBY;
+            break;
+        case 6:
+            VDList[id]->connection = PhysConn_Video_SerialDigital;
+            break;
         default:
             return; //if it is not these types don't set crossbar
         break;
@@ -2570,6 +2576,9 @@ static bool setSizeAndSubtype(videoDevice * VD, int attemptWidth, int attemptHei
     //width and height
     HEADER(pVih)->biWidth  = attemptWidth;
     HEADER(pVih)->biHeight = attemptHeight;
+    pVih->rcSource.top = pVih->rcSource.left = pVih->rcTarget.top =pVih->rcTarget.left=0;
+    pVih->rcSource.right = pVih->rcTarget.right= attemptWidth;
+    pVih->rcSource.bottom = pVih->rcTarget.bottom = attemptHeight;
 
     VD->pAmMediaType->formattype = FORMAT_VideoInfo;
     VD->pAmMediaType->majortype  = MEDIATYPE_Video;
@@ -3405,6 +3414,14 @@ bool VideoCapture_DShow::setProperty(int propIdx, double propVal)
             handled = true;
         }
 
+        break;
+
+    case CAP_PROP_CHANNEL:
+
+        if (cvFloor(propVal) < 0)
+            break;
+        g_VI.stopDevice(m_index);
+        g_VI.setupDevice(m_index,  cvFloor(propVal));
         break;
 
     case CV_CAP_PROP_FPS:

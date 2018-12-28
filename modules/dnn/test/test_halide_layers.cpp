@@ -166,7 +166,7 @@ TEST_P(Deconvolution, Accuracy)
     if (backendId == DNN_BACKEND_INFERENCE_ENGINE && targetId == DNN_TARGET_CPU &&
         dilation.width == 2 && dilation.height == 2)
         throw SkipTestException("");
-#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE >= 2018040000
+#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE == 2018040000
     if (backendId == DNN_BACKEND_INFERENCE_ENGINE && targetId == DNN_TARGET_CPU &&
         hasBias && group != 1)
         throw SkipTestException("Test is disabled for OpenVINO 2018R4");
@@ -273,11 +273,9 @@ TEST_P(AvePooling, Accuracy)
     Size stride = get<3>(GetParam());
     Backend backendId = get<0>(get<4>(GetParam()));
     Target targetId = get<1>(get<4>(GetParam()));
-#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE < 2018040000
     if (backendId == DNN_BACKEND_INFERENCE_ENGINE && targetId == DNN_TARGET_MYRIAD &&
         stride == Size(3, 2) && kernel == Size(3, 3) && outSize != Size(1, 1))
-        throw SkipTestException("Test is enabled starts from OpenVINO 2018R4");
-#endif
+        throw SkipTestException("");
 
     const int inWidth = (outSize.width - 1) * stride.width + kernel.width;
     const int inHeight = (outSize.height - 1) * stride.height + kernel.height;

@@ -45,20 +45,13 @@
 #include <vector>
 #include <opencv2/core.hpp>
 
-#if !defined CV_DOXYGEN && !defined CV_DNN_DONT_ADD_EXPERIMENTAL_NS
-#define CV__DNN_EXPERIMENTAL_NS_BEGIN namespace experimental_dnn_34_v11 {
-#define CV__DNN_EXPERIMENTAL_NS_END }
-namespace cv { namespace dnn { namespace experimental_dnn_34_v11 { } using namespace experimental_dnn_34_v11; }}
-#else
-#define CV__DNN_EXPERIMENTAL_NS_BEGIN
-#define CV__DNN_EXPERIMENTAL_NS_END
-#endif
+#include "../dnn/version.hpp"
 
 #include <opencv2/dnn/dict.hpp>
 
 namespace cv {
 namespace dnn {
-CV__DNN_EXPERIMENTAL_NS_BEGIN
+CV__DNN_INLINE_NS_BEGIN
 //! @addtogroup dnn
 //! @{
 
@@ -76,7 +69,8 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
         DNN_BACKEND_DEFAULT,
         DNN_BACKEND_HALIDE,
         DNN_BACKEND_INFERENCE_ENGINE,
-        DNN_BACKEND_OPENCV
+        DNN_BACKEND_OPENCV,
+        DNN_BACKEND_VKCOM
     };
 
     /**
@@ -89,12 +83,8 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
         DNN_TARGET_OPENCL,
         DNN_TARGET_OPENCL_FP16,
         DNN_TARGET_MYRIAD,
-        //! FPGA device with CPU fallbacks using Inference Engine's Heterogeneous plugin.
-        DNN_TARGET_FPGA
+        DNN_TARGET_VULKAN
     };
-
-    CV_EXPORTS std::vector< std::pair<Backend, Target> > getAvailableBackends();
-    CV_EXPORTS std::vector<Target> getAvailableTargets(Backend be);
 
     /** @brief This class provides all data needed to initialize layer.
      *
@@ -278,6 +268,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
 
         virtual Ptr<BackendNode> initInfEngine(const std::vector<Ptr<BackendWrapper> > &inputs);
 
+        virtual Ptr<BackendNode> initVkCom(const std::vector<Ptr<BackendWrapper> > &inputs);
        /**
         * @brief Automatic Halide scheduling based on layer hyper-parameters.
         * @param[in] node Backend node with Halide functions.
@@ -506,7 +497,6 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
          * | DNN_TARGET_OPENCL      |                  + |                            + |                  + |
          * | DNN_TARGET_OPENCL_FP16 |                  + |                            + |                    |
          * | DNN_TARGET_MYRIAD      |                    |                            + |                    |
-         * | DNN_TARGET_FPGA        |                    |                            + |                    |
          */
         CV_WRAP void setPreferableTarget(int targetId);
 
@@ -754,7 +744,6 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
      *  @brief Reads a network model stored in <a href="http://torch.ch">Torch7</a> framework's format.
      *  @param model    path to the file, dumped from Torch by using torch.save() function.
      *  @param isBinary specifies whether the network was serialized in ascii mode or binary.
-     *  @param evaluate specifies testing phase of network. If true, it's similar to evaluate() method in Torch.
      *  @returns Net object.
      *
      *  @note Ascii mode of Torch serializer is more preferable, because binary mode extensively use `long` type of C language,
@@ -776,7 +765,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
      *
      * Also some equivalents of these classes from cunn, cudnn, and fbcunn may be successfully imported.
      */
-     CV_EXPORTS_W Net readNetFromTorch(const String &model, bool isBinary = true, bool evaluate = true);
+     CV_EXPORTS_W Net readNetFromTorch(const String &model, bool isBinary = true);
 
      /**
       * @brief Read deep learning network represented in one of the supported formats.
@@ -967,7 +956,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
     CV_EXPORTS_W void resetMyriadDevice();
 
 //! @}
-CV__DNN_EXPERIMENTAL_NS_END
+CV__DNN_INLINE_NS_END
 }
 }
 

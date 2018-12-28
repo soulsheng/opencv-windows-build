@@ -905,11 +905,6 @@ OPENCV_HAL_IMPL_AVX_CMP_OP_64BIT(v_int64x4)
 OPENCV_HAL_IMPL_AVX_CMP_OP_FLT(v_float32x8, ps)
 OPENCV_HAL_IMPL_AVX_CMP_OP_FLT(v_float64x4, pd)
 
-inline v_float32x8 v_not_nan(const v_float32x8& a)
-{ return v_float32x8(_mm256_cmp_ps(a.val, a.val, _CMP_ORD_Q)); }
-inline v_float64x4 v_not_nan(const v_float64x4& a)
-{ return v_float64x4(_mm256_cmp_pd(a.val, a.val, _CMP_ORD_Q)); }
-
 /** min/max **/
 OPENCV_HAL_IMPL_AVX_BIN_FUNC(v_min, v_uint8x32,  _mm256_min_epu8)
 OPENCV_HAL_IMPL_AVX_BIN_FUNC(v_max, v_uint8x32,  _mm256_max_epu8)
@@ -1125,53 +1120,12 @@ inline float v_reduce_sum(const v_float32x8& a)
     return _mm_cvtss_f32(s1);
 }
 
-inline double v_reduce_sum(const v_float64x4& a)
-{
-    __m256d s0 = _mm256_hadd_pd(a.val, a.val);
-    return _mm_cvtsd_f64(_mm_add_pd(_v256_extract_low(s0), _v256_extract_high(s0)));
-}
-
 inline v_float32x8 v_reduce_sum4(const v_float32x8& a, const v_float32x8& b,
                                  const v_float32x8& c, const v_float32x8& d)
 {
     __m256 ab = _mm256_hadd_ps(a.val, b.val);
     __m256 cd = _mm256_hadd_ps(c.val, d.val);
     return v_float32x8(_mm256_hadd_ps(ab, cd));
-}
-
-inline unsigned v_reduce_sad(const v_uint8x32& a, const v_uint8x32& b)
-{
-    return (unsigned)_v_cvtsi256_si32(_mm256_sad_epu8(a.val, b.val));
-}
-inline unsigned v_reduce_sad(const v_int8x32& a, const v_int8x32& b)
-{
-    __m256i half = _mm256_set1_epi8(0x7f);
-    return (unsigned)_v_cvtsi256_si32(_mm256_sad_epu8(_mm256_add_epi8(a.val, half), _mm256_add_epi8(b.val, half)));
-}
-inline unsigned v_reduce_sad(const v_uint16x16& a, const v_uint16x16& b)
-{
-    v_uint32x8 l, h;
-    v_expand(v_add_wrap(a - b, b - a), l, h);
-    return v_reduce_sum(l + h);
-}
-inline unsigned v_reduce_sad(const v_int16x16& a, const v_int16x16& b)
-{
-    v_uint32x8 l, h;
-    v_expand(v_reinterpret_as_u16(v_sub_wrap(v_max(a, b), v_min(a, b))), l, h);
-    return v_reduce_sum(l + h);
-}
-inline unsigned v_reduce_sad(const v_uint32x8& a, const v_uint32x8& b)
-{
-    return v_reduce_sum(v_max(a, b) - v_min(a, b));
-}
-inline unsigned v_reduce_sad(const v_int32x8& a, const v_int32x8& b)
-{
-    v_int32x8 m = a < b;
-    return v_reduce_sum(v_reinterpret_as_u32(((a - b) ^ m) - m));
-}
-inline float v_reduce_sad(const v_float32x8& a, const v_float32x8& b)
-{
-    return v_reduce_sum((a - b) & v_float32x8(_mm256_castsi256_ps(_mm256_set1_epi32(0x7fffffff))));
 }
 
 /** Popcount **/
@@ -1277,16 +1231,6 @@ OPENCV_HAL_IMPL_AVX_CHECK_FLT(v_float64x4, 15)
 
 OPENCV_HAL_IMPL_AVX_MULADD(v_float32x8, ps)
 OPENCV_HAL_IMPL_AVX_MULADD(v_float64x4, pd)
-
-inline v_int32x8 v_fma(const v_int32x8& a, const v_int32x8& b, const v_int32x8& c)
-{
-    return a * b + c;
-}
-
-inline v_int32x8 v_muladd(const v_int32x8& a, const v_int32x8& b, const v_int32x8& c)
-{
-    return v_fma(a, b, c);
-}
 
 inline v_float32x8 v_invsqrt(const v_float32x8& x)
 {

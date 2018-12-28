@@ -75,10 +75,14 @@
 
 enum
 {
+    gray_shift = 15,
     yuv_shift  = 14,
     R2Y        = 4899,
     G2Y        = 9617,
-    B2Y        = 1868
+    B2Y        = 1868,
+    RY15 = 9798,  // == R2YF*32768 + 0.5
+    GY15 = 19235, // == G2YF*32768 + 0.5
+    BY15 = 3735   // == B2YF*32768 + 0.5
 };
 
 //constants for conversion from/to RGB and Gray, YUV, YCrCb according to BT.601
@@ -129,6 +133,8 @@ __kernel void RGB2Gray(__global const uchar * srcptr, int src_step, int src_offs
                 DATA_TYPE_3 src_pix = vload3(0, src);
 #ifdef DEPTH_5
                 dst[0] = fma(src_pix.B_COMP, B2YF, fma(src_pix.G_COMP, G2YF, src_pix.R_COMP * R2YF));
+#elif defined(DEPTH_0)
+                dst[0] = (DATA_TYPE)CV_DESCALE(mad24(src_pix.B_COMP, BY15, mad24(src_pix.G_COMP, GY15, mul24(src_pix.R_COMP, RY15))), gray_shift);
 #else
                 dst[0] = (DATA_TYPE)CV_DESCALE(mad24(src_pix.B_COMP, B2Y, mad24(src_pix.G_COMP, G2Y, mul24(src_pix.R_COMP, R2Y))), yuv_shift);
 #endif
@@ -439,10 +445,9 @@ __kernel void mRGBA2RGBA(__global const uchar* src, int src_step, int src_offset
                     *(__global uchar4 *)(dst + dst_index) = (uchar4)(0, 0, 0, 0);
                 else
                     *(__global uchar4 *)(dst + dst_index) =
-                        (uchar4)(SAT_CAST(mad24(src_pix.x, MAX_NUM, v3_half) / v3),
-                                 SAT_CAST(mad24(src_pix.y, MAX_NUM, v3_half) / v3),
-                                 SAT_CAST(mad24(src_pix.z, MAX_NUM, v3_half) / v3),
-                                 SAT_CAST(v3));
+                        (uchar4)(mad24(src_pix.x, MAX_NUM, v3_half) / v3,
+                                 mad24(src_pix.y, MAX_NUM, v3_half) / v3,
+                                 mad24(src_pix.z, MAX_NUM, v3_half) / v3, v3);
 
                 ++y;
                 dst_index += dst_step;

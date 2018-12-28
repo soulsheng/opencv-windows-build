@@ -26,11 +26,10 @@
 #define INF_ENGINE_RELEASE_2018R2 2018020000
 #define INF_ENGINE_RELEASE_2018R3 2018030000
 #define INF_ENGINE_RELEASE_2018R4 2018040000
-#define INF_ENGINE_RELEASE_2018R5 2018050000
 
 #ifndef INF_ENGINE_RELEASE
-#warning("IE version have not been provided via command-line. Using 2018R5 by default")
-#define INF_ENGINE_RELEASE INF_ENGINE_RELEASE_2018R5
+#warning("IE version have not been provided via command-line. Using 2018R4 by default")
+#define INF_ENGINE_RELEASE INF_ENGINE_RELEASE_2018R4
 #endif
 
 #define INF_ENGINE_VER_MAJOR_GT(ver) (((INF_ENGINE_RELEASE) / 10000) > ((ver) / 10000))
@@ -49,69 +48,67 @@ public:
 
     InfEngineBackendNet(InferenceEngine::CNNNetwork& net);
 
-    virtual void Release() noexcept CV_OVERRIDE;
+    virtual void Release() CV_NOEXCEPT CV_OVERRIDE;
 
-    void setPrecision(InferenceEngine::Precision p) noexcept;
+    void setPrecision(InferenceEngine::Precision p) CV_NOEXCEPT;
 
-    virtual InferenceEngine::Precision getPrecision() noexcept;
+    virtual InferenceEngine::Precision getPrecision() CV_NOEXCEPT;
 
-    virtual InferenceEngine::Precision getPrecision() const noexcept;
+    virtual InferenceEngine::Precision getPrecision() const CV_NOEXCEPT;
 
-    virtual void getOutputsInfo(InferenceEngine::OutputsDataMap &out) noexcept /*CV_OVERRIDE*/;
+    virtual void getOutputsInfo(InferenceEngine::OutputsDataMap &out) CV_NOEXCEPT /*CV_OVERRIDE*/;
 
-    virtual void getOutputsInfo(InferenceEngine::OutputsDataMap &out) const noexcept /*CV_OVERRIDE*/;
+    virtual void getOutputsInfo(InferenceEngine::OutputsDataMap &out) const CV_NOEXCEPT /*CV_OVERRIDE*/;
 
-    virtual void getInputsInfo(InferenceEngine::InputsDataMap &inputs) noexcept /*CV_OVERRIDE*/;
+    virtual void getInputsInfo(InferenceEngine::InputsDataMap &inputs) CV_NOEXCEPT /*CV_OVERRIDE*/;
 
-    virtual void getInputsInfo(InferenceEngine::InputsDataMap &inputs) const noexcept /*CV_OVERRIDE*/;
+    virtual void getInputsInfo(InferenceEngine::InputsDataMap &inputs) const CV_NOEXCEPT /*CV_OVERRIDE*/;
 
-    virtual InferenceEngine::InputInfo::Ptr getInput(const std::string &inputName) noexcept;
+    virtual InferenceEngine::InputInfo::Ptr getInput(const std::string &inputName) CV_NOEXCEPT;
 
-    virtual InferenceEngine::InputInfo::Ptr getInput(const std::string &inputName) const noexcept;
+    virtual InferenceEngine::InputInfo::Ptr getInput(const std::string &inputName) const CV_NOEXCEPT;
 
-    virtual InferenceEngine::StatusCode serialize(const std::string &xmlPath, const std::string &binPath, InferenceEngine::ResponseDesc* resp) const noexcept;
+    virtual void getName(char *pName, size_t len) CV_NOEXCEPT;
 
-    virtual void getName(char *pName, size_t len) noexcept;
+    virtual void getName(char *pName, size_t len) const CV_NOEXCEPT;
 
-    virtual void getName(char *pName, size_t len) const noexcept;
+    virtual const std::string& getName() const CV_NOEXCEPT;
 
-    virtual const std::string& getName() const noexcept;
+    virtual size_t layerCount() CV_NOEXCEPT;
 
-    virtual size_t layerCount() noexcept;
+    virtual size_t layerCount() const CV_NOEXCEPT;
 
-    virtual size_t layerCount() const noexcept;
+    virtual InferenceEngine::DataPtr& getData(const char *dname) CV_NOEXCEPT CV_OVERRIDE;
 
-    virtual InferenceEngine::DataPtr& getData(const char *dname) noexcept CV_OVERRIDE;
-
-    virtual void addLayer(const InferenceEngine::CNNLayerPtr &layer) noexcept CV_OVERRIDE;
+    virtual void addLayer(const InferenceEngine::CNNLayerPtr &layer) CV_NOEXCEPT CV_OVERRIDE;
 
     virtual InferenceEngine::StatusCode addOutput(const std::string &layerName,
                                                   size_t outputIndex = 0,
-                                                  InferenceEngine::ResponseDesc *resp = nullptr) noexcept;
+                                                  InferenceEngine::ResponseDesc *resp = nullptr) CV_NOEXCEPT;
 
     virtual InferenceEngine::StatusCode getLayerByName(const char *layerName,
                                                        InferenceEngine::CNNLayerPtr &out,
-                                                       InferenceEngine::ResponseDesc *resp) noexcept;
+                                                       InferenceEngine::ResponseDesc *resp) CV_NOEXCEPT;
 
     virtual InferenceEngine::StatusCode getLayerByName(const char *layerName,
                                                        InferenceEngine::CNNLayerPtr &out,
-                                                       InferenceEngine::ResponseDesc *resp) const noexcept;
+                                                       InferenceEngine::ResponseDesc *resp) const CV_NOEXCEPT;
 
-    virtual void setTargetDevice(InferenceEngine::TargetDevice device) noexcept CV_OVERRIDE;
+    virtual void setTargetDevice(InferenceEngine::TargetDevice device) CV_NOEXCEPT CV_OVERRIDE;
 
-    virtual InferenceEngine::TargetDevice getTargetDevice() noexcept;
+    virtual InferenceEngine::TargetDevice getTargetDevice() CV_NOEXCEPT;
 
-    virtual InferenceEngine::TargetDevice getTargetDevice() const noexcept;
+    virtual InferenceEngine::TargetDevice getTargetDevice() const CV_NOEXCEPT;
 
-    virtual InferenceEngine::StatusCode setBatchSize(const size_t size) noexcept CV_OVERRIDE;
+    virtual InferenceEngine::StatusCode setBatchSize(const size_t size) CV_NOEXCEPT CV_OVERRIDE;
 
-    virtual InferenceEngine::StatusCode setBatchSize(size_t size, InferenceEngine::ResponseDesc* responseDesc) noexcept;
+    virtual InferenceEngine::StatusCode setBatchSize(size_t size, InferenceEngine::ResponseDesc* responseDesc) CV_NOEXCEPT;
 
-    virtual size_t getBatchSize() const noexcept CV_OVERRIDE;
+    virtual size_t getBatchSize() const CV_NOEXCEPT CV_OVERRIDE;
 
 #if INF_ENGINE_VER_MAJOR_GT(INF_ENGINE_RELEASE_2018R2)
-    virtual InferenceEngine::StatusCode AddExtension(const InferenceEngine::IShapeInferExtensionPtr& extension, InferenceEngine::ResponseDesc* resp) noexcept;
-    virtual InferenceEngine::StatusCode reshape(const InputShapes& inputShapes, InferenceEngine::ResponseDesc* resp) noexcept;
+    virtual InferenceEngine::StatusCode AddExtension(const InferenceEngine::IShapeInferExtensionPtr& extension, InferenceEngine::ResponseDesc* resp) CV_NOEXCEPT;
+    virtual InferenceEngine::StatusCode reshape(const InputShapes& inputShapes, InferenceEngine::ResponseDesc* resp) CV_NOEXCEPT;
 #endif
 
     void init(int targetId);
@@ -137,9 +134,6 @@ private:
     InferenceEngine::InferRequest infRequest;
     // In case of models from Model Optimizer we need to manage their lifetime.
     InferenceEngine::CNNNetwork netOwner;
-    // There is no way to check if netOwner is initialized or not so we use
-    // a separate flag to determine if the model has been loaded from IR.
-    bool hasNetOwner;
 
     std::string name;
 

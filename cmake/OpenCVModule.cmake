@@ -909,11 +909,7 @@ macro(_ocv_create_module)
       source_group("Src" FILES "${_VS_VERSION_FILE}")
     endif()
   endif()
-  if(WIN32 AND NOT (
-          "${the_module}" STREQUAL "opencv_core" OR
-          "${the_module}" STREQUAL "opencv_world" OR
-          "${the_module}" STREQUAL "opencv_cudev"
-      )
+  if(WIN32 AND NOT ("${the_module}" STREQUAL "opencv_core" OR "${the_module}" STREQUAL "opencv_world")
       AND (BUILD_SHARED_LIBS AND NOT "x${OPENCV_MODULE_TYPE}" STREQUAL "xSTATIC")
       AND NOT OPENCV_SKIP_DLLMAIN_GENERATION
   )
@@ -1149,6 +1145,11 @@ function(ocv_add_perf_tests)
       ocv_target_link_libraries(${the_target} LINK_PRIVATE ${perf_deps} ${OPENCV_MODULE_${the_module}_DEPS} ${OPENCV_LINKER_LIBS} ${OPENCV_PERF_${the_module}_DEPS})
       add_dependencies(opencv_perf_tests ${the_target})
 
+      if(HAVE_HPX)
+        message("Linking HPX to Perf test of module ${name}")
+        ocv_target_link_libraries(${the_target} LINK_PRIVATE "${HPX_LIBRARIES}")
+      endif()
+
       set_target_properties(${the_target} PROPERTIES LABELS "${OPENCV_MODULE_${the_module}_LABEL};PerfTest")
       set_source_files_properties(${OPENCV_PERF_${the_module}_SOURCES} ${${the_target}_pch}
         PROPERTIES LABELS "${OPENCV_MODULE_${the_module}_LABEL};PerfTest")
@@ -1233,6 +1234,11 @@ function(ocv_add_accuracy_tests)
       endif()
       ocv_target_link_libraries(${the_target} LINK_PRIVATE ${test_deps} ${OPENCV_MODULE_${the_module}_DEPS} ${OPENCV_LINKER_LIBS} ${OPENCV_TEST_${the_module}_DEPS})
       add_dependencies(opencv_tests ${the_target})
+
+      if(HAVE_HPX)
+        message("Linking HPX to Perf test of module ${name}")
+        ocv_target_link_libraries(${the_target} LINK_PRIVATE "${HPX_LIBRARIES}")
+      endif()
 
       set_target_properties(${the_target} PROPERTIES LABELS "${OPENCV_MODULE_${the_module}_LABEL};AccuracyTest")
       set_source_files_properties(${OPENCV_TEST_${the_module}_SOURCES} ${${the_target}_pch}

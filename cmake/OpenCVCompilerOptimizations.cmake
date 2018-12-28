@@ -5,10 +5,6 @@
 # AVX / AVX2 / AVX_512F
 # FMA3
 
-# ppc64le arch:
-# VSX  (always available on Power8)
-# VSX3 (always available on Power9)
-
 # CPU_{opt}_SUPPORTED=ON/OFF - compiler support (possibly with additional flag)
 # CPU_{opt}_IMPLIES=<list>
 # CPU_{opt}_FORCE=<list> - subset of "implies" list
@@ -30,12 +26,10 @@
 # CPU_DISPATCH_FINAL=<list> - final list of dispatched optimizations
 #
 # CPU_DISPATCH_FLAGS_${opt} - flags for source files compiled separately (<name>.avx2.cpp)
-#
-# CPU_{opt}_ENABLED_DEFAULT=ON/OFF - has compiler support without additional flag (CPU_BASELINE_DETECT=ON only)
 
 set(CPU_ALL_OPTIMIZATIONS "SSE;SSE2;SSE3;SSSE3;SSE4_1;SSE4_2;POPCNT;AVX;FP16;AVX2;FMA3;AVX_512F;AVX512_SKX")
 list(APPEND CPU_ALL_OPTIMIZATIONS NEON VFPV3 FP16)
-list(APPEND CPU_ALL_OPTIMIZATIONS VSX VSX3)
+list(APPEND CPU_ALL_OPTIMIZATIONS VSX)
 list(REMOVE_DUPLICATES CPU_ALL_OPTIMIZATIONS)
 
 ocv_update(CPU_VFPV3_FEATURE_ALIAS "")
@@ -87,7 +81,7 @@ ocv_optimization_process_obsolete_option(ENABLE_FMA3 FMA3 ON)
 ocv_optimization_process_obsolete_option(ENABLE_VFPV3 VFPV3 OFF)
 ocv_optimization_process_obsolete_option(ENABLE_NEON NEON OFF)
 
-ocv_optimization_process_obsolete_option(ENABLE_VSX VSX ON)
+ocv_optimization_process_obsolete_option(ENABLE_VSX VSX OFF)
 
 macro(ocv_is_optimization_in_list resultvar check_opt)
   set(__checked "")
@@ -295,24 +289,14 @@ elseif(ARM OR AARCH64)
     set(CPU_BASELINE "NEON;FP16" CACHE STRING "${HELP_CPU_BASELINE}")
   endif()
 elseif(PPC64LE)
-  ocv_update(CPU_KNOWN_OPTIMIZATIONS "VSX;VSX3")
+  ocv_update(CPU_KNOWN_OPTIMIZATIONS "VSX")
   ocv_update(CPU_VSX_TEST_FILE "${OpenCV_SOURCE_DIR}/cmake/checks/cpu_vsx.cpp")
-  ocv_update(CPU_VSX3_TEST_FILE "${OpenCV_SOURCE_DIR}/cmake/checks/cpu_vsx3.cpp")
-
-  if(NOT OPENCV_CPU_OPT_IMPLIES_IGNORE)
-    ocv_update(CPU_VSX3_IMPLIES "VSX")
-  endif()
 
   if(CV_CLANG AND (NOT ${CMAKE_CXX_COMPILER} MATCHES "xlc"))
     ocv_update(CPU_VSX_FLAGS_ON "-mvsx -maltivec")
-    ocv_update(CPU_VSX3_FLAGS_ON "-mpower9-vector")
   else()
     ocv_update(CPU_VSX_FLAGS_ON "-mcpu=power8")
-    ocv_update(CPU_VSX3_FLAGS_ON "-mcpu=power9 -mtune=power9")
   endif()
-
-  set(CPU_DISPATCH "VSX3" CACHE STRING "${HELP_CPU_DISPATCH}")
-  set(CPU_BASELINE "VSX" CACHE STRING "${HELP_CPU_BASELINE}")
 endif()
 
 # Helper values for cmake-gui
@@ -347,7 +331,6 @@ macro(ocv_check_compiler_optimization OPT)
           ocv_check_compiler_flag(CXX "${CPU_BASELINE_FLAGS}" "${_varname}" "${CPU_${OPT}_TEST_FILE}")
           if(${_varname})
             list(APPEND CPU_BASELINE_FINAL ${OPT})
-            set(CPU_${OPT}_ENABLED_DEFAULT ON)
             set(__available 1)
           endif()
         endif()
@@ -465,7 +448,7 @@ foreach(OPT ${CPU_KNOWN_OPTIMIZATIONS})
       if(NOT ";${CPU_BASELINE_FINAL};" MATCHES ";${OPT};")
         list(APPEND CPU_BASELINE_FINAL ${OPT})
       endif()
-      if(NOT CPU_${OPT}_ENABLED_DEFAULT)  # Don't change compiler flags in 'detection' mode
+      if(NOT CPU_BASELINE_DETECT)  # Don't change compiler flags in 'detection' mode
         ocv_append_optimization_flag(CPU_BASELINE_FLAGS ${OPT})
       endif()
     endif()

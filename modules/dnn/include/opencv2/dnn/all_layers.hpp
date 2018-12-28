@@ -45,7 +45,7 @@
 
 namespace cv {
 namespace dnn {
-CV__DNN_EXPERIMENTAL_NS_BEGIN
+CV__DNN_INLINE_NS_BEGIN
 //! @addtogroup dnn
 //! @{
 
@@ -72,15 +72,6 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
 */
 
     class CV_EXPORTS BlankLayer : public Layer
-    {
-    public:
-        static Ptr<Layer> create(const LayerParams &params);
-    };
-
-    /**
-     * Constant layer produces the same data blob at an every forward pass.
-     */
-    class CV_EXPORTS ConstLayer : public Layer
     {
     public:
         static Ptr<Layer> create(const LayerParams &params);
@@ -628,7 +619,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
 
 //! @}
 //! @}
-CV__DNN_EXPERIMENTAL_NS_END
+CV__DNN_INLINE_NS_END
 }
 }
 #endif

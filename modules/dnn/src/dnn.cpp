@@ -42,6 +42,7 @@
 #include "precomp.hpp"
 #include "op_halide.hpp"
 #include "op_inf_engine.hpp"
+#include "op_vkcom.hpp"
 #include "halide_scheduler.hpp"
 #include <set>
 #include <algorithm>
@@ -57,7 +58,7 @@
 
 namespace cv {
 namespace dnn {
-CV__DNN_EXPERIMENTAL_NS_BEGIN
+CV__DNN_INLINE_NS_BEGIN
 
 // this option is useful to run valgrind memory errors detection
 static bool DNN_DISABLE_MEMORY_OPTIMIZATIONS = utils::getConfigurationParameterBool("OPENCV_DNN_DISABLE_MEMORY_OPTIMIZATIONS", false);
@@ -83,107 +84,6 @@ using std::vector;
 using std::map;
 using std::make_pair;
 using std::set;
-
-//==================================================================================================
-
-class BackendRegistry
-{
-public:
-    typedef std::vector< std::pair<Backend, Target> > BackendsList;
-    const BackendsList & getBackends() const { return backends; }
-    static BackendRegistry & getRegistry()
-    {
-        static BackendRegistry impl;
-        return impl;
-    }
-private:
-    BackendRegistry()
-    {
-#ifdef HAVE_HALIDE
-        backends.push_back(std::make_pair(DNN_BACKEND_HALIDE, DNN_TARGET_CPU));
-#  ifdef HAVE_OPENCL
-        if (cv::ocl::useOpenCL())
-            backends.push_back(std::make_pair(DNN_BACKEND_HALIDE, DNN_TARGET_OPENCL));
-#  endif
-#endif // HAVE_HALIDE
-
-#ifdef HAVE_INF_ENGINE
-        if (checkIETarget(DNN_TARGET_CPU))
-            backends.push_back(std::make_pair(DNN_BACKEND_INFERENCE_ENGINE, DNN_TARGET_CPU));
-        if (checkIETarget(DNN_TARGET_MYRIAD))
-            backends.push_back(std::make_pair(DNN_BACKEND_INFERENCE_ENGINE, DNN_TARGET_MYRIAD));
-        if (checkIETarget(DNN_TARGET_FPGA))
-            backends.push_back(std::make_pair(DNN_BACKEND_INFERENCE_ENGINE, DNN_TARGET_FPGA));
-#  ifdef HAVE_OPENCL
-        if (cv::ocl::useOpenCL() && ocl::Device::getDefault().isIntel())
-        {
-            if (checkIETarget(DNN_TARGET_OPENCL))
-                backends.push_back(std::make_pair(DNN_BACKEND_INFERENCE_ENGINE, DNN_TARGET_OPENCL));
-            if (checkIETarget(DNN_TARGET_OPENCL_FP16))
-                backends.push_back(std::make_pair(DNN_BACKEND_INFERENCE_ENGINE, DNN_TARGET_OPENCL_FP16));
-        }
-#  endif
-#endif // HAVE_INF_ENGINE
-
-#ifdef HAVE_OPENCL
-        if (cv::ocl::useOpenCL())
-        {
-            backends.push_back(std::make_pair(DNN_BACKEND_OPENCV, DNN_TARGET_OPENCL));
-            backends.push_back(std::make_pair(DNN_BACKEND_OPENCV, DNN_TARGET_OPENCL_FP16));
-        }
-#endif
-
-        backends.push_back(std::make_pair(DNN_BACKEND_OPENCV, DNN_TARGET_CPU));
-    }
-    static inline bool checkIETarget(int target)
-    {
-#ifndef HAVE_INF_ENGINE
-        return false;
-#else
-        cv::dnn::Net net;
-        cv::dnn::LayerParams lp;
-        net.addLayerToPrev("testLayer", "Identity", lp);
-        net.setPreferableBackend(cv::dnn::DNN_BACKEND_INFERENCE_ENGINE);
-        net.setPreferableTarget(target);
-        static int inpDims[] = {1, 2, 3, 4};
-        net.setInput(cv::Mat(4, &inpDims[0], CV_32FC1, cv::Scalar(0)));
-        try
-        {
-            net.forward();
-        }
-        catch(...)
-        {
-            return false;
-        }
-        return true;
-#endif
-    }
-
-    BackendsList backends;
-};
-
-
-std::vector< std::pair<Backend, Target> > getAvailableBackends()
-{
-    return BackendRegistry::getRegistry().getBackends();
-}
-
-std::vector<Target> getAvailableTargets(Backend be)
-{
-    if (be == DNN_BACKEND_DEFAULT)
-        be = (Backend)PARAM_DNN_BACKEND_DEFAULT;
-
-    std::vector<Target> result;
-    const BackendRegistry::BackendsList all_backends = getAvailableBackends();
-    for(BackendRegistry::BackendsList::const_iterator i = all_backends.begin(); i != all_backends.end(); ++i )
-    {
-        if (i->first == be)
-            result.push_back(i->second);
-    }
-    return result;
-}
-
-//==================================================================================================
 
 namespace
 {
@@ -994,6 +894,13 @@ static Ptr<BackendWrapper> wrapMat(int backendId, int targetId, cv::Mat& m)
         return Ptr<BackendWrapper>(new InfEngineBackendWrapper(targetId, m));
 #endif  // HAVE_INF_ENGINE
     }
+    else if (backendId == DNN_BACKEND_VKCOM)
+    {
+        CV_Assert(haveVulkan());
+#ifdef HAVE_VULKAN
+        return Ptr<BackendWrapper>(new VkComBackendWrapper(m));
+#endif  // HAVE_VULKAN
+    }
     else
         CV_Error(Error::StsNotImplemented, "Unknown backend identifier");
     return Ptr<BackendWrapper>();
@@ -1004,8 +911,21 @@ struct Net::Impl
     typedef std::map<int, LayerShapes> LayersShapesMap;
     typedef std::map<int, LayerData> MapIdToLayerData;
 
+    ~Impl()
+    {
+#ifdef HAVE_VULKAN
+        // Vulkan requires explicit releasing the child objects of
+        // VkDevice object prior to releasing VkDevice object itself.
+        layers.clear();
+        backendWrappers.clear();
+        vkcom::deinitPerThread();
+#endif
+    }
     Impl()
     {
+#ifdef HAVE_VULKAN
+        vkcom::initPerThread();
+#endif
         //allocate fake net input layer
         netInputLayer = Ptr<DataLayer>(new DataLayer());
         LayerData &inpl = layers.insert( make_pair(0, LayerData()) ).first->second;
@@ -1070,6 +990,12 @@ struct Net::Impl
             else if (preferableBackend == DNN_BACKEND_INFERENCE_ENGINE)
             {
                 return wrapMat(preferableBackend, preferableTarget, host);
+            }
+            else if (preferableBackend == DNN_BACKEND_VKCOM)
+            {
+  #ifdef HAVE_VULKAN
+                return Ptr<BackendWrapper>(new VkComBackendWrapper(baseBuffer, host));
+  #endif
             }
             else
                 CV_Error(Error::StsNotImplemented, "Unknown backend identifier");
@@ -1178,8 +1104,9 @@ struct Net::Impl
                   preferableTarget == DNN_TARGET_CPU ||
                   preferableTarget == DNN_TARGET_OPENCL ||
                   preferableTarget == DNN_TARGET_OPENCL_FP16 ||
-                  preferableTarget == DNN_TARGET_MYRIAD ||
-                  preferableTarget == DNN_TARGET_FPGA);
+                  preferableTarget == DNN_TARGET_MYRIAD);
+        CV_Assert(preferableBackend != DNN_BACKEND_VKCOM ||
+                  preferableTarget == DNN_TARGET_VULKAN);
         if (!netWasAllocated || this->blobsToKeep != blobsToKeep_)
         {
             if (preferableBackend == DNN_BACKEND_OPENCV && IS_DNN_OPENCL_TARGET(preferableTarget))
@@ -1209,6 +1136,12 @@ struct Net::Impl
                 }
             }
 #endif
+            if (preferableBackend == DNN_BACKEND_VKCOM && !haveVulkan())
+            {
+                preferableBackend = DNN_BACKEND_OPENCV;
+                preferableTarget = DNN_TARGET_CPU;
+            }
+
             clear();
 
             allocateLayers(blobsToKeep_);
@@ -1361,6 +1294,8 @@ struct Net::Impl
             initHalideBackend();
         else if (preferableBackend == DNN_BACKEND_INFERENCE_ENGINE)
             initInfEngineBackend();
+        else if (preferableBackend == DNN_BACKEND_VKCOM)
+            initVkComBackend();
         else
             CV_Error(Error::StsNotImplemented, "Unknown backend identifier");
     }
@@ -1457,6 +1392,66 @@ struct Net::Impl
         }
     }
 #endif  // HAVE_INF_ENGINE
+
+    void initVkComBackend()
+    {
+        CV_TRACE_FUNCTION();
+        CV_Assert(preferableBackend == DNN_BACKEND_VKCOM);
+#ifdef HAVE_VULKAN
+        if (!haveVulkan())
+            return;
+
+        MapIdToLayerData::iterator it = layers.begin();
+        for (; it != layers.end(); it++)
+        {
+            LayerData &ld = it->second;
+            Ptr<Layer> layer = ld.layerInstance;
+            if (!layer->supportBackend(preferableBackend))
+            {
+                continue;
+            }
+
+            if (ld.type == "Convolution")
+            {
+                std::vector<MatShape> in_shapes;
+                std::vector<MatShape> out_shapes;
+                CV_Assert(ld.inputBlobs.size() == ld.outputBlobs.size());
+
+                for (int i = 0; i < ld.inputBlobs.size(); i++)
+                {
+                    in_shapes.push_back(shape(*ld.inputBlobs[i]));
+                    out_shapes.push_back(shape(ld.outputBlobs[i]));
+                }
+                int64 flops = layer->getFLOPS(in_shapes, out_shapes);
+                // FIXME
+                //
+                // This is a workaround for GPU hang on heavy convolution workload ( > 10 GFLOPS).
+                // For the long time task, vkWaitForFences() return without error but next call on
+                // vkQueueSubmit() return -4, i.e. "VK_ERROR_DEVICE_LOST" and driver reports GPU hang.
+                //
+                // Need more investigation on root cause of GPU hang and need to optimize convolution shader
+                // to reduce process time.
+                if (flops > CV_BIG_INT(10) * 1000 * 1000 * 1000)
+                {
+                    continue;
+                }
+            }
+
+            ld.skip = false;
+
+            try
+            {
+                ld.backendNodes[DNN_BACKEND_VKCOM] =
+                    layer->initVkCom(ld.inputBlobsWrappers);
+            }
+            catch (const cv::Exception& e)
+            {
+                CV_LOG_ERROR(NULL, "initVkCom failed, fallback to CPU implementation. " << e.what());
+                ld.backendNodes[DNN_BACKEND_VKCOM] = Ptr<BackendNode>();
+            }
+        }
+#endif
+    }
 
     void initInfEngineBackend()
     {
@@ -1614,9 +1609,7 @@ struct Net::Impl
             ieNode->net = net;
 
             auto weightableLayer = std::dynamic_pointer_cast<InferenceEngine::WeightableLayer>(ieNode->layer);
-            if ((preferableTarget == DNN_TARGET_OPENCL_FP16 ||
-                 preferableTarget == DNN_TARGET_MYRIAD ||
-                 preferableTarget == DNN_TARGET_FPGA) && !fused)
+            if ((preferableTarget == DNN_TARGET_OPENCL_FP16 || preferableTarget == DNN_TARGET_MYRIAD) && !fused)
             {
                 ieNode->layer->precision = InferenceEngine::Precision::FP16;
                 if (weightableLayer)
@@ -2377,6 +2370,19 @@ struct Net::Impl
                 {
                     forwardInfEngine(node);
                 }
+                else if (preferableBackend == DNN_BACKEND_VKCOM)
+                {
+                    try
+                    {
+                        forwardVkCom(ld.outputBlobsWrappers, node);
+                    }
+                    catch (const cv::Exception& e)
+                    {
+                        CV_LOG_ERROR(NULL, "forwardVkCom failed, fallback to CPU implementation. " << e.what());
+                        it->second = Ptr<BackendNode>();
+                        forwardLayer(ld);
+                    }
+                }
                 else
                 {
                     CV_Error(Error::StsNotImplemented, "Unknown backend identifier");
@@ -2496,7 +2502,7 @@ struct Net::Impl
         LayerData &ld = layers[pin.lid];
         if ((size_t)pin.oid >= ld.outputBlobs.size())
         {
-            CV_Error(Error::StsOutOfRange, format("Layer \"%s\" produce only %d outputs, "
+            CV_Error(Error::StsOutOfRange, format("Layer \"%s\" produce only %zu outputs, "
                                            "the #%d was requested", ld.name.c_str(),
                                            ld.outputBlobs.size(), pin.oid));
         }
@@ -3233,6 +3239,13 @@ bool Layer::supportBackend(int backendId)
     return backendId == DNN_BACKEND_OPENCV;
 }
 
+Ptr<BackendNode> Layer::initVkCom(const std::vector<Ptr<BackendWrapper> > &)
+{
+    CV_Error(Error::StsNotImplemented, "VkCom pipeline of " + type +
+                                       " layers is not defined.");
+    return Ptr<BackendNode>();
+}
+
 Ptr<BackendNode> Layer::initHalide(const std::vector<Ptr<BackendWrapper> > &)
 {
     CV_Error(Error::StsNotImplemented, "Halide pipeline of " + type +
@@ -3512,7 +3525,7 @@ void LayerFactory::registerLayer(const String &type, Constructor constructor)
     CV_TRACE_ARG_VALUE(type, "type", type.c_str());
 
     cv::AutoLock lock(getLayerFactoryMutex());
-    String type_ = type.toLowerCase();
+    String type_ = toLowerCase(type);
     LayerFactory_Impl::iterator it = getLayerFactoryImpl().find(type_);
 
     if (it != getLayerFactoryImpl().end())
@@ -3530,7 +3543,7 @@ void LayerFactory::unregisterLayer(const String &type)
     CV_TRACE_ARG_VALUE(type, "type", type.c_str());
 
     cv::AutoLock lock(getLayerFactoryMutex());
-    String type_ = type.toLowerCase();
+    String type_ = toLowerCase(type);
 
     LayerFactory_Impl::iterator it = getLayerFactoryImpl().find(type_);
     if (it != getLayerFactoryImpl().end())
@@ -3548,7 +3561,7 @@ Ptr<Layer> LayerFactory::createLayerInstance(const String &type, LayerParams& pa
     CV_TRACE_ARG_VALUE(type, "type", type.c_str());
 
     cv::AutoLock lock(getLayerFactoryMutex());
-    String type_ = type.toLowerCase();
+    String type_ = toLowerCase(type);
     LayerFactory_Impl::const_iterator it = getLayerFactoryImpl().find(type_);
 
     if (it != getLayerFactoryImpl().end())
@@ -3585,7 +3598,7 @@ BackendWrapper::~BackendWrapper() {}
 
 Net readNet(const String& _model, const String& _config, const String& _framework)
 {
-    String framework = _framework.toLowerCase();
+    String framework = toLowerCase(_framework);
     String model = _model;
     String config = _config;
     const std::string modelExt = model.substr(model.rfind('.') + 1);
@@ -3634,7 +3647,7 @@ Net readNet(const String& _model, const String& _config, const String& _framewor
 Net readNet(const String& _framework, const std::vector<uchar>& bufferModel,
             const std::vector<uchar>& bufferConfig)
 {
-    String framework = _framework.toLowerCase();
+    String framework = toLowerCase(_framework);
     if (framework == "caffe")
         return readNetFromCaffe(bufferConfig, bufferModel);
     else if (framework == "tensorflow")
@@ -3653,5 +3666,5 @@ Net readNetFromModelOptimizer(const String &xml, const String &bin)
     return Net::readFromModelOptimizer(xml, bin);
 }
 
-CV__DNN_EXPERIMENTAL_NS_END
+CV__DNN_INLINE_NS_END
 }} // namespace

@@ -1041,11 +1041,6 @@ inline _Tpvec operator != (const _Tpvec& a, const _Tpvec& b) \
 OPENCV_HAL_IMPL_SSE_64BIT_CMP_OP(v_uint64x2, v_reinterpret_as_u64)
 OPENCV_HAL_IMPL_SSE_64BIT_CMP_OP(v_int64x2, v_reinterpret_as_s64)
 
-inline v_float32x4 v_not_nan(const v_float32x4& a)
-{ return v_float32x4(_mm_cmpord_ps(a.val, a.val)); }
-inline v_float64x2 v_not_nan(const v_float64x2& a)
-{ return v_float64x2(_mm_cmpord_pd(a.val, a.val)); }
-
 OPENCV_HAL_IMPL_SSE_BIN_FUNC(v_uint8x16, v_add_wrap, _mm_add_epi8)
 OPENCV_HAL_IMPL_SSE_BIN_FUNC(v_int8x16, v_add_wrap, _mm_add_epi8)
 OPENCV_HAL_IMPL_SSE_BIN_FUNC(v_uint16x8, v_add_wrap, _mm_add_epi16)
@@ -1456,13 +1451,6 @@ OPENCV_HAL_IMPL_SSE_REDUCE_OP_4_SUM(v_uint32x4, unsigned, __m128i, epi32, OPENCV
 OPENCV_HAL_IMPL_SSE_REDUCE_OP_4_SUM(v_int32x4, int, __m128i, epi32, OPENCV_HAL_NOP, OPENCV_HAL_NOP, si128_si32)
 OPENCV_HAL_IMPL_SSE_REDUCE_OP_4_SUM(v_float32x4, float, __m128, ps, _mm_castps_si128, _mm_castsi128_ps, ss_f32)
 
-inline double v_reduce_sum(const v_float64x2& a)
-{
-    double CV_DECL_ALIGNED(32) idx[2];
-    v_store_aligned(idx, a);
-    return idx[0] + idx[1];
-}
-
 inline v_float32x4 v_reduce_sum4(const v_float32x4& a, const v_float32x4& b,
                                  const v_float32x4& c, const v_float32x4& d)
 {
@@ -1483,41 +1471,6 @@ OPENCV_HAL_IMPL_SSE_REDUCE_OP_4(v_int32x4, int, max, std::max)
 OPENCV_HAL_IMPL_SSE_REDUCE_OP_4(v_int32x4, int, min, std::min)
 OPENCV_HAL_IMPL_SSE_REDUCE_OP_4(v_float32x4, float, max, std::max)
 OPENCV_HAL_IMPL_SSE_REDUCE_OP_4(v_float32x4, float, min, std::min)
-
-inline unsigned v_reduce_sad(const v_uint8x16& a, const v_uint8x16& b)
-{
-    return (unsigned)_mm_cvtsi128_si32(_mm_sad_epu8(a.val, b.val));
-}
-inline unsigned v_reduce_sad(const v_int8x16& a, const v_int8x16& b)
-{
-    __m128i half = _mm_set1_epi8(0x7f);
-    return (unsigned)_mm_cvtsi128_si32(_mm_sad_epu8(_mm_add_epi8(a.val, half),
-                                                    _mm_add_epi8(b.val, half)));
-}
-inline unsigned v_reduce_sad(const v_uint16x8& a, const v_uint16x8& b)
-{
-    v_uint32x4 l, h;
-    v_expand(v_absdiff(a, b), l, h);
-    return v_reduce_sum(l + h);
-}
-inline unsigned v_reduce_sad(const v_int16x8& a, const v_int16x8& b)
-{
-    v_uint32x4 l, h;
-    v_expand(v_absdiff(a, b), l, h);
-    return v_reduce_sum(l + h);
-}
-inline unsigned v_reduce_sad(const v_uint32x4& a, const v_uint32x4& b)
-{
-    return v_reduce_sum(v_absdiff(a, b));
-}
-inline unsigned v_reduce_sad(const v_int32x4& a, const v_int32x4& b)
-{
-    return v_reduce_sum(v_absdiff(a, b));
-}
-inline float v_reduce_sad(const v_float32x4& a, const v_float32x4& b)
-{
-    return v_reduce_sum(v_absdiff(a, b));
-}
 
 #define OPENCV_HAL_IMPL_SSE_POPCOUNT(_Tpvec) \
 inline v_uint32x4 v_popcount(const _Tpvec& a) \
@@ -1972,11 +1925,13 @@ inline void v_load_deinterleave(const unsigned* ptr, v_uint32x4& a, v_uint32x4& 
 
 inline void v_load_deinterleave(const float* ptr, v_float32x4& a, v_float32x4& b)
 {
+    const int mask_lo = _MM_SHUFFLE(2, 0, 2, 0), mask_hi = _MM_SHUFFLE(3, 1, 3, 1);
+
     __m128 u0 = _mm_loadu_ps(ptr);       // a0 b0 a1 b1
     __m128 u1 = _mm_loadu_ps((ptr + 4)); // a2 b2 a3 b3
 
-    a.val = _mm_shuffle_ps(u0, u1, _MM_SHUFFLE(2, 0, 2, 0)); // a0 a1 a2 a3
-    b.val = _mm_shuffle_ps(u0, u1, _MM_SHUFFLE(3, 1, 3, 1)); // b0 b1 ab b3
+    a.val = _mm_shuffle_ps(u0, u1, mask_lo); // a0 a1 a2 a3
+    b.val = _mm_shuffle_ps(u0, u1, mask_hi); // b0 b1 ab b3
 }
 
 inline void v_load_deinterleave(const float* ptr, v_float32x4& a, v_float32x4& b, v_float32x4& c)

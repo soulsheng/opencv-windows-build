@@ -171,8 +171,6 @@ Currently, the following file formats are supported:
     [Vector](http://www.gdal.org/ogr_formats.html).
 -   If EXIF information are embedded in the image file, the EXIF orientation will be taken into account
     and thus the image will be rotated accordingly except if the flag @ref IMREAD_IGNORE_ORIENTATION is passed.
--   By default number of pixels must be less than 2^30. Limit can be set using system
-    variable OPENCV_IO_MAX_IMAGE_PIXELS
 
 @param filename Name of file to be loaded.
 @param flags Flag that can take values of cv::ImreadModes
@@ -251,6 +249,19 @@ result. See cv::imwrite for the list of supported formats and flags description.
 CV_EXPORTS_W bool imencode( const String& ext, InputArray img,
                             CV_OUT std::vector<uchar>& buf,
                             const std::vector<int>& params = std::vector<int>());
+
+/** @brief Returns true if the specified image can be decoded by OpenCV
+
+@param filename File name of the image
+*/
+CV_EXPORTS_W bool haveImageReader( const String& filename );
+
+/** @brief Returns true if an image with the specified filename can be encoded by OpenCV
+
+ @param filename File name of the image
+ */
+CV_EXPORTS_W bool haveImageWriter( const String& filename );
+
 
 //! @} imgcodecs
 

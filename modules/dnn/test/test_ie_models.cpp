@@ -57,29 +57,28 @@ void runIE(Target target, const std::string& xmlPath, const std::string& binPath
     InferencePlugin plugin;
     ExecutableNetwork netExec;
     InferRequest infRequest;
+    TargetDevice targetDevice;
+    switch (target)
+    {
+        case DNN_TARGET_CPU:
+            targetDevice = TargetDevice::eCPU;
+            break;
+        case DNN_TARGET_OPENCL:
+        case DNN_TARGET_OPENCL_FP16:
+            targetDevice = TargetDevice::eGPU;
+            break;
+        case DNN_TARGET_MYRIAD:
+            targetDevice = TargetDevice::eMYRIAD;
+            break;
+        default:
+            CV_Error(Error::StsNotImplemented, "Unknown target");
+    };
+
     try
     {
-        auto dispatcher = InferenceEngine::PluginDispatcher({""});
-        switch (target)
-        {
-            case DNN_TARGET_CPU:
-                enginePtr = dispatcher.getSuitablePlugin(TargetDevice::eCPU);
-                break;
-            case DNN_TARGET_OPENCL:
-            case DNN_TARGET_OPENCL_FP16:
-                enginePtr = dispatcher.getSuitablePlugin(TargetDevice::eGPU);
-                break;
-            case DNN_TARGET_MYRIAD:
-                enginePtr = dispatcher.getSuitablePlugin(TargetDevice::eMYRIAD);
-                break;
-            case DNN_TARGET_FPGA:
-                enginePtr = dispatcher.getPluginByDevice("HETERO:FPGA,CPU");
-                break;
-            default:
-                CV_Error(Error::StsNotImplemented, "Unknown target");
-        };
+        enginePtr = PluginDispatcher({""}).getSuitablePlugin(targetDevice);
 
-        if (target == DNN_TARGET_CPU || target == DNN_TARGET_FPGA)
+        if (targetDevice == TargetDevice::eCPU)
         {
             std::string suffixes[] = {"_avx2", "_sse4", ""};
             bool haveFeature[] = {
@@ -190,14 +189,6 @@ TEST_P(DNNTestOpenVINO, models)
                                          modelName == "landmarks-regression-retail-0009" ||
                                           modelName == "semantic-segmentation-adas-0001")))
         throw SkipTestException("");
-#elif INF_ENGINE_RELEASE == 2018050000
-    if (modelName == "single-image-super-resolution-0063" ||
-        modelName == "single-image-super-resolution-1011" ||
-        modelName == "single-image-super-resolution-1021" ||
-        (target == DNN_TARGET_OPENCL_FP16 && modelName == "face-reidentification-retail-0095") ||
-        (target == DNN_TARGET_MYRIAD && (modelName == "license-plate-recognition-barrier-0001" ||
-                                         modelName == "semantic-segmentation-adas-0001")))
-        throw SkipTestException("");
 #endif
 #endif
 
@@ -211,8 +202,7 @@ TEST_P(DNNTestOpenVINO, models)
     std::map<std::string, cv::Mat> inputsMap;
     std::map<std::string, cv::Mat> ieOutputsMap, cvOutputsMap;
     // Single Myriad device cannot be shared across multiple processes.
-    if (target == DNN_TARGET_MYRIAD)
-        resetMyriadDevice();
+    resetMyriadDevice();
     runIE(target, xmlPath, binPath, inputsMap, ieOutputsMap);
     runCV(target, xmlPath, binPath, inputsMap, cvOutputsMap);
 
@@ -254,10 +244,25 @@ static testing::internal::ParamGenerator<String> intelModels()
     return ValuesIn(modelsNames);
 }
 
-INSTANTIATE_TEST_CASE_P(/**/,
-    DNNTestOpenVINO,
-    Combine(testing::ValuesIn(getAvailableTargets(DNN_BACKEND_INFERENCE_ENGINE)), intelModels())
-);
+static testing::internal::ParamGenerator<Target> dnnDLIETargets()
+{
+    std::vector<Target> targets;
+    targets.push_back(DNN_TARGET_CPU);
+#ifdef HAVE_OPENCL
+    if (cv::ocl::useOpenCL() && ocl::Device::getDefault().isIntel())
+    {
+        targets.push_back(DNN_TARGET_OPENCL);
+        targets.push_back(DNN_TARGET_OPENCL_FP16);
+    }
+#endif
+    if (checkMyriadTarget())
+        targets.push_back(DNN_TARGET_MYRIAD);
+    return testing::ValuesIn(targets);
+}
+
+INSTANTIATE_TEST_CASE_P(/**/, DNNTestOpenVINO, Combine(
+    dnnDLIETargets(), intelModels()
+));
 
 }}
 #endif  // HAVE_INF_ENGINE

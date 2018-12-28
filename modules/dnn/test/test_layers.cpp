@@ -137,7 +137,7 @@ TEST_P(Test_Caffe_layers, Convolution)
 
 TEST_P(Test_Caffe_layers, DeConvolution)
 {
-#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE >= 2018040000
+#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE == 2018040000
     if (backend == DNN_BACKEND_INFERENCE_ENGINE && target == DNN_TARGET_CPU)
         throw SkipTestException("Test is disabled for OpenVINO 2018R4");
 #endif
@@ -243,14 +243,9 @@ TEST_P(Test_Caffe_layers, Concat)
 
 TEST_P(Test_Caffe_layers, Fused_Concat)
 {
-#if defined(INF_ENGINE_RELEASE)
-    if (backend == DNN_BACKEND_INFERENCE_ENGINE)
-    {
-        if (target == DNN_TARGET_OPENCL || target == DNN_TARGET_OPENCL_FP16 ||
-            (INF_ENGINE_RELEASE < 2018040000 && target == DNN_TARGET_CPU))
+    if ((backend == DNN_BACKEND_INFERENCE_ENGINE && target == DNN_TARGET_CPU) ||
+        (backend == DNN_BACKEND_INFERENCE_ENGINE && target == DNN_TARGET_OPENCL))
         throw SkipTestException("");
-    }
-#endif
     checkBackend();
 
     // Test case
@@ -295,10 +290,6 @@ TEST_P(Test_Caffe_layers, Eltwise)
 {
     if (backend == DNN_BACKEND_INFERENCE_ENGINE && target == DNN_TARGET_MYRIAD)
         throw SkipTestException("");
-#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE == 2018050000
-    if (backend == DNN_BACKEND_INFERENCE_ENGINE && target == DNN_TARGET_OPENCL)
-        throw SkipTestException("Test is disabled for OpenVINO 2018R5");
-#endif
     testLayerUsingCaffeModels("layer_eltwise");
 }
 
@@ -358,6 +349,12 @@ TEST_P(Test_Caffe_layers, Reshape_Split_Slice)
 
 TEST_P(Test_Caffe_layers, Conv_Elu)
 {
+    if (backend == DNN_BACKEND_INFERENCE_ENGINE && target == DNN_TARGET_MYRIAD)
+    {
+        if (!checkMyriadTarget())
+            throw SkipTestException("Myriad is not available/disabled in OpenCV");
+    }
+
     Net net = readNetFromTensorflow(_tf("layer_elu_model.pb"));
     ASSERT_FALSE(net.empty());
 
@@ -922,11 +919,8 @@ INSTANTIATE_TEST_CASE_P(/**/, Layer_Test_DWconv_Prelu, Combine(Values(3, 6), Val
 // Using Intel's Model Optimizer generate .xml and .bin files:
 // ./ModelOptimizer -w /path/to/caffemodel -d /path/to/prototxt \
 //                  -p FP32 -i -b ${batch_size} -o /path/to/output/folder
-typedef testing::TestWithParam<Target> Layer_Test_Convolution_DLDT;
-TEST_P(Layer_Test_Convolution_DLDT, Accuracy)
+TEST(Layer_Test_Convolution_DLDT, Accuracy)
 {
-    Target targetId = GetParam();
-
     Net netDefault = readNet(_tf("layer_convolution.caffemodel"), _tf("layer_convolution.prototxt"));
     Net net = readNet(_tf("layer_convolution.xml"), _tf("layer_convolution.bin"));
 
@@ -937,29 +931,17 @@ TEST_P(Layer_Test_Convolution_DLDT, Accuracy)
     Mat outDefault = netDefault.forward();
 
     net.setInput(inp);
-    net.setPreferableTarget(targetId);
+    Mat out = net.forward();
 
-    if (targetId != DNN_TARGET_MYRIAD)
-    {
-        Mat out = net.forward();
+    normAssert(outDefault, out);
 
-        normAssert(outDefault, out);
-
-        std::vector<int> outLayers = net.getUnconnectedOutLayers();
-        ASSERT_EQ(net.getLayer(outLayers[0])->name, "output_merge");
-        ASSERT_EQ(net.getLayer(outLayers[0])->type, "Concat");
-    }
-    else
-    {
-        // An assertion is expected because the model is in FP32 format but
-        // Myriad plugin supports only FP16 models.
-        ASSERT_ANY_THROW(net.forward());
-    }
+    std::vector<int> outLayers = net.getUnconnectedOutLayers();
+    ASSERT_EQ(net.getLayer(outLayers[0])->name, "output_merge");
+    ASSERT_EQ(net.getLayer(outLayers[0])->type, "Concat");
 }
 
-TEST_P(Layer_Test_Convolution_DLDT, setInput_uint8)
+TEST(Layer_Test_Convolution_DLDT, setInput_uint8)
 {
-    Target targetId = GetParam();
     Mat inp = blobFromNPY(_tf("blob.npy"));
 
     Mat inputs[] = {Mat(inp.dims, inp.size, CV_8U), Mat()};
@@ -970,25 +952,12 @@ TEST_P(Layer_Test_Convolution_DLDT, setInput_uint8)
     for (int i = 0; i < 2; ++i)
     {
         Net net = readNet(_tf("layer_convolution.xml"), _tf("layer_convolution.bin"));
-        net.setPreferableTarget(targetId);
         net.setInput(inputs[i]);
-        if (targetId != DNN_TARGET_MYRIAD)
-        {
-            outs[i] = net.forward();
-            ASSERT_EQ(outs[i].type(), CV_32F);
-        }
-        else
-        {
-            // An assertion is expected because the model is in FP32 format but
-            // Myriad plugin supports only FP16 models.
-            ASSERT_ANY_THROW(net.forward());
-        }
+        outs[i] = net.forward();
+        ASSERT_EQ(outs[i].type(), CV_32F);
     }
-    if (targetId != DNN_TARGET_MYRIAD)
-        normAssert(outs[0], outs[1]);
+    normAssert(outs[0], outs[1]);
 }
-INSTANTIATE_TEST_CASE_P(/**/, Layer_Test_Convolution_DLDT,
-    testing::ValuesIn(getAvailableTargets(DNN_BACKEND_INFERENCE_ENGINE)));
 
 // 1. Create a .prototxt file with the following network:
 // layer {
@@ -1012,17 +981,14 @@ INSTANTIATE_TEST_CASE_P(/**/, Layer_Test_Convolution_DLDT,
 // net.save('/path/to/caffemodel')
 //
 // 3. Convert using ModelOptimizer.
-typedef testing::TestWithParam<tuple<int, int, Target> > Test_DLDT_two_inputs;
+typedef testing::TestWithParam<tuple<int, int> > Test_DLDT_two_inputs;
 TEST_P(Test_DLDT_two_inputs, as_IR)
 {
     int firstInpType = get<0>(GetParam());
     int secondInpType = get<1>(GetParam());
-    Target targetId = get<2>(GetParam());
-
-#if defined(INF_ENGINE_RELEASE) && INF_ENGINE_RELEASE < 2018040000
+    // TODO: It looks like a bug in Inference Engine.
     if (secondInpType == CV_8U)
-        throw SkipTestException("Test is enabled starts from OpenVINO 2018R4");
-#endif
+        throw SkipTestException("");
 
     Net net = readNet(_tf("net_two_inputs.xml"), _tf("net_two_inputs.bin"));
     int inpSize[] = {1, 2, 3};
@@ -1033,29 +999,17 @@ TEST_P(Test_DLDT_two_inputs, as_IR)
 
     net.setInput(firstInp, "data");
     net.setInput(secondInp, "second_input");
-    net.setPreferableTarget(targetId);
-    if (targetId != DNN_TARGET_MYRIAD)
-    {
-        Mat out = net.forward();
+    Mat out = net.forward();
 
-        Mat ref;
-        cv::add(firstInp, secondInp, ref, Mat(), CV_32F);
-        normAssert(out, ref);
-    }
-    else
-    {
-        // An assertion is expected because the model is in FP32 format but
-        // Myriad plugin supports only FP16 models.
-        ASSERT_ANY_THROW(net.forward());
-    }
+    Mat ref;
+    cv::add(firstInp, secondInp, ref, Mat(), CV_32F);
+    normAssert(out, ref);
 }
 
 TEST_P(Test_DLDT_two_inputs, as_backend)
 {
     static const float kScale = 0.5f;
     static const float kScaleInv = 1.0f / kScale;
-
-    Target targetId = get<2>(GetParam());
 
     Net net;
     LayerParams lp;
@@ -1065,9 +1019,9 @@ TEST_P(Test_DLDT_two_inputs, as_backend)
     int eltwiseId = net.addLayerToPrev(lp.name, lp.type, lp);  // connect to a first input
     net.connect(0, 1, eltwiseId, 1);  // connect to a second input
 
-    int inpSize[] = {1, 2, 3, 4};
-    Mat firstInp(4, &inpSize[0], get<0>(GetParam()));
-    Mat secondInp(4, &inpSize[0], get<1>(GetParam()));
+    int inpSize[] = {1, 2, 3};
+    Mat firstInp(3, &inpSize[0], get<0>(GetParam()));
+    Mat secondInp(3, &inpSize[0], get<1>(GetParam()));
     randu(firstInp, 0, 255);
     randu(secondInp, 0, 255);
 
@@ -1075,20 +1029,15 @@ TEST_P(Test_DLDT_two_inputs, as_backend)
     net.setInput(firstInp, "data", kScale);
     net.setInput(secondInp, "second_input", kScaleInv);
     net.setPreferableBackend(DNN_BACKEND_INFERENCE_ENGINE);
-    net.setPreferableTarget(targetId);
     Mat out = net.forward();
 
     Mat ref;
     addWeighted(firstInp, kScale, secondInp, kScaleInv, 0, ref, CV_32F);
-    // Output values are in range [0, 637.5].
-    double l1 = (targetId == DNN_TARGET_OPENCL_FP16 || targetId == DNN_TARGET_MYRIAD) ? 0.06 : 1e-6;
-    double lInf = (targetId == DNN_TARGET_OPENCL_FP16 || targetId == DNN_TARGET_MYRIAD) ? 0.3 : 1e-5;
-    normAssert(out, ref, "", l1, lInf);
+    normAssert(out, ref);
 }
 
 INSTANTIATE_TEST_CASE_P(/*nothing*/, Test_DLDT_two_inputs, Combine(
-  Values(CV_8U, CV_32F), Values(CV_8U, CV_32F),
-  testing::ValuesIn(getAvailableTargets(DNN_BACKEND_INFERENCE_ENGINE))
+  Values(CV_8U, CV_32F), Values(CV_8U, CV_32F)
 ));
 
 class UnsupportedLayer : public Layer

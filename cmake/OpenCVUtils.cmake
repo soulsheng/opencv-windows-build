@@ -508,7 +508,7 @@ macro(ocv_warnings_disable)
       foreach(var ${_flag_vars})
         foreach(warning ${_gxx_warnings})
           if(NOT warning MATCHES "^-Wno-")
-            string(REGEX REPLACE "(^|[ ]+)${warning}(=[^ ]*)?([ ]+|$)" " " ${var} "${${var}}")
+            string(REGEX REPLACE "${warning}(=[^ ]*)?" "" ${var} "${${var}}")
             string(REPLACE "-W" "-Wno-" warning "${warning}")
           endif()
           ocv_check_flag_support(${var} "${warning}" _varname "")
@@ -571,21 +571,14 @@ endmacro()
 # Provides an option that the user can optionally select.
 # Can accept condition to control when option is available for user.
 # Usage:
-#   option(<option_variable>
-#          "help string describing the option"
-#          <initial value or boolean expression>
-#          [VISIBLE_IF <condition>]
-#          [VERIFY <condition>])
+#   option(<option_variable> "help string describing the option" <initial value or boolean expression> [IF <condition>])
 macro(OCV_OPTION variable description value)
   set(__value ${value})
   set(__condition "")
-  set(__verification)
   set(__varname "__value")
   foreach(arg ${ARGN})
-    if(arg STREQUAL "IF" OR arg STREQUAL "if" OR arg STREQUAL "VISIBLE_IF")
+    if(arg STREQUAL "IF" OR arg STREQUAL "if")
       set(__varname "__condition")
-    elseif(arg STREQUAL "VERIFY")
-      set(__varname "__verification")
     else()
       list(APPEND ${__varname} ${arg})
     endif()
@@ -621,45 +614,9 @@ macro(OCV_OPTION variable description value)
       unset(${variable} CACHE)
     endif()
   endif()
-  if(__verification)
-    set(OPENCV_VERIFY_${variable} "${__verification}") # variable containing condition to verify
-    list(APPEND OPENCV_VERIFICATIONS "${variable}") # list of variable names (WITH_XXX;WITH_YYY;...)
-  endif()
   unset(__condition)
   unset(__value)
 endmacro()
-
-
-# Check that each variable stored in OPENCV_VERIFICATIONS list
-# is consistent with actual detection result (stored as condition in OPENCV_VERIFY_...) variables
-function(ocv_verify_config)
-  set(broken_options)
-  foreach(var ${OPENCV_VERIFICATIONS})
-    set(evaluated FALSE)
-    if(${OPENCV_VERIFY_${var}})
-      set(evaluated TRUE)
-    endif()
-    status("Verifying ${var}=${${var}} => '${OPENCV_VERIFY_${var}}'=${evaluated}")
-    if (${var} AND NOT evaluated)
-      list(APPEND broken_options ${var})
-      message(WARNING
-        "Option ${var} is enabled but corresponding dependency "
-        "have not been found: \"${OPENCV_VERIFY_${var}}\" is FALSE")
-    elseif(NOT ${var} AND evaluated)
-      list(APPEND broken_options ${var})
-      message(WARNING
-        "Option ${var} is disabled or unset but corresponding dependency "
-        "have been explicitly turned on: \"${OPENCV_VERIFY_${var}}\" is TRUE")
-    endif()
-  endforeach()
-  if(broken_options)
-    string(REPLACE ";" "\n" broken_options "${broken_options}")
-    message(FATAL_ERROR
-      "Some dependencies have not been found or have been forced, "
-      "unset ENABLE_CONFIG_VERIFICATION option to ignore these failures "
-      "or change following options:\n${broken_options}")
-  endif()
-endfunction()
 
 # Usage: ocv_append_build_options(HIGHGUI FFMPEG)
 macro(ocv_append_build_options var_prefix pkg_prefix)
@@ -1160,7 +1117,7 @@ function(ocv_install_3rdparty_licenses library)
     get_filename_component(name "${filename}" NAME)
     install(
       FILES "${filename}"
-      DESTINATION "${OPENCV_OTHER_INSTALL_PATH}/licenses"
+      DESTINATION "${OPENCV_LICENSES_INSTALL_PATH}"
       COMPONENT licenses
       RENAME "${library}-${name}"
       OPTIONAL)

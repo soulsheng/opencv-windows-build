@@ -607,11 +607,6 @@ OPENCV_HAL_IMPL_VSX_INT_CMP_OP(v_float64x2)
 OPENCV_HAL_IMPL_VSX_INT_CMP_OP(v_uint64x2)
 OPENCV_HAL_IMPL_VSX_INT_CMP_OP(v_int64x2)
 
-inline v_float32x4 v_not_nan(const v_float32x4& a)
-{ return v_float32x4(vec_cmpeq(a.val, a.val)); }
-inline v_float64x2 v_not_nan(const v_float64x2& a)
-{ return v_float64x2(vec_cmpeq(a.val, a.val)); }
-
 /** min/max **/
 OPENCV_HAL_IMPL_VSX_BIN_FUNC(v_min, vec_min)
 OPENCV_HAL_IMPL_VSX_BIN_FUNC(v_max, vec_max)
@@ -716,11 +711,6 @@ OPENCV_HAL_IMPL_VSX_REDUCE_OP_4(v_float32x4, vec_float4, float, sum, vec_add)
 OPENCV_HAL_IMPL_VSX_REDUCE_OP_4(v_float32x4, vec_float4, float, max, vec_max)
 OPENCV_HAL_IMPL_VSX_REDUCE_OP_4(v_float32x4, vec_float4, float, min, vec_min)
 
-inline double v_reduce_sum(const v_float64x2& a)
-{
-    return vec_extract(vec_add(a.val, vec_permi(a.val, a.val, 3)), 0);
-}
-
 #define OPENCV_HAL_IMPL_VSX_REDUCE_OP_8(_Tpvec, _Tpvec2, scalartype, suffix, func) \
 inline scalartype v_reduce_##suffix(const _Tpvec& a)                               \
 {                                                                                  \
@@ -742,50 +732,6 @@ inline v_float32x4 v_reduce_sum4(const v_float32x4& a, const v_float32x4& b,
     vec_float4 bd = vec_add(vec_mergel(b.val, d.val), vec_mergeh(b.val, d.val));
     bd = vec_add(bd, vec_sld(bd, bd, 8));
     return v_float32x4(vec_mergeh(ac, bd));
-}
-
-inline unsigned v_reduce_sad(const v_uint8x16& a, const v_uint8x16& b)
-{
-    const vec_uint4 zero4 = vec_uint4_z;
-    vec_uint4 sum4 = vec_sum4s(vec_absd(a.val, b.val), zero4);
-    return (unsigned)vec_extract(vec_sums(vec_int4_c(sum4), vec_int4_c(zero4)), 3);
-}
-inline unsigned v_reduce_sad(const v_int8x16& a, const v_int8x16& b)
-{
-    const vec_int4 zero4 = vec_int4_z;
-    vec_char16 ad = vec_abss(vec_subs(a.val, b.val));
-    vec_int4 sum4 = vec_sum4s(ad, zero4);
-    return (unsigned)vec_extract(vec_sums(sum4, zero4), 3);
-}
-inline unsigned v_reduce_sad(const v_uint16x8& a, const v_uint16x8& b)
-{
-    vec_ushort8 ad = vec_absd(a.val, b.val);
-    VSX_UNUSED(vec_int4) sum = vec_sums(vec_int4_c(vec_unpackhu(ad)), vec_int4_c(vec_unpacklu(ad)));
-    return (unsigned)vec_extract(sum, 3);
-}
-inline unsigned v_reduce_sad(const v_int16x8& a, const v_int16x8& b)
-{
-    const vec_int4 zero4 = vec_int4_z;
-    vec_short8 ad = vec_abss(vec_subs(a.val, b.val));
-    vec_int4 sum4 = vec_sum4s(ad, zero4);
-    return (unsigned)vec_extract(vec_sums(sum4, zero4), 3);
-}
-inline unsigned v_reduce_sad(const v_uint32x4& a, const v_uint32x4& b)
-{
-    const vec_uint4 ad = vec_absd(a.val, b.val);
-    const vec_uint4 rd = vec_add(ad, vec_sld(ad, ad, 8));
-    return vec_extract(vec_add(rd, vec_sld(rd, rd, 4)), 0);
-}
-inline unsigned v_reduce_sad(const v_int32x4& a, const v_int32x4& b)
-{
-    vec_int4 ad = vec_abss(vec_sub(a.val, b.val));
-    return (unsigned)vec_extract(vec_sums(ad, vec_int4_z), 3);
-}
-inline float v_reduce_sad(const v_float32x4& a, const v_float32x4& b)
-{
-    const vec_float4 ad = vec_abs(vec_sub(a.val, b.val));
-    const vec_float4 rd = vec_add(ad, vec_sld(ad, ad, 8));
-    return vec_extract(vec_add(rd, vec_sld(rd, rd, 4)), 0);
 }
 
 /** Popcount **/

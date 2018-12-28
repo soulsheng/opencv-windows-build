@@ -2,14 +2,6 @@
 #  Detect 3rd-party video IO libraries
 # ----------------------------------------------------------------------------
 
-ocv_clear_vars(HAVE_VFW)
-if(WITH_VFW)
-  try_compile(HAVE_VFW
-    "${OpenCV_BINARY_DIR}"
-    "${OpenCV_SOURCE_DIR}/cmake/checks/vfwtest.cpp"
-    CMAKE_FLAGS "-DLINK_LIBRARIES:STRING=vfw32")
-endif(WITH_VFW)
-
 # --- GStreamer ---
 ocv_clear_vars(HAVE_GSTREAMER)
 # try to find gstreamer 1.x first if 0.10 was not requested
@@ -61,16 +53,6 @@ if(WITH_GSTREAMER AND NOT HAVE_GSTREAMER OR WITH_GSTREAMER_0_10)
       set(GSTREAMER_PBUTILS_VERSION ${ALIASOF_gstreamer-pbutils-0.10_VERSION})
   endif()
 endif(WITH_GSTREAMER AND NOT HAVE_GSTREAMER OR WITH_GSTREAMER_0_10)
-
-# --- unicap ---
-ocv_clear_vars(HAVE_UNICAP)
-if(WITH_UNICAP)
-  CHECK_MODULE(libunicap HAVE_UNICAP_  VIDEOIO)
-  CHECK_MODULE(libucil HAVE_UNICAP_UCIL  VIDEOIO)
-  if(HAVE_UNICAP_ AND HAVE_UNICAP_UCIL)
-    set(HAVE_UNICAP TRUE)
-  endif()
-endif(WITH_UNICAP)
 
 # --- PvApi ---
 ocv_clear_vars(HAVE_PVAPI)
@@ -174,18 +156,8 @@ if(WITH_XINE)
 endif(WITH_XINE)
 
 # --- V4L ---
-ocv_clear_vars(HAVE_LIBV4L HAVE_CAMV4L HAVE_CAMV4L2 HAVE_VIDEOIO)
+ocv_clear_vars(HAVE_CAMV4L2 HAVE_VIDEOIO)
 if(WITH_V4L)
-  if(WITH_LIBV4L)
-    CHECK_MODULE(libv4l1 HAVE_LIBV4L1 VIDEOIO)
-    CHECK_MODULE(libv4l2 HAVE_LIBV4L2 VIDEOIO)
-    if(HAVE_LIBV4L1 AND HAVE_LIBV4L2)
-      set(HAVE_LIBV4L YES)
-    else()
-      set(HAVE_LIBV4L NO)
-    endif()
-  endif()
-  CHECK_INCLUDE_FILE(linux/videodev.h HAVE_CAMV4L)
   CHECK_INCLUDE_FILE(linux/videodev2.h HAVE_CAMV4L2)
   CHECK_INCLUDE_FILE(sys/videoio.h HAVE_VIDEOIO)
 endif(WITH_V4L)
@@ -274,25 +246,20 @@ endif(WITH_DSHOW)
 ocv_clear_vars(HAVE_MSMF)
 if(WITH_MSMF)
   check_include_file(Mfapi.h HAVE_MSMF)
-  set(HAVE_MSMF_DXVA "")
-  if(WITH_MSMF_DXVA)
-    check_include_file(D3D11.h D3D11_found)
-    check_include_file(D3d11_4.h D3D11_4_found)
-    if(D3D11_found AND D3D11_4_found)
-      set(HAVE_MSMF_DXVA YES)
-    endif()
+  check_include_file(D3D11.h D3D11_found)
+  check_include_file(D3d11_4.h D3D11_4_found)
+  if(D3D11_found AND D3D11_4_found)
+    set(HAVE_DXVA YES)
+  else()
+    set(HAVE_DXVA NO)
   endif()
-endif()
+endif(WITH_MSMF)
 
 # --- Extra HighGUI and VideoIO libs on Windows ---
 if(WIN32)
   list(APPEND HIGHGUI_LIBRARIES comctl32 gdi32 ole32 setupapi ws2_32)
-  if(HAVE_VFW)
-    list(APPEND VIDEOIO_LIBRARIES vfw32)
-  endif()
   if(MINGW64)
     list(APPEND VIDEOIO_LIBRARIES avifil32 avicap32 winmm msvfw32)
-    list(REMOVE_ITEM VIDEOIO_LIBRARIES vfw32)
   elseif(MINGW)
     list(APPEND VIDEOIO_LIBRARIES winmm)
   endif()
@@ -302,14 +269,12 @@ if(APPLE)
   if(WITH_AVFOUNDATION)
     set(HAVE_AVFOUNDATION YES)
   endif()
-  if(NOT IOS)
-    if(WITH_QUICKTIME)
-      set(HAVE_QUICKTIME YES)
-    elseif(WITH_QTKIT)
-      set(HAVE_QTKIT YES)
-    endif()
-  endif()
 endif(APPLE)
+
+# --- Intel librealsense ---
+if(WITH_LIBREALSENSE)
+  include("${OpenCV_SOURCE_DIR}/cmake/OpenCVFindLibRealsense.cmake")
+endif(WITH_LIBREALSENSE)
 
 # --- Intel Perceptual Computing SDK ---
 if(WITH_INTELPERC)

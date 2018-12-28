@@ -171,7 +171,7 @@ static void binary_op( InputArray _src1, InputArray _src2, OutputArray _dst,
                        bool bitwise, int oclop )
 {
     const _InputArray *psrc1 = &_src1, *psrc2 = &_src2;
-    int kind1 = psrc1->kind(), kind2 = psrc2->kind();
+    _InputArray::KindFlag kind1 = psrc1->kind(), kind2 = psrc2->kind();
     int type1 = psrc1->type(), depth1 = CV_MAT_DEPTH(type1), cn = CV_MAT_CN(type1);
     int type2 = psrc2->type(), depth2 = CV_MAT_DEPTH(type2), cn2 = CV_MAT_CN(type2);
     int dims1 = psrc1->dims(), dims2 = psrc2->dims();
@@ -604,7 +604,7 @@ static void arithm_op(InputArray _src1, InputArray _src2, OutputArray _dst,
                       void* usrdata=0, int oclop=-1 )
 {
     const _InputArray *psrc1 = &_src1, *psrc2 = &_src2;
-    int kind1 = psrc1->kind(), kind2 = psrc2->kind();
+    _InputArray::KindFlag kind1 = psrc1->kind(), kind2 = psrc2->kind();
     bool haveMask = !_mask.empty();
     bool reallocate = false;
     int type1 = psrc1->type(), depth1 = CV_MAT_DEPTH(type1), cn = CV_MAT_CN(type1);
@@ -935,59 +935,6 @@ void cv::subtract( InputArray _src1, InputArray _src2, OutputArray _dst,
 {
     CV_INSTRUMENT_REGION();
 
-#ifdef HAVE_TEGRA_OPTIMIZATION
-    if (tegra::useTegra())
-    {
-        int kind1 = _src1.kind(), kind2 = _src2.kind();
-        Mat src1 = _src1.getMat(), src2 = _src2.getMat();
-        bool src1Scalar = checkScalar(src1, _src2.type(), kind1, kind2);
-        bool src2Scalar = checkScalar(src2, _src1.type(), kind2, kind1);
-
-        if (!src1Scalar && !src2Scalar &&
-            src1.depth() == CV_8U && src2.type() == src1.type() &&
-            src1.dims == 2 && src2.size() == src1.size() &&
-            mask.empty())
-        {
-            if (dtype < 0)
-            {
-                if (_dst.fixedType())
-                {
-                    dtype = _dst.depth();
-                }
-                else
-                {
-                    dtype = src1.depth();
-                }
-            }
-
-            dtype = CV_MAT_DEPTH(dtype);
-
-            if (!_dst.fixedType() || dtype == _dst.depth())
-            {
-                _dst.create(src1.size(), CV_MAKE_TYPE(dtype, src1.channels()));
-
-                if (dtype == CV_16S)
-                {
-                    Mat dst = _dst.getMat();
-                    if(tegra::subtract_8u8u16s(src1, src2, dst))
-                        return;
-                }
-                else if (dtype == CV_32F)
-                {
-                    Mat dst = _dst.getMat();
-                    if(tegra::subtract_8u8u32f(src1, src2, dst))
-                        return;
-                }
-                else if (dtype == CV_8S)
-                {
-                    Mat dst = _dst.getMat();
-                    if(tegra::subtract_8u8u8s(src1, src2, dst))
-                        return;
-                }
-            }
-        }
-    }
-#endif
     arithm_op(_src1, _src2, _dst, mask, dtype, getSubTab(), false, 0, OCL_OP_SUB );
 }
 
@@ -996,6 +943,13 @@ void cv::absdiff( InputArray src1, InputArray src2, OutputArray dst )
     CV_INSTRUMENT_REGION();
 
     arithm_op(src1, src2, dst, noArray(), -1, getAbsDiffTab(), false, 0, OCL_OP_ABSDIFF);
+}
+
+void cv::copyTo(InputArray _src, OutputArray _dst, InputArray _mask)
+{
+    CV_INSTRUMENT_REGION();
+
+    _src.copyTo(_dst, _mask);
 }
 
 /****************************************************************************************\
@@ -1271,7 +1225,7 @@ void cv::compare(InputArray _src1, InputArray _src2, OutputArray _dst, int op)
     CV_OCL_RUN(_src1.dims() <= 2 && _src2.dims() <= 2 && OCL_PERFORMANCE_CHECK(_dst.isUMat()),
                ocl_compare(_src1, _src2, _dst, op, haveScalar))
 
-    int kind1 = _src1.kind(), kind2 = _src2.kind();
+    _InputArray::KindFlag kind1 = _src1.kind(), kind2 = _src2.kind();
     Mat src1 = _src1.getMat(), src2 = _src2.getMat();
 
     if( kind1 == kind2 && src1.dims <= 2 && src2.dims <= 2 && src1.size() == src2.size() && src1.type() == src2.type() )
@@ -1379,7 +1333,7 @@ struct InRange_SIMD
     }
 };
 
-#if CV_SIMD
+#if CV_SIMD128
 
 template <>
 struct InRange_SIMD<uchar>
@@ -1388,17 +1342,16 @@ struct InRange_SIMD<uchar>
         uchar * dst, int len) const
     {
         int x = 0;
-        const int width = v_uint8::nlanes;
+        const int width = v_uint8x16::nlanes;
 
         for (; x <= len - width; x += width)
         {
-            v_uint8 values = vx_load(src1 + x);
-            v_uint8 low = vx_load(src2 + x);
-            v_uint8 high = vx_load(src3 + x);
+            v_uint8x16 values = v_load(src1 + x);
+            v_uint8x16 low = v_load(src2 + x);
+            v_uint8x16 high = v_load(src3 + x);
 
             v_store(dst + x, (values >= low) & (high >= values));
         }
-        vx_cleanup();
         return x;
     }
 };
@@ -1410,17 +1363,16 @@ struct InRange_SIMD<schar>
         uchar * dst, int len) const
     {
         int x = 0;
-        const int width = v_int8::nlanes;
+        const int width = v_int8x16::nlanes;
 
         for (; x <= len - width; x += width)
         {
-            v_int8 values = vx_load(src1 + x);
-            v_int8 low = vx_load(src2 + x);
-            v_int8 high = vx_load(src3 + x);
+            v_int8x16 values = v_load(src1 + x);
+            v_int8x16 low = v_load(src2 + x);
+            v_int8x16 high = v_load(src3 + x);
 
             v_store((schar*)(dst + x), (values >= low) & (high >= values));
         }
-        vx_cleanup();
         return x;
     }
 };
@@ -1432,21 +1384,20 @@ struct InRange_SIMD<ushort>
         uchar * dst, int len) const
     {
         int x = 0;
-        const int width = v_uint16::nlanes * 2;
+        const int width = v_uint16x8::nlanes * 2;
 
         for (; x <= len - width; x += width)
         {
-            v_uint16 values1 = vx_load(src1 + x);
-            v_uint16 low1 = vx_load(src2 + x);
-            v_uint16 high1 = vx_load(src3 + x);
+            v_uint16x8 values1 = v_load(src1 + x);
+            v_uint16x8 low1 = v_load(src2 + x);
+            v_uint16x8 high1 = v_load(src3 + x);
 
-            v_uint16 values2 = vx_load(src1 + x + v_uint16::nlanes);
-            v_uint16 low2 = vx_load(src2 + x + v_uint16::nlanes);
-            v_uint16 high2 = vx_load(src3 + x + v_uint16::nlanes);
+            v_uint16x8 values2 = v_load(src1 + x + v_uint16x8::nlanes);
+            v_uint16x8 low2 = v_load(src2 + x + v_uint16x8::nlanes);
+            v_uint16x8 high2 = v_load(src3 + x + v_uint16x8::nlanes);
 
             v_store(dst + x, v_pack((values1 >= low1) & (high1 >= values1), (values2 >= low2) & (high2 >= values2)));
         }
-        vx_cleanup();
         return x;
     }
 };
@@ -1458,21 +1409,20 @@ struct InRange_SIMD<short>
         uchar * dst, int len) const
     {
         int x = 0;
-        const int width = (int)v_int16::nlanes * 2;
+        const int width = (int)v_int16x8::nlanes * 2;
 
         for (; x <= len - width; x += width)
         {
-            v_int16 values1 = vx_load(src1 + x);
-            v_int16 low1 = vx_load(src2 + x);
-            v_int16 high1 = vx_load(src3 + x);
+            v_int16x8 values1 = v_load(src1 + x);
+            v_int16x8 low1 = v_load(src2 + x);
+            v_int16x8 high1 = v_load(src3 + x);
 
-            v_int16 values2 = vx_load(src1 + x + v_int16::nlanes);
-            v_int16 low2 = vx_load(src2 + x + v_int16::nlanes);
-            v_int16 high2 = vx_load(src3 + x + v_int16::nlanes);
+            v_int16x8 values2 = v_load(src1 + x + v_int16x8::nlanes);
+            v_int16x8 low2 = v_load(src2 + x + v_int16x8::nlanes);
+            v_int16x8 high2 = v_load(src3 + x + v_int16x8::nlanes);
 
             v_store((schar*)(dst + x), v_pack((values1 >= low1) & (high1 >= values1), (values2 >= low2) & (high2 >= values2)));
         }
-        vx_cleanup();
         return x;
     }
 };
@@ -1484,21 +1434,20 @@ struct InRange_SIMD<int>
         uchar * dst, int len) const
     {
         int x = 0;
-        const int width = (int)v_int32::nlanes * 2;
+        const int width = (int)v_int32x4::nlanes * 2;
 
         for (; x <= len - width; x += width)
         {
-            v_int32 values1 = vx_load(src1 + x);
-            v_int32 low1 = vx_load(src2 + x);
-            v_int32 high1 = vx_load(src3 + x);
+            v_int32x4 values1 = v_load(src1 + x);
+            v_int32x4 low1 = v_load(src2 + x);
+            v_int32x4 high1 = v_load(src3 + x);
 
-            v_int32 values2 = vx_load(src1 + x + v_int32::nlanes);
-            v_int32 low2 = vx_load(src2 + x + v_int32::nlanes);
-            v_int32 high2 = vx_load(src3 + x + v_int32::nlanes);
+            v_int32x4 values2 = v_load(src1 + x + v_int32x4::nlanes);
+            v_int32x4 low2 = v_load(src2 + x + v_int32x4::nlanes);
+            v_int32x4 high2 = v_load(src3 + x + v_int32x4::nlanes);
 
             v_pack_store(dst + x, v_reinterpret_as_u16(v_pack((values1 >= low1) & (high1 >= values1), (values2 >= low2) & (high2 >= values2))));
         }
-        vx_cleanup();
         return x;
     }
 };
@@ -1510,21 +1459,20 @@ struct InRange_SIMD<float>
         uchar * dst, int len) const
     {
         int x = 0;
-        const int width = (int)v_float32::nlanes * 2;
+        const int width = (int)v_float32x4::nlanes * 2;
 
         for (; x <= len - width; x += width)
         {
-            v_float32 values1 = vx_load(src1 + x);
-            v_float32 low1 = vx_load(src2 + x);
-            v_float32 high1 = vx_load(src3 + x);
+            v_float32x4 values1 = v_load(src1 + x);
+            v_float32x4 low1 = v_load(src2 + x);
+            v_float32x4 high1 = v_load(src3 + x);
 
-            v_float32 values2 = vx_load(src1 + x + v_float32::nlanes);
-            v_float32 low2 = vx_load(src2 + x + v_float32::nlanes);
-            v_float32 high2 = vx_load(src3 + x + v_float32::nlanes);
+            v_float32x4 values2 = v_load(src1 + x + v_float32x4::nlanes);
+            v_float32x4 low2 = v_load(src2 + x + v_float32x4::nlanes);
+            v_float32x4 high2 = v_load(src3 + x + v_float32x4::nlanes);
 
             v_pack_store(dst + x, v_pack(v_reinterpret_as_u32((values1 >= low1) & (high1 >= values1)), v_reinterpret_as_u32((values2 >= low2) & (high2 >= values2))));
         }
-        vx_cleanup();
         return x;
     }
 };
@@ -1650,7 +1598,7 @@ static bool ocl_inRange( InputArray _src, InputArray _lowerb,
                          InputArray _upperb, OutputArray _dst )
 {
     const ocl::Device & d = ocl::Device::getDefault();
-    int skind = _src.kind(), lkind = _lowerb.kind(), ukind = _upperb.kind();
+    _InputArray::KindFlag skind = _src.kind(), lkind = _lowerb.kind(), ukind = _upperb.kind();
     Size ssize = _src.size(), lsize = _lowerb.size(), usize = _upperb.size();
     int stype = _src.type(), ltype = _lowerb.type(), utype = _upperb.type();
     int sdepth = CV_MAT_DEPTH(stype), ldepth = CV_MAT_DEPTH(ltype), udepth = CV_MAT_DEPTH(utype);
@@ -1775,7 +1723,7 @@ void cv::inRange(InputArray _src, InputArray _lowerb,
                _upperb.dims() <= 2 && OCL_PERFORMANCE_CHECK(_dst.isUMat()),
                ocl_inRange(_src, _lowerb, _upperb, _dst))
 
-    int skind = _src.kind(), lkind = _lowerb.kind(), ukind = _upperb.kind();
+    _InputArray::KindFlag skind = _src.kind(), lkind = _lowerb.kind(), ukind = _upperb.kind();
     Mat src = _src.getMat(), lb = _lowerb.getMat(), ub = _upperb.getMat();
 
     bool lbScalar = false, ubScalar = false;

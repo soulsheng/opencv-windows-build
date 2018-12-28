@@ -51,7 +51,7 @@
 
 namespace cv {
 namespace dnn {
-CV__DNN_EXPERIMENTAL_NS_BEGIN
+CV__DNN_INLINE_NS_BEGIN
 
 using namespace TH;
 
@@ -129,15 +129,13 @@ struct TorchImporter
     Module *rootModule;
     Module *curModule;
     int moduleCounter;
-    bool testPhase;
 
-    TorchImporter(String filename, bool isBinary, bool evaluate)
+    TorchImporter(String filename, bool isBinary)
     {
         CV_TRACE_FUNCTION();
 
         rootModule = curModule = NULL;
         moduleCounter = 0;
-        testPhase = evaluate;
 
         file = cv::Ptr<THFile>(THDiskFile_new(filename, "r", 0), THFile_free);
         CV_Assert(file && THFile_isOpened(file));
@@ -682,8 +680,7 @@ struct TorchImporter
                     layerParams.blobs.push_back(tensorParams["bias"].second);
                 }
 
-                bool trainPhase = scalarParams.get<bool>("train", false);
-                if (nnName == "InstanceNormalization" || (trainPhase && !testPhase))
+                if (nnName == "InstanceNormalization")
                 {
                     cv::Ptr<Module> mvnModule(new Module(nnName));
                     mvnModule->apiType = "MVN";
@@ -1246,22 +1243,22 @@ struct TorchImporter
 
 Mat readTorchBlob(const String &filename, bool isBinary)
 {
-    TorchImporter importer(filename, isBinary, true);
+    TorchImporter importer(filename, isBinary);
     importer.readObject();
     CV_Assert(importer.tensors.size() == 1);
 
     return importer.tensors.begin()->second;
 }
 
-Net readNetFromTorch(const String &model, bool isBinary, bool evaluate)
+Net readNetFromTorch(const String &model, bool isBinary)
 {
     CV_TRACE_FUNCTION();
 
-    TorchImporter importer(model, isBinary, evaluate);
+    TorchImporter importer(model, isBinary);
     Net net;
     importer.populateNet(net);
     return net;
 }
 
-CV__DNN_EXPERIMENTAL_NS_END
+CV__DNN_INLINE_NS_END
 }} // namespace

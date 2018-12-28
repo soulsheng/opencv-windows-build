@@ -46,12 +46,8 @@
 
 namespace cv {
 
-template<> void DefaultDeleter<CvCapture>::operator ()(CvCapture* obj) const
-{ cvReleaseCapture(&obj); }
-
-template<> void DefaultDeleter<CvVideoWriter>::operator ()(CvVideoWriter* obj) const
-{ cvReleaseVideoWriter(&obj); }
-
+void DefaultDeleter<CvCapture>::operator ()(CvCapture* obj) const { cvReleaseCapture(&obj); }
+void DefaultDeleter<CvVideoWriter>::operator ()(CvVideoWriter* obj) const { cvReleaseVideoWriter(&obj); }
 
 
 VideoCapture::VideoCapture()
@@ -61,18 +57,6 @@ VideoCapture::VideoCapture(const String& filename, int apiPreference)
 {
     CV_TRACE_FUNCTION();
     open(filename, apiPreference);
-}
-
-VideoCapture::VideoCapture(const String& filename)
-{
-    CV_TRACE_FUNCTION();
-    open(filename, CAP_ANY);
-}
-
-VideoCapture::VideoCapture(int index)
-{
-    CV_TRACE_FUNCTION();
-    open(index);
 }
 
 VideoCapture::VideoCapture(int index, int apiPreference)
@@ -120,13 +104,6 @@ bool VideoCapture::open(const String& filename, int apiPreference)
     return false;
 }
 
-bool VideoCapture::open(const String& filename)
-{
-    CV_TRACE_FUNCTION();
-
-    return open(filename, CAP_ANY);
-}
-
 bool  VideoCapture::open(int cameraNum, int apiPreference)
 {
     CV_TRACE_FUNCTION();
@@ -167,13 +144,6 @@ bool  VideoCapture::open(int cameraNum, int apiPreference)
         }
     }
     return false;
-}
-
-bool VideoCapture::open(int index)
-{
-    CV_TRACE_FUNCTION();
-
-    return open(index, CAP_ANY);
 }
 
 bool VideoCapture::isOpened() const
@@ -282,7 +252,7 @@ VideoCapture& VideoCapture::operator >> (UMat& image)
 
 bool VideoCapture::set(int propId, double value)
 {
-    CV_CheckNE(propId, (int)CAP_PROP_BACKEND, "Can set read-only property");
+    CV_CheckNE(propId, (int)CAP_PROP_BACKEND, "Can't set read-only property");
 
     if (!icap.empty())
         return icap->setProperty(propId, value);
@@ -381,7 +351,7 @@ bool VideoWriter::isOpened() const
 
 bool VideoWriter::set(int propId, double value)
 {
-    CV_CheckNE(propId, (int)CAP_PROP_BACKEND, "Can set read-only property");
+    CV_CheckNE(propId, (int)CAP_PROP_BACKEND, "Can't set read-only property");
 
     if (!iwriter.empty())
         return iwriter->setProperty(propId, value);
@@ -417,7 +387,7 @@ String VideoWriter::getBackendName() const
     return cv::videoio_registry::getBackendName((VideoCaptureAPIs)api);
 }
 
-void VideoWriter::write(const Mat& image)
+void VideoWriter::write(InputArray image)
 {
     CV_INSTRUMENT_REGION();
 
@@ -425,7 +395,7 @@ void VideoWriter::write(const Mat& image)
         iwriter->write(image);
     else
     {
-        IplImage _img = cvIplImage(image);
+        IplImage _img = cvIplImage(image.getMat());
         cvWriteFrame(writer, &_img);
     }
 }
@@ -434,6 +404,13 @@ VideoWriter& VideoWriter::operator << (const Mat& image)
 {
     CV_INSTRUMENT_REGION();
 
+    write(image);
+    return *this;
+}
+
+VideoWriter& VideoWriter::operator << (const UMat& image)
+{
+    CV_INSTRUMENT_REGION();
     write(image);
     return *this;
 }

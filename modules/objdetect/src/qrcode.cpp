@@ -782,9 +782,6 @@ bool QRCodeDetector::detect(InputArray in, OutputArray points) const
     Mat inarr = in.getMat();
     CV_Assert(!inarr.empty());
     CV_Assert(inarr.depth() == CV_8U);
-    if (inarr.cols <= 20 || inarr.rows <= 20)
-        return false;  // image data is not enough for providing reliable results
-
     int incn = inarr.channels();
     if( incn == 3 || incn == 4 )
     {
@@ -800,15 +797,6 @@ bool QRCodeDetector::detect(InputArray in, OutputArray points) const
     vector<Point2f> pnts2f = qrdet.getTransformationPoints();
     Mat(pnts2f).convertTo(points, points.fixedType() ? points.type() : CV_32FC2);
     return true;
-}
-
-bool detectQRCode(InputArray in, vector<Point> &points, double eps_x, double eps_y)
-{
-    QRCodeDetector qrdetector;
-    qrdetector.setEpsX(eps_x);
-    qrdetector.setEpsY(eps_y);
-
-    return qrdetector.detect(in, points);
 }
 
 class QRDecode
@@ -971,7 +959,8 @@ bool QRDecode::samplingForVersion()
     const int delta_rows = cvRound((postIntermediate.rows * 1.0) / version_size);
     const int delta_cols = cvRound((postIntermediate.cols * 1.0) / version_size);
 
-    vector<double> listFrequencyElem;
+    vector<double> listFrequencyElem(version_size * version_size, 0);
+    int k = 0;
     for (int r = 0; r < postIntermediate.rows; r += delta_rows)
     {
         for (int c = 0; c < postIntermediate.cols; c += delta_cols)
@@ -980,7 +969,7 @@ bool QRDecode::samplingForVersion()
                            Range(r, min(r + delta_rows, postIntermediate.rows)),
                            Range(c, min(c + delta_cols, postIntermediate.cols)));
             const double frequencyElem = (countNonZero(tile) * 1.0) / tile.total();
-            listFrequencyElem.push_back(frequencyElem);
+            listFrequencyElem[k] = frequencyElem; k++;
         }
     }
 
@@ -1060,21 +1049,12 @@ bool QRDecode::fullDecodingProcess()
 #endif
 }
 
-bool decodeQRCode(InputArray in, InputArray points, std::string &decoded_info, OutputArray straight_qrcode)
-{
-    QRCodeDetector qrcode;
-    decoded_info = qrcode.decode(in, points, straight_qrcode);
-    return !decoded_info.empty();
-}
-
-cv::String QRCodeDetector::decode(InputArray in, InputArray points,
-                                  OutputArray straight_qrcode)
+std::string QRCodeDetector::decode(InputArray in, InputArray points,
+                                   OutputArray straight_qrcode)
 {
     Mat inarr = in.getMat();
     CV_Assert(!inarr.empty());
     CV_Assert(inarr.depth() == CV_8U);
-    if (inarr.cols <= 20 || inarr.rows <= 20)
-        return cv::String();  // image data is not enough for providing reliable results
 
     int incn = inarr.channels();
     if( incn == 3 || incn == 4 )
@@ -1106,15 +1086,13 @@ cv::String QRCodeDetector::decode(InputArray in, InputArray points,
     return ok ? decoded_info : std::string();
 }
 
-cv::String QRCodeDetector::detectAndDecode(InputArray in,
-                                           OutputArray points_,
-                                           OutputArray straight_qrcode)
+std::string QRCodeDetector::detectAndDecode(InputArray in,
+                                            OutputArray points_,
+                                            OutputArray straight_qrcode)
 {
     Mat inarr = in.getMat();
     CV_Assert(!inarr.empty());
     CV_Assert(inarr.depth() == CV_8U);
-    if (inarr.cols <= 20 || inarr.rows <= 20)
-        return cv::String();  // image data is not enough for providing reliable results
 
     int incn = inarr.channels();
     if( incn == 3 || incn == 4 )
@@ -1138,6 +1116,5 @@ cv::String QRCodeDetector::detectAndDecode(InputArray in,
         decoded_info = decode(inarr, points, straight_qrcode);
     return decoded_info;
 }
-
 
 }

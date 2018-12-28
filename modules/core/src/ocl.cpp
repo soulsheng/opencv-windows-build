@@ -123,6 +123,8 @@
 #include "opencv2/core/opencl/opencl_svm.hpp"
 #endif
 
+#include "umatrix.hpp"
+
 namespace cv { namespace ocl {
 
 #define IMPLEMENT_REFCOUNTABLE() \
@@ -2072,19 +2074,23 @@ struct Context::Impl
     {
         if (prefix.empty())
         {
-            CV_Assert(!devices.empty());
-            const Device& d = devices[0];
-            int bits = d.addressBits();
-            if (bits > 0 && bits != 64)
-                prefix = cv::format("%d-bit--", bits);
-            prefix += d.vendorName() + "--" + d.name() + "--" + d.driverVersion();
-            // sanitize chars
-            for (size_t i = 0; i < prefix.size(); i++)
+            cv::AutoLock lock(program_cache_mutex);
+            if (prefix.empty())
             {
-                char c = prefix[i];
-                if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '-'))
+                CV_Assert(!devices.empty());
+                const Device& d = devices[0];
+                int bits = d.addressBits();
+                if (bits > 0 && bits != 64)
+                    prefix = cv::format("%d-bit--", bits);
+                prefix += d.vendorName() + "--" + d.name() + "--" + d.driverVersion();
+                // sanitize chars
+                for (size_t i = 0; i < prefix.size(); i++)
                 {
-                    prefix[i] = '_';
+                    char c = prefix[i];
+                    if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '-'))
+                    {
+                        prefix[i] = '_';
+                    }
                 }
             }
         }
@@ -2095,18 +2101,22 @@ struct Context::Impl
     {
         if (prefix_base.empty())
         {
-            const Device& d = devices[0];
-            int bits = d.addressBits();
-            if (bits > 0 && bits != 64)
-                prefix_base = cv::format("%d-bit--", bits);
-            prefix_base += d.vendorName() + "--" + d.name() + "--";
-            // sanitize chars
-            for (size_t i = 0; i < prefix_base.size(); i++)
+            cv::AutoLock lock(program_cache_mutex);
+            if (prefix_base.empty())
             {
-                char c = prefix_base[i];
-                if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '-'))
+                const Device& d = devices[0];
+                int bits = d.addressBits();
+                if (bits > 0 && bits != 64)
+                    prefix_base = cv::format("%d-bit--", bits);
+                prefix_base += d.vendorName() + "--" + d.name() + "--";
+                // sanitize chars
+                for (size_t i = 0; i < prefix_base.size(); i++)
                 {
-                    prefix_base[i] = '_';
+                    char c = prefix_base[i];
+                    if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '-'))
+                    {
+                        prefix_base[i] = '_';
+                    }
                 }
             }
         }
@@ -3783,16 +3793,10 @@ struct Program::Impl
             }
         }
         if (!handle)
-            return false;
-        cl_build_status build_status = CL_BUILD_NONE;
-        size_t retsz = 0;
-        CV_OCL_DBG_CHECK(result = clGetProgramBuildInfo(handle, devices[0], CL_PROGRAM_BUILD_STATUS,
-                sizeof(build_status), &build_status, &retsz));
-        if (result == CL_SUCCESS && build_status == CL_BUILD_SUCCESS)
         {
-            CV_LOG_VERBOSE(NULL, 0, "clGetProgramBuildInfo() pre-check returns CL_BUILD_SUCCESS. Skip clBuildProgram() call");
+            return false;
         }
-        else
+        // call clBuildProgram()
         {
             result = clBuildProgram(handle, (cl_uint)ndevices, (cl_device_id*)devices_, buildflags.c_str(), 0, 0);
             CV_OCL_DBG_CHECK_RESULT(result, cv::format("clBuildProgram(binary: %s/%s)", sourceModule_.c_str(), sourceName_.c_str()).c_str());
@@ -3807,8 +3811,10 @@ struct Program::Impl
                 return false;
             }
         }
-        if (build_status != CL_BUILD_SUCCESS)
+        // check build status
         {
+            cl_build_status build_status = CL_BUILD_NONE;
+            size_t retsz = 0;
             CV_OCL_DBG_CHECK(result = clGetProgramBuildInfo(handle, devices[0], CL_PROGRAM_BUILD_STATUS,
                     sizeof(build_status), &build_status, &retsz));
             if (result == CL_SUCCESS)
@@ -3837,7 +3843,7 @@ struct Program::Impl
         if (handle && CV_OPENCL_VALIDATE_BINARY_PROGRAMS_VALUE)
         {
             CV_LOG_INFO(NULL, "OpenCL: query kernel names (binary)...");
-            retsz = 0;
+            size_t retsz = 0;
             char kernels_buffer[4096] = {0};
             result = clGetProgramInfo(handle, CL_PROGRAM_KERNEL_NAMES, sizeof(kernels_buffer), &kernels_buffer[0], &retsz);
             if (retsz < sizeof(kernels_buffer))
@@ -5416,8 +5422,7 @@ public:
                                             srcrawofs, new_srcofs, new_srcstep,
                                             dstrawofs, new_dstofs, new_dststep);
 
-        UMatDataAutoLock src_autolock(src);
-        UMatDataAutoLock dst_autolock(dst);
+        UMatDataAutoLock src_autolock(src, dst);
 
         if( !src->handle || (src->data && src->hostCopyObsolete() < src->deviceCopyObsolete()) )
         {

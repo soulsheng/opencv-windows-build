@@ -237,6 +237,11 @@ make & enjoy!
 #include <sys/videoio.h>
 #endif
 
+// https://github.com/opencv/opencv/issues/13335
+#ifndef V4L2_CID_ISO_SENSITIVITY
+#define V4L2_CID_ISO_SENSITIVITY (V4L2_CID_CAMERA_CLASS_BASE+23)
+#endif
+
 /* Defaults - If your board can do better, set it here.  Set for the most common type inputs. */
 #define DEFAULT_V4L_WIDTH  640
 #define DEFAULT_V4L_HEIGHT 480
@@ -347,8 +352,17 @@ struct CvCaptureCAM_V4L CV_FINAL : public CvCapture
 
 /***********************   Implementations  ***************************************/
 
-CvCaptureCAM_V4L::CvCaptureCAM_V4L() : deviceHandle(-1), bufferIndex(-1)
+CvCaptureCAM_V4L::CvCaptureCAM_V4L() :
+    deviceHandle(-1), bufferIndex(-1),
+    FirstCapture(true),
+    palette(0),
+    width(0), height(0), width_set(0), height_set(0),
+    bufferSize(DEFAULT_V4L_BUFFERS),
+    fps(0), convert_rgb(0), frame_allocated(false), returnFrame(false),
+    channelNumber(-1), normalizePropRange(false),
+    type(V4L2_BUF_TYPE_VIDEO_CAPTURE)
 {
+    frame = cvIplImage();
     memset(&timestamp, 0, sizeof(timestamp));
 }
 
@@ -1748,7 +1762,7 @@ bool CvCaptureCAM_V4L::icvSetFrameSize(int _width, int _height)
     if (_width > 0)
         width_set = _width;
 
-    if (height > 0)
+    if (_height > 0)
         height_set = _height;
 
     /* two subsequent calls setting WIDTH and HEIGHT will change

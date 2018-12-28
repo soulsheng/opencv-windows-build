@@ -642,6 +642,24 @@ double cvGetOpenGlProp_W32(const char* name)
     return result;
 }
 
+double cvGetPropVisible_W32(const char* name)
+{
+    double result = -1;
+
+    CV_FUNCNAME( "cvGetPropVisible_W32" );
+
+    __BEGIN__;
+
+    if (!name)
+        CV_ERROR( CV_StsNullPtr, "NULL name string" );
+
+    result = (icvFindWindowByName( name ) != NULL);
+
+    __END__;
+
+    return result;
+}
+
 
 // OpenGL support
 
@@ -1154,7 +1172,6 @@ cvShowImage( const char* name, const CvArr* arr )
     int channels = 0;
     void* dst_ptr = 0;
     const int channels0 = 3;
-    int origin = 0;
     CvMat stub, *image;
     bool changed_size = false; // philipg
 
@@ -1170,9 +1187,6 @@ cvShowImage( const char* name, const CvArr* arr )
 
     if( !window || !arr )
         EXIT; // keep silence here.
-
-    if( CV_IS_IMAGE_HDR( arr ))
-        origin = ((IplImage*)arr)->origin;
 
     CV_CALL( image = cvGetMat( arr, &stub ));
 
@@ -1210,24 +1224,10 @@ cvShowImage( const char* name, const CvArr* arr )
     }
 
     {
-        cv::Mat src = cv::cvarrToMat(image);
         cv::Mat dst(size.cy, size.cx, CV_8UC3, dst_ptr, (size.cx * channels + 3) & -4);
-        if (src.channels() == 1)
-        {
-            cv::cvtColor(src, dst, cv::COLOR_GRAY2BGR);
-            cv::flip(dst, dst, 0);
-        }
-        else if (src.channels() == 4)
-        {
-            cv::cvtColor(src, dst, cv::COLOR_BGRA2BGR);
-            cv::flip(dst, dst, 0);
-        }
-        else
-        {
-            CV_Assert(src.channels() == 3);
-            cv::flip(src, dst, 0);
-        }
+        convertToShow(cv::cvarrToMat(image), dst, false);
         CV_Assert(dst.data == (uchar*)dst_ptr);
+        cv::flip(dst, dst, 0);
     }
 
     // ony resize window if needed

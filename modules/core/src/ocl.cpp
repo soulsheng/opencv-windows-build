@@ -1257,6 +1257,14 @@ struct Device::Impl
         else
             vendorID_ = UNKNOWN_VENDOR;
 
+        const size_t CV_OPENCL_DEVICE_MAX_WORK_GROUP_SIZE = utils::getConfigurationParameterSizeT("OPENCV_OPENCL_DEVICE_MAX_WORK_GROUP_SIZE", 0);
+        if (CV_OPENCL_DEVICE_MAX_WORK_GROUP_SIZE > 0)
+        {
+            const size_t new_maxWorkGroupSize = std::min(maxWorkGroupSize_, CV_OPENCL_DEVICE_MAX_WORK_GROUP_SIZE);
+            if (new_maxWorkGroupSize != maxWorkGroupSize_)
+                CV_LOG_WARNING(NULL, "OpenCL: using workgroup size: " << new_maxWorkGroupSize << " (was " << maxWorkGroupSize_ << ")");
+            maxWorkGroupSize_ = new_maxWorkGroupSize;
+        }
 #if 0
         if (isExtensionSupported("cl_khr_spir"))
         {
@@ -2772,6 +2780,7 @@ struct Kernel::Impl
         for( int i = 0; i < MAX_ARRS; i++ )
             u[i] = 0;
         haveTempDstUMats = false;
+        haveTempSrcUMats = false;
     }
 
     void cleanupUMats()
@@ -2788,6 +2797,7 @@ struct Kernel::Impl
             }
         nu = 0;
         haveTempDstUMats = false;
+        haveTempSrcUMats = false;
     }
 
     void addUMat(const UMat& m, bool dst)
@@ -2798,6 +2808,8 @@ struct Kernel::Impl
         nu++;
         if(dst && m.u->tempUMat())
             haveTempDstUMats = true;
+        if(m.u->originalUMatData == NULL && m.u->tempUMat())
+            haveTempSrcUMats = true;  // UMat is created on RAW memory (without proper lifetime management, even from Mat)
     }
 
     void addImage(const Image2D& image)
@@ -2835,6 +2847,7 @@ struct Kernel::Impl
     int nu;
     std::list<Image2D> images;
     bool haveTempDstUMats;
+    bool haveTempSrcUMats;
 };
 
 }} // namespace cv::ocl
@@ -3107,6 +3120,8 @@ bool Kernel::Impl::run(int dims, size_t globalsize[], size_t localsize[],
 
     cl_command_queue qq = getQueue(q);
     if (haveTempDstUMats)
+        sync = true;
+    if (haveTempSrcUMats)
         sync = true;
     if (timeNS)
         sync = true;

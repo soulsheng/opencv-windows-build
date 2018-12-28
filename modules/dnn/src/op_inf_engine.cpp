@@ -152,6 +152,7 @@ InfEngineBackendNet::InfEngineBackendNet()
 {
     targetDevice = InferenceEngine::TargetDevice::eCPU;
     precision = InferenceEngine::Precision::FP32;
+    hasNetOwner = false;
 }
 
 InfEngineBackendNet::InfEngineBackendNet(InferenceEngine::CNNNetwork& net)
@@ -162,6 +163,7 @@ InfEngineBackendNet::InfEngineBackendNet(InferenceEngine::CNNNetwork& net)
     outputs = net.getOutputsInfo();
     layers.resize(net.layerCount());  // A hack to execute InfEngineBackendNet::layerCount correctly.
     netOwner = net;
+    hasNetOwner = true;
 }
 
 void InfEngineBackendNet::Release() CV_NOEXCEPT
@@ -178,12 +180,12 @@ void InfEngineBackendNet::setPrecision(InferenceEngine::Precision p) CV_NOEXCEPT
 
 InferenceEngine::Precision InfEngineBackendNet::getPrecision() CV_NOEXCEPT
 {
-    return precision;
+    return hasNetOwner ? netOwner.getPrecision() : precision;
 }
 
 InferenceEngine::Precision InfEngineBackendNet::getPrecision() const CV_NOEXCEPT
 {
-    return precision;
+    return hasNetOwner ? netOwner.getPrecision() : precision;
 }
 
 // Assume that outputs of network is unconnected blobs.
@@ -231,6 +233,12 @@ void InfEngineBackendNet::getName(char*, size_t) const CV_NOEXCEPT
 const std::string& InfEngineBackendNet::getName() const CV_NOEXCEPT
 {
     return name;
+}
+
+InferenceEngine::StatusCode InfEngineBackendNet::serialize(const std::string&, const std::string&, InferenceEngine::ResponseDesc*) const CV_NOEXCEPT
+{
+    CV_Error(Error::StsNotImplemented, "");
+    return InferenceEngine::StatusCode::OK;
 }
 
 size_t InfEngineBackendNet::layerCount() CV_NOEXCEPT
@@ -302,7 +310,8 @@ void InfEngineBackendNet::setTargetDevice(InferenceEngine::TargetDevice device) 
 {
     if (device != InferenceEngine::TargetDevice::eCPU &&
         device != InferenceEngine::TargetDevice::eGPU &&
-        device != InferenceEngine::TargetDevice::eMYRIAD)
+        device != InferenceEngine::TargetDevice::eMYRIAD &&
+        device != InferenceEngine::TargetDevice::eFPGA)
         CV_Error(Error::StsNotImplemented, "");
     targetDevice = device;
 }
@@ -314,7 +323,8 @@ InferenceEngine::TargetDevice InfEngineBackendNet::getTargetDevice() CV_NOEXCEPT
 
 InferenceEngine::TargetDevice InfEngineBackendNet::getTargetDevice() const CV_NOEXCEPT
 {
-    return targetDevice;
+    return targetDevice == InferenceEngine::TargetDevice::eFPGA ?
+           InferenceEngine::TargetDevice::eHETERO : targetDevice;
 }
 
 InferenceEngine::StatusCode InfEngineBackendNet::setBatchSize(const size_t) CV_NOEXCEPT
@@ -416,6 +426,8 @@ void InfEngineBackendNet::init(int targetId)
         InferenceEngine::OutputsDataMap unconnectedOuts;
         for (const auto& l : layers)
         {
+            if (l->type == "Input")
+                continue;
             // Add all outputs.
             for (const InferenceEngine::DataPtr& out : l->outData)
             {
@@ -466,6 +478,11 @@ void InfEngineBackendNet::init(int targetId)
         setPrecision(InferenceEngine::Precision::FP16);
         setTargetDevice(InferenceEngine::TargetDevice::eMYRIAD); break;
     }
+    case DNN_TARGET_FPGA:
+    {
+        setPrecision(InferenceEngine::Precision::FP16);
+        setTargetDevice(InferenceEngine::TargetDevice::eFPGA); break;
+    }
     default:
         CV_Error(Error::StsError, format("Unknown target identifier: %d", targetId));
     }
@@ -489,10 +506,15 @@ void InfEngineBackendNet::initPlugin(InferenceEngine::ICNNNetwork& net)
         }
         else
         {
-            enginePtr = InferenceEngine::PluginDispatcher({""}).getSuitablePlugin(targetDevice);
+            auto dispatcher = InferenceEngine::PluginDispatcher({""});
+            if (targetDevice == InferenceEngine::TargetDevice::eFPGA)
+                enginePtr = dispatcher.getPluginByDevice("HETERO:FPGA,CPU");
+            else
+                enginePtr = dispatcher.getSuitablePlugin(targetDevice);
             sharedPlugins[targetDevice] = enginePtr;
 
-            if (targetDevice == InferenceEngine::TargetDevice::eCPU)
+            if (targetDevice == InferenceEngine::TargetDevice::eCPU ||
+                targetDevice == InferenceEngine::TargetDevice::eFPGA)
             {
                 std::string suffixes[] = {"_avx2", "_sse4", ""};
                 bool haveFeature[] = {

@@ -197,6 +197,7 @@ typedef std::vector<size_t> vector_size_t;
 typedef std::vector<Point> vector_Point;
 typedef std::vector<Point2f> vector_Point2f;
 typedef std::vector<Point3f> vector_Point3f;
+typedef std::vector<Size> vector_Size;
 typedef std::vector<Vec2f> vector_Vec2f;
 typedef std::vector<Vec3f> vector_Vec3f;
 typedef std::vector<Vec4f> vector_Vec4f;
@@ -1333,6 +1334,19 @@ template<> struct pyopencvVecConverter<Mat>
     }
 
     static PyObject* from(const std::vector<Mat>& value)
+    {
+        return pyopencv_from_generic_vec(value);
+    }
+};
+
+template<> struct pyopencvVecConverter<UMat>
+{
+    static bool to(PyObject* obj, std::vector<UMat>& value, const ArgInfo info)
+    {
+        return pyopencv_to_generic_vec(obj, value, info);
+    }
+
+    static PyObject* from(const std::vector<UMat>& value)
     {
         return pyopencv_from_generic_vec(value);
     }

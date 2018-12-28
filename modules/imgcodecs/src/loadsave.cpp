@@ -50,10 +50,50 @@
 #undef min
 #undef max
 #include <iostream>
+#include <fstream>
 
 /****************************************************************************************\
 *                                      Image Codecs                                      *
 \****************************************************************************************/
+namespace {
+
+class ByteStreamBuffer: public std::streambuf
+{
+public:
+    ByteStreamBuffer(char* base, size_t length)
+    {
+        setg(base, base, base + length);
+    }
+
+protected:
+    virtual pos_type seekoff( off_type offset,
+                              std::ios_base::seekdir dir,
+                              std::ios_base::openmode )
+    {
+        char* whence = eback();
+        if (dir == std::ios_base::cur)
+        {
+            whence = gptr();
+        }
+        else if (dir == std::ios_base::end)
+        {
+            whence = egptr();
+        }
+        char* to = whence + offset;
+
+        // check limits
+        if (to >= eback() && to <= egptr())
+        {
+            setg(eback(), to, egptr());
+            return gptr() - eback();
+        }
+
+        return -1;
+    }
+};
+
+}
+
 namespace cv
 {
 
@@ -232,23 +272,8 @@ static ImageEncoder findEncoder( const String& _ext )
 
 enum { LOAD_CVMAT=0, LOAD_IMAGE=1, LOAD_MAT=2 };
 
-static void ApplyExifOrientation(const String& filename, Mat& img)
+static void ExifTransform(int orientation, Mat& img)
 {
-    int orientation = IMAGE_ORIENTATION_TL;
-
-    if (filename.size() > 0)
-    {
-        ExifReader reader( filename );
-        if( reader.parse() )
-        {
-            ExifEntry_t entry = reader.getTag( ORIENTATION );
-            if (entry.tag != INVALID_TAG)
-            {
-                orientation = entry.field_u16; //orientation is unsigned short, so check field_u16
-            }
-        }
-    }
-
     switch( orientation )
     {
         case    IMAGE_ORIENTATION_TL: //0th row == visual top, 0th column == visual left-hand side
@@ -282,6 +307,50 @@ static void ApplyExifOrientation(const String& filename, Mat& img)
             //by default the image read has normal (JPEG_ORIENTATION_TL) orientation
             break;
     }
+}
+
+static void ApplyExifOrientation(const String& filename, Mat& img)
+{
+    int orientation = IMAGE_ORIENTATION_TL;
+
+    if (filename.size() > 0)
+    {
+        std::ifstream stream( filename.c_str(), std::ios_base::in | std::ios_base::binary );
+        ExifReader reader( stream );
+        if( reader.parse() )
+        {
+            ExifEntry_t entry = reader.getTag( ORIENTATION );
+            if (entry.tag != INVALID_TAG)
+            {
+                orientation = entry.field_u16; //orientation is unsigned short, so check field_u16
+            }
+        }
+        stream.close();
+    }
+
+    ExifTransform(orientation, img);
+}
+
+static void ApplyExifOrientation(const Mat& buf, Mat& img)
+{
+    int orientation = IMAGE_ORIENTATION_TL;
+
+    if( buf.isContinuous() )
+    {
+        ByteStreamBuffer bsb( reinterpret_cast<char*>(buf.data), buf.total() * buf.elemSize() );
+        std::istream stream( &bsb );
+        ExifReader reader( stream );
+        if( reader.parse() )
+        {
+            ExifEntry_t entry = reader.getTag( ORIENTATION );
+            if (entry.tag != INVALID_TAG)
+            {
+                orientation = entry.field_u16; //orientation is unsigned short, so check field_u16
+            }
+        }
+    }
+
+    ExifTransform(orientation, img);
 }
 
 /**
@@ -487,6 +556,8 @@ imreadmulti_(const String& filename, int flags, std::vector<Mat>& mats)
 */
 Mat imread( const String& filename, int flags )
 {
+    CV_TRACE_FUNCTION();
+
     /// create the basic container
     Mat img;
 
@@ -494,7 +565,7 @@ Mat imread( const String& filename, int flags )
     imread_( filename, flags, LOAD_MAT, &img );
 
     /// optionally rotate the data if EXIF' orientation flag says so
-    if( (flags & IMREAD_IGNORE_ORIENTATION) == 0 && flags != IMREAD_UNCHANGED )
+    if( !img.empty() && (flags & IMREAD_IGNORE_ORIENTATION) == 0 && flags != IMREAD_UNCHANGED )
     {
         ApplyExifOrientation(filename, img);
     }
@@ -515,6 +586,8 @@ Mat imread( const String& filename, int flags )
 */
 bool imreadmulti(const String& filename, std::vector<Mat>& mats, int flags)
 {
+    CV_TRACE_FUNCTION();
+
     return imreadmulti_(filename, flags, mats);
 }
 
@@ -552,6 +625,8 @@ static bool imwrite_( const String& filename, const Mat& image,
 bool imwrite( const String& filename, InputArray _img,
               const std::vector<int>& params )
 {
+    CV_TRACE_FUNCTION();
+
     Mat img = _img.getMat();
     return imwrite_(filename, img, params, false);
 }
@@ -576,8 +651,15 @@ imdecode_( const Mat& buf, int flags, int hdrtype, Mat* mat=0 )
         if( !f )
             return 0;
         size_t bufSize = buf.cols*buf.rows*buf.elemSize();
-        fwrite( buf.ptr(), 1, bufSize, f );
-        fclose(f);
+        if( fwrite( buf.ptr(), 1, bufSize, f ) != bufSize )
+        {
+            fclose( f );
+            CV_Error( CV_StsError, "failed to write image data to temporary file" );
+        }
+        if( fclose(f) != 0 )
+        {
+            CV_Error( CV_StsError, "failed to write image data to temporary file" );
+        }
         decoder->setSource(filename);
     }
 
@@ -656,22 +738,42 @@ imdecode_( const Mat& buf, int flags, int hdrtype, Mat* mat=0 )
 
 Mat imdecode( InputArray _buf, int flags )
 {
+    CV_TRACE_FUNCTION();
+
     Mat buf = _buf.getMat(), img;
     imdecode_( buf, flags, LOAD_MAT, &img );
+
+    /// optionally rotate the data if EXIF' orientation flag says so
+    if( !img.empty() && (flags & IMREAD_IGNORE_ORIENTATION) == 0 && flags != IMREAD_UNCHANGED )
+    {
+        ApplyExifOrientation(buf, img);
+    }
+
     return img;
 }
 
 Mat imdecode( InputArray _buf, int flags, Mat* dst )
 {
+    CV_TRACE_FUNCTION();
+
     Mat buf = _buf.getMat(), img;
     dst = dst ? dst : &img;
     imdecode_( buf, flags, LOAD_MAT, dst );
+
+    /// optionally rotate the data if EXIF' orientation flag says so
+    if( !dst->empty() && (flags & IMREAD_IGNORE_ORIENTATION) == 0 && flags != IMREAD_UNCHANGED )
+    {
+        ApplyExifOrientation(buf, *dst);
+    }
+
     return *dst;
 }
 
 bool imencode( const String& ext, InputArray _image,
                std::vector<uchar>& buf, const std::vector<int>& params )
 {
+    CV_TRACE_FUNCTION();
+
     Mat image = _image.getMat();
 
     int channels = image.channels();

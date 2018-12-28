@@ -52,78 +52,72 @@
 #include "hal_replacement.hpp"
 
 #include "opencv2/core/openvx/ovx_defs.hpp"
+#include "imgwarp.hpp"
 
 using namespace cv;
 
 namespace cv
 {
-#if IPP_VERSION_X100 >= 710
-    typedef IppStatus (CV_STDCALL* ippiResizeFunc)(const void*, int, const void*, int, IppiPoint, IppiSize, IppiBorderType, void*, void*, Ipp8u*);
-    typedef IppStatus (CV_STDCALL* ippiResizeGetBufferSize)(void*, IppiSize, Ipp32u, int*);
-    typedef IppStatus (CV_STDCALL* ippiResizeGetSrcOffset)(void*, IppiPoint, IppiPoint*);
-#endif
 
-#if defined (HAVE_IPP) && (IPP_VERSION_X100 >= 700) && IPP_DISABLE_BLOCK
-    typedef IppStatus (CV_STDCALL* ippiSetFunc)(const void*, void *, int, IppiSize);
-    typedef IppStatus (CV_STDCALL* ippiWarpPerspectiveFunc)(const void*, IppiSize, int, IppiRect, void *, int, IppiRect, double [3][3], int);
-    typedef IppStatus (CV_STDCALL* ippiWarpAffineBackFunc)(const void*, IppiSize, int, IppiRect, void *, int, IppiRect, double [2][3], int);
+#if defined (HAVE_IPP) && (!IPP_DISABLE_WARPAFFINE || !IPP_DISABLE_WARPPERSPECTIVE || !IPP_DISABLE_REMAP)
+typedef IppStatus (CV_STDCALL* ippiSetFunc)(const void*, void *, int, IppiSize);
 
-    template <int channels, typename Type>
-    bool IPPSetSimple(cv::Scalar value, void *dataPointer, int step, IppiSize &size, ippiSetFunc func)
+template <int channels, typename Type>
+bool IPPSetSimple(cv::Scalar value, void *dataPointer, int step, IppiSize &size, ippiSetFunc func)
+{
+    CV_INSTRUMENT_REGION_IPP()
+
+    Type values[channels];
+    for( int i = 0; i < channels; i++ )
+        values[i] = saturate_cast<Type>(value[i]);
+    return func(values, dataPointer, step, size) >= 0;
+}
+
+static bool IPPSet(const cv::Scalar &value, void *dataPointer, int step, IppiSize &size, int channels, int depth)
+{
+    CV_INSTRUMENT_REGION_IPP()
+
+    if( channels == 1 )
     {
-        CV_INSTRUMENT_REGION_IPP()
-
-        Type values[channels];
-        for( int i = 0; i < channels; i++ )
-            values[i] = saturate_cast<Type>(value[i]);
-        return func(values, dataPointer, step, size) >= 0;
+        switch( depth )
+        {
+        case CV_8U:
+            return CV_INSTRUMENT_FUN_IPP(ippiSet_8u_C1R, saturate_cast<Ipp8u>(value[0]), (Ipp8u *)dataPointer, step, size) >= 0;
+        case CV_16U:
+            return CV_INSTRUMENT_FUN_IPP(ippiSet_16u_C1R, saturate_cast<Ipp16u>(value[0]), (Ipp16u *)dataPointer, step, size) >= 0;
+        case CV_32F:
+            return CV_INSTRUMENT_FUN_IPP(ippiSet_32f_C1R, saturate_cast<Ipp32f>(value[0]), (Ipp32f *)dataPointer, step, size) >= 0;
+        }
     }
-
-    static bool IPPSet(const cv::Scalar &value, void *dataPointer, int step, IppiSize &size, int channels, int depth)
+    else
     {
-        CV_INSTRUMENT_REGION_IPP()
-
-        if( channels == 1 )
+        if( channels == 3 )
         {
             switch( depth )
             {
             case CV_8U:
-                return CV_INSTRUMENT_FUN_IPP(ippiSet_8u_C1R,(saturate_cast<Ipp8u>(value[0]), (Ipp8u *)dataPointer, step, size)) >= 0;
+                return IPPSetSimple<3, Ipp8u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_8u_C3R);
             case CV_16U:
-                return CV_INSTRUMENT_FUN_IPP(ippiSet_16u_C1R,(saturate_cast<Ipp16u>(value[0]), (Ipp16u *)dataPointer, step, size)) >= 0;
+                return IPPSetSimple<3, Ipp16u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_16u_C3R);
             case CV_32F:
-                return CV_INSTRUMENT_FUN_IPP(ippiSet_32f_C1R,(saturate_cast<Ipp32f>(value[0]), (Ipp32f *)dataPointer, step, size)) >= 0;
+                return IPPSetSimple<3, Ipp32f>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_32f_C3R);
             }
         }
-        else
+        else if( channels == 4 )
         {
-            if( channels == 3 )
+            switch( depth )
             {
-                switch( depth )
-                {
-                case CV_8U:
-                    return IPPSetSimple<3, Ipp8u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_8u_C3R);
-                case CV_16U:
-                    return IPPSetSimple<3, Ipp16u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_16u_C3R);
-                case CV_32F:
-                    return IPPSetSimple<3, Ipp32f>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_32f_C3R);
-                }
-            }
-            else if( channels == 4 )
-            {
-                switch( depth )
-                {
-                case CV_8U:
-                    return IPPSetSimple<4, Ipp8u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_8u_C4R);
-                case CV_16U:
-                    return IPPSetSimple<4, Ipp16u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_16u_C4R);
-                case CV_32F:
-                    return IPPSetSimple<4, Ipp32f>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_32f_C4R);
-                }
+            case CV_8U:
+                return IPPSetSimple<4, Ipp8u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_8u_C4R);
+            case CV_16U:
+                return IPPSetSimple<4, Ipp16u>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_16u_C4R);
+            case CV_32F:
+                return IPPSetSimple<4, Ipp32f>(value, dataPointer, step, size, (ippiSetFunc)ippiSet_32f_C4R);
             }
         }
-        return false;
     }
+    return false;
+}
 #endif
 
 /************** interpolation formulas and tables ***************/
@@ -442,8 +436,30 @@ resizeNN( const Mat& src, Mat& dst, double fx, double fy )
     }
 
     Range range(0, dsize.height);
-    resizeNNInvoker invoker(src, dst, x_ofs, pix_size4, ify);
-    parallel_for_(range, invoker, dst.total()/(double)(1<<16));
+#if CV_TRY_AVX2
+    if(CV_CPU_HAS_SUPPORT_AVX2 && ((pix_size == 2) || (pix_size == 4)))
+    {
+        if(pix_size == 2)
+            opt_AVX2::resizeNN2_AVX2(range, src, dst, x_ofs, pix_size4, ify);
+        else
+            opt_AVX2::resizeNN4_AVX2(range, src, dst, x_ofs, pix_size4, ify);
+    }
+    else
+#endif
+#if CV_TRY_SSE4_1
+    if(CV_CPU_HAS_SUPPORT_SSE4_1 && ((pix_size == 2) || (pix_size == 4)))
+    {
+        if(pix_size == 2)
+            opt_SSE4_1::resizeNN2_SSE4_1(range, src, dst, x_ofs, pix_size4, ify);
+        else
+            opt_SSE4_1::resizeNN4_SSE4_1(range, src, dst, x_ofs, pix_size4, ify);
+    }
+    else
+#endif
+    {
+        resizeNNInvoker invoker(src, dst, x_ofs, pix_size4, ify);
+        parallel_for_(range, invoker, dst.total()/(double)(1<<16));
+    }
 }
 
 
@@ -900,50 +916,14 @@ struct VResizeCubicVec_32f
     }
 };
 
-#if CV_SSE4_1
+#if CV_TRY_SSE4_1
 
 struct VResizeLanczos4Vec_32f16u
 {
     int operator()(const uchar** _src, uchar* _dst, const uchar* _beta, int width ) const
     {
-        const float** src = (const float**)_src;
-        const float* beta = (const float*)_beta;
-        const float *S0 = src[0], *S1 = src[1], *S2 = src[2], *S3 = src[3],
-                    *S4 = src[4], *S5 = src[5], *S6 = src[6], *S7 = src[7];
-        short * dst = (short*)_dst;
-        int x = 0;
-        __m128 v_b0 = _mm_set1_ps(beta[0]), v_b1 = _mm_set1_ps(beta[1]),
-               v_b2 = _mm_set1_ps(beta[2]), v_b3 = _mm_set1_ps(beta[3]),
-               v_b4 = _mm_set1_ps(beta[4]), v_b5 = _mm_set1_ps(beta[5]),
-               v_b6 = _mm_set1_ps(beta[6]), v_b7 = _mm_set1_ps(beta[7]);
-
-        for( ; x <= width - 8; x += 8 )
-        {
-            __m128 v_dst0 = _mm_mul_ps(v_b0, _mm_loadu_ps(S0 + x));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b1, _mm_loadu_ps(S1 + x)));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b2, _mm_loadu_ps(S2 + x)));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b3, _mm_loadu_ps(S3 + x)));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b4, _mm_loadu_ps(S4 + x)));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b5, _mm_loadu_ps(S5 + x)));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b6, _mm_loadu_ps(S6 + x)));
-            v_dst0 = _mm_add_ps(v_dst0, _mm_mul_ps(v_b7, _mm_loadu_ps(S7 + x)));
-
-            __m128 v_dst1 = _mm_mul_ps(v_b0, _mm_loadu_ps(S0 + x + 4));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b1, _mm_loadu_ps(S1 + x + 4)));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b2, _mm_loadu_ps(S2 + x + 4)));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b3, _mm_loadu_ps(S3 + x + 4)));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b4, _mm_loadu_ps(S4 + x + 4)));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b5, _mm_loadu_ps(S5 + x + 4)));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b6, _mm_loadu_ps(S6 + x + 4)));
-            v_dst1 = _mm_add_ps(v_dst1, _mm_mul_ps(v_b7, _mm_loadu_ps(S7 + x + 4)));
-
-            __m128i v_dsti0 = _mm_cvtps_epi32(v_dst0);
-            __m128i v_dsti1 = _mm_cvtps_epi32(v_dst1);
-
-            _mm_storeu_si128((__m128i *)(dst + x), _mm_packus_epi32(v_dsti0, v_dsti1));
-        }
-
-        return x;
+        if (CV_CPU_HAS_SUPPORT_SSE4_1) return opt_SSE4_1::VResizeLanczos4Vec_32f16u_SSE41(_src, _dst, _beta, width);
+        else return 0;
     }
 };
 
@@ -1649,7 +1629,7 @@ struct VResizeLanczos4
     {
         CastOp castOp;
         VecOp vecOp;
-        int k, x = vecOp((const uchar**)src, (uchar*)dst, (const uchar*)beta, width);
+        int x = vecOp((const uchar**)src, (uchar*)dst, (const uchar*)beta, width);
         #if CV_ENABLE_UNROLLED
         for( ; x <= width - 4; x += 4 )
         {
@@ -1657,7 +1637,7 @@ struct VResizeLanczos4
             const WT* S = src[0];
             WT s0 = S[x]*b, s1 = S[x+1]*b, s2 = S[x+2]*b, s3 = S[x+3]*b;
 
-            for( k = 1; k < 8; k++ )
+            for( int k = 1; k < 8; k++ )
             {
                 b = beta[k]; S = src[k];
                 s0 += S[x]*b; s1 += S[x+1]*b;
@@ -1704,10 +1684,6 @@ public:
         CV_Assert(ksize <= MAX_ESIZE);
     }
 
-#if defined(__GNUC__) && (__GNUC__ == 4) && (__GNUC_MINOR__ == 8)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Warray-bounds"
-#endif
     virtual void operator() (const Range& range) const
     {
         int dy, cn = src.channels();
@@ -1737,7 +1713,7 @@ public:
                 int sy = clip(sy0 - ksize2 + 1 + k, 0, ssize.height);
                 for( k1 = std::max(k1, k); k1 < ksize; k1++ )
                 {
-                    if( sy == prev_sy[k1] ) // if the sy-th row has been computed already, reuse it.
+                    if( k1 < MAX_ESIZE && sy == prev_sy[k1] ) // if the sy-th row has been computed already, reuse it.
                     {
                         if( k1 > k )
                             memcpy( rows[k], rows[k1], bufstep*sizeof(rows[0][0]) );
@@ -1756,9 +1732,6 @@ public:
             vresize( (const WT**)rows, (T*)(dst.data + dst.step*dy), beta, dsize.width );
         }
     }
-#if defined(__GNUC__) && (__GNUC__ == 4) && (__GNUC_MINOR__ == 8)
-# pragma GCC diagnostic pop
-#endif
 
 private:
     Mat src;
@@ -2715,135 +2688,7 @@ static int computeResizeAreaTab( int ssize, int dsize, int cn, double scale, Dec
     return k;
 }
 
-#define CHECK_IPP_STATUS(STATUS) if (STATUS < 0) { *ok = false; return; }
-
-#define SET_IPP_RESIZE_LINEAR_FUNC_PTR(TYPE, CN) \
-    ippiResize = (ippiResizeFunc)ippiResizeLinear_##TYPE##_##CN##R; \
-    CHECK_IPP_STATUS(ippiResizeGetSize_##TYPE(srcSize, dstSize, (IppiInterpolationType)mode, 0, &specSize, &initSize));\
-    specBuf.allocate(specSize);\
-    pSpec = (uchar*)specBuf;\
-    CHECK_IPP_STATUS(ippiResizeLinearInit_##TYPE(srcSize, dstSize, (IppiResizeSpec_32f*)pSpec));
-
-#define SET_IPP_RESIZE_LINEAR_FUNC_64_PTR(TYPE, CN) \
-    if (mode == (int)ippCubic) { *ok = false; return; } \
-    ippiResize = (ippiResizeFunc)ippiResizeLinear_##TYPE##_##CN##R; \
-    CHECK_IPP_STATUS(ippiResizeGetSize_##TYPE(srcSize, dstSize, (IppiInterpolationType)mode, 0, &specSize, &initSize));\
-    specBuf.allocate(specSize);\
-    pSpec = (uchar*)specBuf;\
-    CHECK_IPP_STATUS(ippiResizeLinearInit_##TYPE(srcSize, dstSize, (IppiResizeSpec_64f*)pSpec));\
-    getBufferSizeFunc = (ippiResizeGetBufferSize)ippiResizeGetBufferSize_##TYPE;\
-    getSrcOffsetFunc =  (ippiResizeGetSrcOffset) ippiResizeGetSrcOffset_##TYPE;
-
-#define SET_IPP_RESIZE_CUBIC_FUNC_PTR(TYPE, CN) \
-    ippiResize = (ippiResizeFunc)ippiResizeCubic_##TYPE##_##CN##R; \
-    CHECK_IPP_STATUS(ippiResizeGetSize_##TYPE(srcSize, dstSize, (IppiInterpolationType)mode, 0, &specSize, &initSize));\
-    specBuf.allocate(specSize);\
-    pSpec = (uchar*)specBuf;\
-    AutoBuffer<uchar> buf(initSize);\
-    uchar* pInit = (uchar*)buf;\
-    CHECK_IPP_STATUS(ippiResizeCubicInit_##TYPE(srcSize, dstSize, 0.f, 0.75f, (IppiResizeSpec_32f*)pSpec, pInit));
-
-#define SET_IPP_RESIZE_PTR(TYPE, CN) \
-    if (mode == (int)ippLinear)     { SET_IPP_RESIZE_LINEAR_FUNC_PTR(TYPE, CN);} \
-    else if (mode == (int)ippCubic) { SET_IPP_RESIZE_CUBIC_FUNC_PTR(TYPE, CN);} \
-    else { *ok = false; return; } \
-    getBufferSizeFunc = (ippiResizeGetBufferSize)ippiResizeGetBufferSize_##TYPE; \
-    getSrcOffsetFunc =  (ippiResizeGetSrcOffset)ippiResizeGetSrcOffset_##TYPE;
-
-#if IPP_VERSION_X100 >= 710
-class IPPresizeInvoker :
-    public ParallelLoopBody
-{
-public:
-    IPPresizeInvoker(const Mat & _src, Mat & _dst, double _inv_scale_x, double _inv_scale_y, int _mode, bool *_ok) :
-        ParallelLoopBody(), src(_src), dst(_dst), inv_scale_x(_inv_scale_x),
-        inv_scale_y(_inv_scale_y), pSpec(NULL), mode(_mode),
-        ippiResize(NULL), getBufferSizeFunc(NULL), getSrcOffsetFunc(NULL), ok(_ok)
-    {
-        *ok = true;
-        IppiSize srcSize, dstSize;
-        int type = src.type(), specSize = 0, initSize = 0;
-        srcSize.width  = src.cols;
-        srcSize.height = src.rows;
-        dstSize.width  = dst.cols;
-        dstSize.height = dst.rows;
-
-        switch (type)
-        {
-#if IPP_DISABLE_BLOCK // disabled since it breaks tests for CascadeClassifier
-            case CV_8UC1:  SET_IPP_RESIZE_PTR(8u,C1);  break;
-            case CV_8UC3:  SET_IPP_RESIZE_PTR(8u,C3);  break;
-            case CV_8UC4:  SET_IPP_RESIZE_PTR(8u,C4);  break;
-#endif
-            case CV_16UC1: SET_IPP_RESIZE_PTR(16u,C1); break;
-            case CV_16UC3: SET_IPP_RESIZE_PTR(16u,C3); break;
-            case CV_16UC4: SET_IPP_RESIZE_PTR(16u,C4); break;
-            case CV_16SC1: SET_IPP_RESIZE_PTR(16s,C1); break;
-            case CV_16SC3: SET_IPP_RESIZE_PTR(16s,C3); break;
-            case CV_16SC4: SET_IPP_RESIZE_PTR(16s,C4); break;
-            case CV_32FC1: SET_IPP_RESIZE_PTR(32f,C1); break;
-            case CV_32FC3: SET_IPP_RESIZE_PTR(32f,C3); break;
-            case CV_32FC4: SET_IPP_RESIZE_PTR(32f,C4); break;
-            case CV_64FC1: SET_IPP_RESIZE_LINEAR_FUNC_64_PTR(64f,C1); break;
-            case CV_64FC3: SET_IPP_RESIZE_LINEAR_FUNC_64_PTR(64f,C3); break;
-            case CV_64FC4: SET_IPP_RESIZE_LINEAR_FUNC_64_PTR(64f,C4); break;
-            default: { *ok = false; return; } break;
-        }
-    }
-
-    ~IPPresizeInvoker()
-    {
-    }
-
-    virtual void operator() (const Range& range) const
-    {
-        if (*ok == false)
-            return;
-
-        int cn = src.channels();
-        int dsty = min(cvRound(range.start * inv_scale_y), dst.rows);
-        int dstwidth  = min(cvRound(src.cols * inv_scale_x), dst.cols);
-        int dstheight = min(cvRound(range.end * inv_scale_y), dst.rows);
-
-        IppiPoint dstOffset = { 0, dsty }, srcOffset = {0, 0};
-        IppiSize  dstSize   = { dstwidth, dstheight - dsty };
-        int bufsize = 0, itemSize = (int)src.elemSize1();
-
-        CHECK_IPP_STATUS(getBufferSizeFunc(pSpec, dstSize, cn, &bufsize));
-        CHECK_IPP_STATUS(getSrcOffsetFunc(pSpec, dstOffset, &srcOffset));
-
-        const Ipp8u* pSrc = src.ptr<Ipp8u>(srcOffset.y) + srcOffset.x * cn * itemSize;
-        Ipp8u* pDst = dst.ptr<Ipp8u>(dstOffset.y) + dstOffset.x * cn * itemSize;
-
-        AutoBuffer<uchar> buf(bufsize + 64);
-        uchar* bufptr = alignPtr((uchar*)buf, 32);
-
-        if( CV_INSTRUMENT_FUN_IPP(ippiResize, pSrc, (int)src.step[0], pDst, (int)dst.step[0], dstOffset, dstSize, ippBorderRepl, 0, pSpec, bufptr) < 0 )
-            *ok = false;
-        else
-        {
-            CV_IMPL_ADD(CV_IMPL_IPP|CV_IMPL_MT);
-        }
-    }
-private:
-    const Mat & src;
-    Mat & dst;
-    double inv_scale_x;
-    double inv_scale_y;
-    void *pSpec;
-    AutoBuffer<uchar> specBuf;
-    int mode;
-    ippiResizeFunc ippiResize;
-    ippiResizeGetBufferSize getBufferSizeFunc;
-    ippiResizeGetSrcOffset getSrcOffsetFunc;
-    bool *ok;
-    const IPPresizeInvoker& operator= (const IPPresizeInvoker&);
-};
-
-#endif
-
 #ifdef HAVE_OPENCL
-
 static void ocl_computeResizeAreaTabs(int ssize, int dsize, double scale, int * const map_tab,
                                       float * const alpha_tab, int * const ofs_tab)
 {
@@ -3097,28 +2942,190 @@ static bool ocl_resize( InputArray _src, OutputArray _dst, Size dsize,
 
 #endif
 
-#if IPP_VERSION_X100 >= 710
-static bool ipp_resize_mt(Mat & src, Mat & dst,
-                          double inv_scale_x, double inv_scale_y, int interpolation)
+#ifdef HAVE_IPP
+#define IPP_RESIZE_PARALLEL 1
+
+#ifdef HAVE_IPP_IW
+class ipp_resizeParallel: public ParallelLoopBody
 {
+public:
+    ipp_resizeParallel(::ipp::IwiImage &src, ::ipp::IwiImage &dst, bool &ok):
+        m_src(src), m_dst(dst), m_ok(ok) {}
+    ~ipp_resizeParallel()
+    {
+    }
+
+    void Init(IppiInterpolationType inter)
+    {
+        iwiResize.InitAlloc(m_src.m_size, m_dst.m_size, m_src.m_dataType, m_src.m_channels, inter, ::ipp::IwiResizeParams(0, 0, 0.75, 4), ippBorderRepl);
+
+        m_ok = true;
+    }
+
+    virtual void operator() (const Range& range) const
+    {
+        CV_INSTRUMENT_REGION_IPP()
+
+        if(!m_ok)
+            return;
+
+        try
+        {
+            ::ipp::IwiRoi roi = ::ipp::IwiRect(0, range.start, m_dst.m_size.width, range.end - range.start);
+            CV_INSTRUMENT_FUN_IPP(iwiResize, &m_src, &m_dst, &roi);
+        }
+        catch(::ipp::IwException)
+        {
+            m_ok = false;
+            return;
+        }
+    }
+private:
+    ::ipp::IwiImage &m_src;
+    ::ipp::IwiImage &m_dst;
+
+    mutable ::ipp::IwiResize iwiResize;
+
+    volatile bool &m_ok;
+    const ipp_resizeParallel& operator= (const ipp_resizeParallel&);
+};
+
+class ipp_resizeAffineParallel: public ParallelLoopBody
+{
+public:
+    ipp_resizeAffineParallel(::ipp::IwiImage &src, ::ipp::IwiImage &dst, bool &ok):
+        m_src(src), m_dst(dst), m_ok(ok) {}
+    ~ipp_resizeAffineParallel()
+    {
+    }
+
+    void Init(IppiInterpolationType inter, double scaleX, double scaleY)
+    {
+        double shift = (inter == ippNearest)?-1e-10:-0.5;
+        double coeffs[2][3] = {
+            {scaleX, 0,      shift+0.5*scaleX},
+            {0,      scaleY, shift+0.5*scaleY}
+        };
+
+        iwiWarpAffine.InitAlloc(m_src.m_size, m_dst.m_size, m_src.m_dataType, m_src.m_channels, coeffs, ippWarpForward, inter, ::ipp::IwiWarpAffineParams(0, 0.75, 0), ippBorderRepl);
+
+        m_ok = true;
+    }
+
+    virtual void operator() (const Range& range) const
+    {
+        CV_INSTRUMENT_REGION_IPP()
+
+        if(!m_ok)
+            return;
+
+        try
+        {
+            ::ipp::IwiRoi roi = ::ipp::IwiRect(0, range.start, m_dst.m_size.width, range.end - range.start);
+            CV_INSTRUMENT_FUN_IPP(iwiWarpAffine, &m_src, &m_dst, &roi);
+        }
+        catch(::ipp::IwException)
+        {
+            m_ok = false;
+            return;
+        }
+    }
+private:
+    ::ipp::IwiImage &m_src;
+    ::ipp::IwiImage &m_dst;
+
+    mutable ::ipp::IwiWarpAffine iwiWarpAffine;
+
+    volatile bool &m_ok;
+    const ipp_resizeAffineParallel& operator= (const ipp_resizeAffineParallel&);
+};
+#endif
+
+static bool ipp_resize(const uchar * src_data, size_t src_step, int src_width, int src_height,
+            uchar * dst_data, size_t dst_step, int dst_width, int dst_height, double inv_scale_x, double inv_scale_y,
+            int depth, int channels, int interpolation)
+{
+#ifdef HAVE_IPP_IW
     CV_INSTRUMENT_REGION_IPP()
 
-    int mode = -1;
-    if (interpolation == INTER_LINEAR && src.rows >= 2 && src.cols >= 2)
-        mode = ippLinear;
-    else if (interpolation == INTER_CUBIC && src.rows >= 4 && src.cols >= 4)
-        mode = ippCubic;
-    else
+    IppDataType           ippDataType = ippiGetDataType(depth);
+    IppiInterpolationType ippInter    = ippiGetInterpolation(interpolation);
+    if(ippInter < 0)
         return false;
 
-    bool ok = true;
-    Range range(0, src.rows);
-    IPPresizeInvoker invoker(src, dst, inv_scale_x, inv_scale_y, mode, &ok);
-    parallel_for_(range, invoker, dst.total()/(double)(1<<16));
-    if( ok )
-        return true;
+#if IPP_DISABLE_RESIZE_NEAREST
+    if(ippInter == ippNearest)
+        return false;
+#endif
 
+#if IPP_DISABLE_RESIZE_AREA
+    if(ippInter == ippSuper)
+        return false;
+#endif
+
+    if(ippInter != ippLinear && ippDataType == ipp64f)
+        return false;
+
+    // Accuracy mismatch is 1 but affects detectors greatly
+#if IPP_DISABLE_RESIZE_8U
+    if(ippDataType == ipp8u && ippInter == ippLinear)
+        return false;
+#endif
+
+    bool  affine = false;
+    const double IPP_RESIZE_EPS = (depth == CV_64F)?0:1e-10;
+    double ex = fabs((double)dst_width / src_width  - inv_scale_x) / inv_scale_x;
+    double ey = fabs((double)dst_height / src_height - inv_scale_y) / inv_scale_y;
+
+    // Use affine transform resize to allow sub-pixel accuracy
+    if(ex > IPP_RESIZE_EPS || ey > IPP_RESIZE_EPS)
+        affine = true;
+
+    // Affine doesn't support Lanczos and Super interpolations
+    if(affine && (ippInter == ippLanczos || ippInter == ippSuper))
+        return false;
+
+    try
+    {
+        ::ipp::IwiImage iwSrc(::ipp::IwiSize(src_width, src_height), ippDataType, channels, 0, (void*)src_data, src_step);
+        ::ipp::IwiImage iwDst(::ipp::IwiSize(dst_width, dst_height), ippDataType, channels, 0, (void*)dst_data, dst_step);
+
+        bool  ok;
+        int   threads = ippiSuggestThreadsNum(iwDst, 1+((double)(src_width*src_height)/(dst_width*dst_height)));
+        Range range(0, dst_height);
+        ipp_resizeParallel       invokerGeneral(iwSrc, iwDst, ok);
+        ipp_resizeAffineParallel invokerAffine(iwSrc, iwDst, ok);
+        ParallelLoopBody        *pInvoker = NULL;
+        if(affine)
+        {
+            pInvoker = &invokerAffine;
+            invokerAffine.Init(ippInter, inv_scale_x, inv_scale_y);
+        }
+        else
+        {
+            pInvoker = &invokerGeneral;
+            invokerGeneral.Init(ippInter);
+        }
+
+        if(IPP_RESIZE_PARALLEL && threads > 1)
+            parallel_for_(range, *pInvoker, threads*4);
+        else
+            pInvoker->operator()(range);
+
+        if(!ok)
+            return false;
+    }
+    catch(::ipp::IwException)
+    {
+        return false;
+    }
+    return true;
+#else
+    CV_UNUSED(src_data); CV_UNUSED(src_step); CV_UNUSED(src_width); CV_UNUSED(src_height); CV_UNUSED(dst_data); CV_UNUSED(dst_step);
+    CV_UNUSED(dst_width); CV_UNUSED(dst_height); CV_UNUSED(inv_scale_x); CV_UNUSED(inv_scale_y); CV_UNUSED(depth);
+    CV_UNUSED(channels); CV_UNUSED(interpolation);
     return false;
+#endif
 }
 #endif
 
@@ -3141,6 +3148,13 @@ void resize(int src_type,
     }
 
     CALL_HAL(resize, cv_hal_resize, src_type, src_data, src_step, src_width, src_height, dst_data, dst_step, dst_width, dst_height, inv_scale_x, inv_scale_y, interpolation);
+
+    int  depth = CV_MAT_DEPTH(src_type), cn = CV_MAT_CN(src_type);
+    Size dsize = Size(saturate_cast<int>(src_width*inv_scale_x),
+                        saturate_cast<int>(src_height*inv_scale_y));
+    CV_Assert( dsize.area() > 0 );
+
+    CV_IPP_RUN_FAST(ipp_resize(src_data, src_step, src_width, src_height, dst_data, dst_step, dsize.width, dsize.height, inv_scale_x, inv_scale_y, depth, cn, interpolation))
 
     static ResizeFunc linear_tab[] =
     {
@@ -3246,7 +3260,6 @@ void resize(int src_type,
         resizeArea_<double, double>, 0
     };
 
-    int depth = CV_MAT_DEPTH(src_type), cn = CV_MAT_CN(src_type);
     double scale_x = 1./inv_scale_x, scale_y = 1./inv_scale_y;
 
     int iscale_x = saturate_cast<int>(scale_x);
@@ -3255,30 +3268,8 @@ void resize(int src_type,
     bool is_area_fast = std::abs(scale_x - iscale_x) < DBL_EPSILON &&
             std::abs(scale_y - iscale_y) < DBL_EPSILON;
 
-    Size dsize = Size(saturate_cast<int>(src_width*inv_scale_x),
-                      saturate_cast<int>(src_height*inv_scale_y));
-    CV_Assert( dsize.area() > 0 );
-
     Mat src(Size(src_width, src_height), src_type, const_cast<uchar*>(src_data), src_step);
     Mat dst(dsize, src_type, dst_data, dst_step);
-
-#ifdef HAVE_IPP
-    int mode = -1;
-    if (interpolation == INTER_LINEAR && src_height >= 2 && src_width >= 2)
-        mode = INTER_LINEAR;
-    else if (interpolation == INTER_CUBIC && src_height >= 4 && src_width >= 4)
-        mode = INTER_CUBIC;
-
-    const double IPP_RESIZE_EPS = 1e-10;
-    double ex = fabs((double)dsize.width / src_width  - inv_scale_x) / inv_scale_x;
-    double ey = fabs((double)dsize.height / src_height - inv_scale_y) / inv_scale_y;
-#endif
-    CV_IPP_RUN(IPP_VERSION_X100 >= 710 && ((ex < IPP_RESIZE_EPS && ey < IPP_RESIZE_EPS && depth != CV_64F) || (ex == 0 && ey == 0 && depth == CV_64F)) &&
-        (interpolation == INTER_LINEAR || interpolation == INTER_CUBIC) &&
-        !(interpolation == INTER_LINEAR && is_area_fast && iscale_x == 2 && iscale_y == 2 && depth == CV_8U) &&
-        mode >= 0 && (cn == 1 || cn == 3 || cn == 4) && (depth == CV_16U || depth == CV_16S || depth == CV_32F ||
-        (depth == CV_64F && mode == INTER_LINEAR)),
-        ipp_resize_mt(src, dst, inv_scale_x, inv_scale_y, interpolation))
 
     if( interpolation == INTER_NEAREST )
     {
@@ -3533,14 +3524,13 @@ static void remapNearest( const Mat& _src, Mat& _dst, const Mat& _xy,
                           int borderType, const Scalar& _borderValue )
 {
     Size ssize = _src.size(), dsize = _dst.size();
-    int cn = _src.channels();
+    const int cn = _src.channels();
     const T* S0 = _src.ptr<T>();
+    T cval[CV_CN_MAX];
     size_t sstep = _src.step/sizeof(S0[0]);
-    Scalar_<T> cval(saturate_cast<T>(_borderValue[0]),
-        saturate_cast<T>(_borderValue[1]),
-        saturate_cast<T>(_borderValue[2]),
-        saturate_cast<T>(_borderValue[3]));
-    int dx, dy;
+
+    for(int k = 0; k < cn; k++ )
+        cval[k] = saturate_cast<T>(_borderValue[k & 3]);
 
     unsigned width1 = ssize.width, height1 = ssize.height;
 
@@ -3550,14 +3540,14 @@ static void remapNearest( const Mat& _src, Mat& _dst, const Mat& _xy,
         dsize.height = 1;
     }
 
-    for( dy = 0; dy < dsize.height; dy++ )
+    for(int dy = 0; dy < dsize.height; dy++ )
     {
         T* D = _dst.ptr<T>(dy);
         const short* XY = _xy.ptr<short>(dy);
 
         if( cn == 1 )
         {
-            for( dx = 0; dx < dsize.width; dx++ )
+            for(int dx = 0; dx < dsize.width; dx++ )
             {
                 int sx = XY[dx*2], sy = XY[dx*2+1];
                 if( (unsigned)sx < width1 && (unsigned)sy < height1 )
@@ -3583,9 +3573,9 @@ static void remapNearest( const Mat& _src, Mat& _dst, const Mat& _xy,
         }
         else
         {
-            for( dx = 0; dx < dsize.width; dx++, D += cn )
+            for(int dx = 0; dx < dsize.width; dx++, D += cn )
             {
-                int sx = XY[dx*2], sy = XY[dx*2+1], k;
+                int sx = XY[dx*2], sy = XY[dx*2+1];
                 const T *S;
                 if( (unsigned)sx < width1 && (unsigned)sy < height1 )
                 {
@@ -3602,7 +3592,7 @@ static void remapNearest( const Mat& _src, Mat& _dst, const Mat& _xy,
                     else
                     {
                         S = S0 + sy*sstep + sx*cn;
-                        for( k = 0; k < cn; k++ )
+                        for(int k = 0; k < cn; k++ )
                             D[k] = S[k];
                     }
                 }
@@ -3622,7 +3612,7 @@ static void remapNearest( const Mat& _src, Mat& _dst, const Mat& _xy,
                         sy = borderInterpolate(sy, ssize.height, borderType);
                         S = S0 + sy*sstep + sx*cn;
                     }
-                    for( k = 0; k < cn; k++ )
+                    for(int k = 0; k < cn; k++ )
                         D[k] = S[k];
                 }
             }
@@ -3852,16 +3842,15 @@ static void remapBilinear( const Mat& _src, Mat& _dst, const Mat& _xy,
     typedef typename CastOp::rtype T;
     typedef typename CastOp::type1 WT;
     Size ssize = _src.size(), dsize = _dst.size();
-    int k, cn = _src.channels();
+    const int cn = _src.channels();
     const AT* wtab = (const AT*)_wtab;
     const T* S0 = _src.ptr<T>();
     size_t sstep = _src.step/sizeof(S0[0]);
     T cval[CV_CN_MAX];
-    int dx, dy;
     CastOp castOp;
     VecOp vecOp;
 
-    for( k = 0; k < cn; k++ )
+    for(int k = 0; k < cn; k++ )
         cval[k] = saturate_cast<T>(_borderValue[k & 3]);
 
     unsigned width1 = std::max(ssize.width-1, 0), height1 = std::max(ssize.height-1, 0);
@@ -3871,7 +3860,7 @@ static void remapBilinear( const Mat& _src, Mat& _dst, const Mat& _xy,
         width1 = std::max(ssize.width-2, 0);
 #endif
 
-    for( dy = 0; dy < dsize.height; dy++ )
+    for(int dy = 0; dy < dsize.height; dy++ )
     {
         T* D = _dst.ptr<T>(dy);
         const short* XY = _xy.ptr<short>(dy);
@@ -3879,7 +3868,7 @@ static void remapBilinear( const Mat& _src, Mat& _dst, const Mat& _xy,
         int X0 = 0;
         bool prevInlier = false;
 
-        for( dx = 0; dx <= dsize.width; dx++ )
+        for(int dx = 0; dx <= dsize.width; dx++ )
         {
             bool curInlier = dx < dsize.width ?
                 (unsigned)XY[dx*2] < width1 &&
@@ -3948,7 +3937,7 @@ static void remapBilinear( const Mat& _src, Mat& _dst, const Mat& _xy,
                         int sx = XY[dx*2], sy = XY[dx*2+1];
                         const AT* w = wtab + FXY[dx]*4;
                         const T* S = S0 + sy*sstep + sx*cn;
-                        for( k = 0; k < cn; k++ )
+                        for(int k = 0; k < cn; k++ )
                         {
                             WT t0 = S[k]*w[0] + S[k+cn]*w[1] + S[sstep+k]*w[2] + S[sstep+k+cn]*w[3];
                             D[k] = castOp(t0);
@@ -4012,7 +4001,7 @@ static void remapBilinear( const Mat& _src, Mat& _dst, const Mat& _xy,
                             (sx >= ssize.width || sx+1 < 0 ||
                              sy >= ssize.height || sy+1 < 0) )
                         {
-                            for( k = 0; k < cn; k++ )
+                            for(int k = 0; k < cn; k++ )
                                 D[k] = cval[k];
                         }
                         else
@@ -4046,7 +4035,7 @@ static void remapBilinear( const Mat& _src, Mat& _dst, const Mat& _xy,
                                 v2 = sx0 >= 0 && sy1 >= 0 ? S0 + sy1*sstep + sx0*cn : &cval[0];
                                 v3 = sx1 >= 0 && sy1 >= 0 ? S0 + sy1*sstep + sx1*cn : &cval[0];
                             }
-                            for( k = 0; k < cn; k++ )
+                            for(int k = 0; k < cn; k++ )
                                 D[k] = castOp(WT(v0[k]*w[0] + v1[k]*w[1] + v2[k]*w[2] + v3[k]*w[3]));
                         }
                     }
@@ -4064,16 +4053,16 @@ static void remapBicubic( const Mat& _src, Mat& _dst, const Mat& _xy,
     typedef typename CastOp::rtype T;
     typedef typename CastOp::type1 WT;
     Size ssize = _src.size(), dsize = _dst.size();
-    int cn = _src.channels();
+    const int cn = _src.channels();
     const AT* wtab = (const AT*)_wtab;
     const T* S0 = _src.ptr<T>();
     size_t sstep = _src.step/sizeof(S0[0]);
-    Scalar_<T> cval(saturate_cast<T>(_borderValue[0]),
-        saturate_cast<T>(_borderValue[1]),
-        saturate_cast<T>(_borderValue[2]),
-        saturate_cast<T>(_borderValue[3]));
-    int dx, dy;
+    T cval[CV_CN_MAX];
     CastOp castOp;
+
+    for(int k = 0; k < cn; k++ )
+        cval[k] = saturate_cast<T>(_borderValue[k & 3]);
+
     int borderType1 = borderType != BORDER_TRANSPARENT ? borderType : BORDER_REFLECT_101;
 
     unsigned width1 = std::max(ssize.width-3, 0), height1 = std::max(ssize.height-3, 0);
@@ -4084,21 +4073,20 @@ static void remapBicubic( const Mat& _src, Mat& _dst, const Mat& _xy,
         dsize.height = 1;
     }
 
-    for( dy = 0; dy < dsize.height; dy++ )
+    for(int dy = 0; dy < dsize.height; dy++ )
     {
         T* D = _dst.ptr<T>(dy);
         const short* XY = _xy.ptr<short>(dy);
         const ushort* FXY = _fxy.ptr<ushort>(dy);
 
-        for( dx = 0; dx < dsize.width; dx++, D += cn )
+        for(int dx = 0; dx < dsize.width; dx++, D += cn )
         {
             int sx = XY[dx*2]-1, sy = XY[dx*2+1]-1;
             const AT* w = wtab + FXY[dx]*16;
-            int i, k;
             if( (unsigned)sx < width1 && (unsigned)sy < height1 )
             {
                 const T* S = S0 + sy*sstep + sx*cn;
-                for( k = 0; k < cn; k++ )
+                for(int k = 0; k < cn; k++ )
                 {
                     WT sum = S[0]*w[0] + S[cn]*w[1] + S[cn*2]*w[2] + S[cn*3]*w[3];
                     S += sstep;
@@ -4123,21 +4111,21 @@ static void remapBicubic( const Mat& _src, Mat& _dst, const Mat& _xy,
                     (sx >= ssize.width || sx+4 <= 0 ||
                     sy >= ssize.height || sy+4 <= 0))
                 {
-                    for( k = 0; k < cn; k++ )
+                    for(int k = 0; k < cn; k++ )
                         D[k] = cval[k];
                     continue;
                 }
 
-                for( i = 0; i < 4; i++ )
+                for(int i = 0; i < 4; i++ )
                 {
                     x[i] = borderInterpolate(sx + i, ssize.width, borderType1)*cn;
                     y[i] = borderInterpolate(sy + i, ssize.height, borderType1);
                 }
 
-                for( k = 0; k < cn; k++, S0++, w -= 16 )
+                for(int k = 0; k < cn; k++, S0++, w -= 16 )
                 {
                     WT cv = cval[k], sum = cv*ONE;
-                    for( i = 0; i < 4; i++, w += 4 )
+                    for(int i = 0; i < 4; i++, w += 4 )
                     {
                         int yi = y[i];
                         const T* S = S0 + yi*sstep;
@@ -4169,16 +4157,16 @@ static void remapLanczos4( const Mat& _src, Mat& _dst, const Mat& _xy,
     typedef typename CastOp::rtype T;
     typedef typename CastOp::type1 WT;
     Size ssize = _src.size(), dsize = _dst.size();
-    int cn = _src.channels();
+    const int cn = _src.channels();
     const AT* wtab = (const AT*)_wtab;
     const T* S0 = _src.ptr<T>();
     size_t sstep = _src.step/sizeof(S0[0]);
-    Scalar_<T> cval(saturate_cast<T>(_borderValue[0]),
-        saturate_cast<T>(_borderValue[1]),
-        saturate_cast<T>(_borderValue[2]),
-        saturate_cast<T>(_borderValue[3]));
-    int dx, dy;
+    T cval[CV_CN_MAX];
     CastOp castOp;
+
+    for(int k = 0; k < cn; k++ )
+        cval[k] = saturate_cast<T>(_borderValue[k & 3]);
+
     int borderType1 = borderType != BORDER_TRANSPARENT ? borderType : BORDER_REFLECT_101;
 
     unsigned width1 = std::max(ssize.width-7, 0), height1 = std::max(ssize.height-7, 0);
@@ -4189,21 +4177,20 @@ static void remapLanczos4( const Mat& _src, Mat& _dst, const Mat& _xy,
         dsize.height = 1;
     }
 
-    for( dy = 0; dy < dsize.height; dy++ )
+    for(int dy = 0; dy < dsize.height; dy++ )
     {
         T* D = _dst.ptr<T>(dy);
         const short* XY = _xy.ptr<short>(dy);
         const ushort* FXY = _fxy.ptr<ushort>(dy);
 
-        for( dx = 0; dx < dsize.width; dx++, D += cn )
+        for(int dx = 0; dx < dsize.width; dx++, D += cn )
         {
             int sx = XY[dx*2]-3, sy = XY[dx*2+1]-3;
             const AT* w = wtab + FXY[dx]*64;
             const T* S = S0 + sy*sstep + sx*cn;
-            int i, k;
             if( (unsigned)sx < width1 && (unsigned)sy < height1 )
             {
-                for( k = 0; k < cn; k++ )
+                for(int k = 0; k < cn; k++ )
                 {
                     WT sum = 0;
                     for( int r = 0; r < 8; r++, S += sstep, w += 8 )
@@ -4226,21 +4213,21 @@ static void remapLanczos4( const Mat& _src, Mat& _dst, const Mat& _xy,
                     (sx >= ssize.width || sx+8 <= 0 ||
                     sy >= ssize.height || sy+8 <= 0))
                 {
-                    for( k = 0; k < cn; k++ )
+                    for(int k = 0; k < cn; k++ )
                         D[k] = cval[k];
                     continue;
                 }
 
-                for( i = 0; i < 8; i++ )
+                for(int i = 0; i < 8; i++ )
                 {
                     x[i] = borderInterpolate(sx + i, ssize.width, borderType1)*cn;
                     y[i] = borderInterpolate(sy + i, ssize.height, borderType1);
                 }
 
-                for( k = 0; k < cn; k++, S0++, w -= 64 )
+                for(int k = 0; k < cn; k++, S0++, w -= 64 )
                 {
                     WT cv = cval[k], sum = cv*ONE;
-                    for( i = 0; i < 8; i++, w += 8 )
+                    for(int i = 0; i < 8; i++, w += 8 )
                     {
                         int yi = y[i];
                         const T* S1 = S0 + yi*sstep;
@@ -4795,7 +4782,7 @@ static bool openvx_remap(Mat src, Mat dst, Mat map1, Mat map2, int interpolation
 
     try
     {
-        ivx::Context ctx = ivx::Context::create();
+        ivx::Context ctx = ovx::getOpenVXContext();
 
         Mat a;
         if (dst.data != src.data)
@@ -4840,7 +4827,7 @@ static bool openvx_remap(Mat src, Mat dst, Mat map1, Mat map2, int interpolation
 }
 #endif
 
-#if defined HAVE_IPP && IPP_DISABLE_BLOCK
+#if defined HAVE_IPP && !IPP_DISABLE_REMAP
 
 typedef IppStatus (CV_STDCALL * ippiRemap)(const void * pSrc, IppiSize srcSize, int srcStep, IppiRect srcRoi,
                                            const Ipp32f* pxMap, int xMapStep, const Ipp32f* pyMap, int yMapStep,
@@ -4872,9 +4859,9 @@ public:
             return;
         }
 
-        if (CV_INSTRUMENT_FUN_PTR_CALL_IPP(ippFunc,(src.ptr(), ippiSize(src.size()), (int)src.step, srcRoiRect,
+        if (CV_INSTRUMENT_FUN_IPP(ippFunc, src.ptr(), ippiSize(src.size()), (int)src.step, srcRoiRect,
                     map1.ptr<Ipp32f>(), (int)map1.step, map2.ptr<Ipp32f>(), (int)map2.step,
-                    dstRoi.ptr(), (int)dstRoi.step, dstRoiSize, ippInterpolation)) < 0)
+                    dstRoi.ptr(), (int)dstRoi.step, dstRoiSize, ippInterpolation) < 0)
             *ok = false;
         else
         {
@@ -4946,6 +4933,7 @@ void cv::remap( InputArray _src, OutputArray _dst,
 
     CV_OVX_RUN(
         src.type() == CV_8UC1 && dst.type() == CV_8UC1 &&
+        !ovx::skipSmallImages<VX_KERNEL_REMAP>(src.cols, src.rows) &&
         (borderType& ~BORDER_ISOLATED) == BORDER_CONSTANT &&
         ((map1.type() == CV_32FC2 && map2.empty() && map1.size == dst.size) ||
          (map1.type() == CV_32FC1 && map2.type() == CV_32FC1 && map1.size == dst.size && map2.size == dst.size) ||
@@ -4963,7 +4951,7 @@ void cv::remap( InputArray _src, OutputArray _dst,
 
     int type = src.type(), depth = CV_MAT_DEPTH(type);
 
-#if defined HAVE_IPP && IPP_DISABLE_BLOCK
+#if defined HAVE_IPP && !IPP_DISABLE_REMAP
     CV_IPP_CHECK()
     {
         if ((interpolation == INTER_LINEAR || interpolation == INTER_CUBIC || interpolation == INTER_NEAREST) &&
@@ -5019,10 +5007,14 @@ void cv::remap( InputArray _src, OutputArray _dst,
     {
         if( interpolation == INTER_LINEAR )
             ifunc = linear_tab[depth];
-        else if( interpolation == INTER_CUBIC )
+        else if( interpolation == INTER_CUBIC ){
             ifunc = cubic_tab[depth];
-        else if( interpolation == INTER_LANCZOS4 )
+            CV_Assert( _src.channels() <= 4 );
+        }
+        else if( interpolation == INTER_LANCZOS4 ){
             ifunc = lanczos4_tab[depth];
+            CV_Assert( _src.channels() <= 4 );
+        }
         else
             CV_Error( CV_StsBadArg, "Unknown interpolation method" );
         CV_Assert( ifunc != 0 );
@@ -5121,8 +5113,8 @@ void cv::convertMaps( InputArray _map1, InputArray _map2,
 #if CV_SSE2
     bool useSSE2 = checkHardwareSupport(CV_CPU_SSE2);
 #endif
-#if CV_SSE4_1
-    bool useSSE4_1 = checkHardwareSupport(CV_CPU_SSE4_1);
+#if CV_TRY_SSE4_1
+    bool useSSE4_1 = CV_CPU_HAS_SUPPORT_SSE4_1;
 #endif
 
     const float scale = 1.f/INTER_TAB_SIZE;
@@ -5155,29 +5147,10 @@ void cv::convertMaps( InputArray _map1, InputArray _map2,
 
                     vst2q_s16(dst1 + (x << 1), v_dst);
                 }
-                #elif CV_SSE4_1
+                #elif CV_TRY_SSE4_1
                 if (useSSE4_1)
-                {
-                    for( ; x <= size.width - 16; x += 16 )
-                    {
-                        __m128i v_dst0 = _mm_packs_epi32(_mm_cvtps_epi32(_mm_loadu_ps(src1f + x)),
-                                                         _mm_cvtps_epi32(_mm_loadu_ps(src1f + x + 4)));
-                        __m128i v_dst1 = _mm_packs_epi32(_mm_cvtps_epi32(_mm_loadu_ps(src1f + x + 8)),
-                                                         _mm_cvtps_epi32(_mm_loadu_ps(src1f + x + 12)));
-
-                        __m128i v_dst2 = _mm_packs_epi32(_mm_cvtps_epi32(_mm_loadu_ps(src2f + x)),
-                                                         _mm_cvtps_epi32(_mm_loadu_ps(src2f + x + 4)));
-                        __m128i v_dst3 = _mm_packs_epi32(_mm_cvtps_epi32(_mm_loadu_ps(src2f + x + 8)),
-                                                         _mm_cvtps_epi32(_mm_loadu_ps(src2f + x + 12)));
-
-                        _mm_interleave_epi16(v_dst0, v_dst1, v_dst2, v_dst3);
-
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2), v_dst0);
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2 + 8), v_dst1);
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2 + 16), v_dst2);
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2 + 24), v_dst3);
-                    }
-                }
+                    opt_SSE4_1::convertMaps_nninterpolate32f1c16s_SSE41(src1f, src2f, dst1, size.width);
+                else
                 #endif
                 for( ; x < size.width; x++ )
                 {
@@ -5212,52 +5185,10 @@ void cv::convertMaps( InputArray _map1, InputArray _map2,
                                                               vandq_s32(v_ix1, v_mask)));
                     vst1q_u16(dst2 + x, vcombine_u16(v_dst0, v_dst1));
                 }
-                #elif CV_SSE4_1
+                #elif CV_TRY_SSE4_1
                 if (useSSE4_1)
-                {
-                    __m128 v_its = _mm_set1_ps(INTER_TAB_SIZE);
-                    __m128i v_its1 = _mm_set1_epi32(INTER_TAB_SIZE-1);
-
-                    for( ; x <= size.width - 16; x += 16 )
-                    {
-                        __m128i v_ix0 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src1f + x), v_its));
-                        __m128i v_ix1 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src1f + x + 4), v_its));
-                        __m128i v_iy0 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src2f + x), v_its));
-                        __m128i v_iy1 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src2f + x + 4), v_its));
-
-                        __m128i v_dst10 = _mm_packs_epi32(_mm_srai_epi32(v_ix0, INTER_BITS),
-                                                          _mm_srai_epi32(v_ix1, INTER_BITS));
-                        __m128i v_dst12 = _mm_packs_epi32(_mm_srai_epi32(v_iy0, INTER_BITS),
-                                                          _mm_srai_epi32(v_iy1, INTER_BITS));
-                        __m128i v_dst20 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_iy0, v_its1), INTER_BITS),
-                                                        _mm_and_si128(v_ix0, v_its1));
-                        __m128i v_dst21 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_iy1, v_its1), INTER_BITS),
-                                                        _mm_and_si128(v_ix1, v_its1));
-                        _mm_storeu_si128((__m128i *)(dst2 + x), _mm_packus_epi32(v_dst20, v_dst21));
-
-                        v_ix0 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src1f + x + 8), v_its));
-                        v_ix1 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src1f + x + 12), v_its));
-                        v_iy0 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src2f + x + 8), v_its));
-                        v_iy1 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src2f + x + 12), v_its));
-
-                        __m128i v_dst11 = _mm_packs_epi32(_mm_srai_epi32(v_ix0, INTER_BITS),
-                                                          _mm_srai_epi32(v_ix1, INTER_BITS));
-                        __m128i v_dst13 = _mm_packs_epi32(_mm_srai_epi32(v_iy0, INTER_BITS),
-                                                          _mm_srai_epi32(v_iy1, INTER_BITS));
-                        v_dst20 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_iy0, v_its1), INTER_BITS),
-                                                _mm_and_si128(v_ix0, v_its1));
-                        v_dst21 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_iy1, v_its1), INTER_BITS),
-                                                _mm_and_si128(v_ix1, v_its1));
-                        _mm_storeu_si128((__m128i *)(dst2 + x + 8), _mm_packus_epi32(v_dst20, v_dst21));
-
-                        _mm_interleave_epi16(v_dst10, v_dst11, v_dst12, v_dst13);
-
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2), v_dst10);
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2 + 8), v_dst11);
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2 + 16), v_dst12);
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2 + 24), v_dst13);
-                    }
-                }
+                    opt_SSE4_1::convertMaps_32f1c16s_SSE41(src1f, src2f, dst1, dst2, size.width);
+                else
                 #endif
                 for( ; x < size.width; x++ )
                 {
@@ -5318,30 +5249,10 @@ void cv::convertMaps( InputArray _map1, InputArray _map2,
                                                               vandq_s32(v_ix1, v_mask)));
                     vst1q_u16(dst2 + x, vcombine_u16(v_dst0, v_dst1));
                 }
-                #elif CV_SSE4_1
+                #elif CV_TRY_SSE4_1
                 if (useSSE4_1)
-                {
-                    __m128 v_its = _mm_set1_ps(INTER_TAB_SIZE);
-                    __m128i v_its1 = _mm_set1_epi32(INTER_TAB_SIZE-1);
-                    __m128i v_y_mask = _mm_set1_epi32((INTER_TAB_SIZE-1) << 16);
-
-                    for( ; x <= size.width - 4; x += 4 )
-                    {
-                        __m128i v_src0 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src1f + x * 2), v_its));
-                        __m128i v_src1 = _mm_cvtps_epi32(_mm_mul_ps(_mm_loadu_ps(src1f + x * 2 + 4), v_its));
-
-                        __m128i v_dst1 = _mm_packs_epi32(_mm_srai_epi32(v_src0, INTER_BITS),
-                                                         _mm_srai_epi32(v_src1, INTER_BITS));
-                        _mm_storeu_si128((__m128i *)(dst1 + x * 2), v_dst1);
-
-                        // x0 y0 x1 y1 . . .
-                        v_src0 = _mm_packs_epi32(_mm_and_si128(v_src0, v_its1),
-                                                 _mm_and_si128(v_src1, v_its1));
-                        __m128i v_dst2 = _mm_or_si128(_mm_srli_epi32(_mm_and_si128(v_src0, v_y_mask), 16 - INTER_BITS), // y0 0 y1 0 . . .
-                                                      _mm_and_si128(v_src0, v_its1)); // 0 x0 0 x1 . . .
-                        _mm_storel_epi64((__m128i *)(dst2 + x), _mm_packus_epi32(v_dst2, v_dst2));
-                    }
-                }
+                    opt_SSE4_1::convertMaps_32f2c16s_SSE41(src1f, dst1, dst2, size.width);
+                else
                 #endif
                 for( ; x < size.width; x++ )
                 {
@@ -5523,11 +5434,14 @@ public:
         const int AB_BITS = MAX(10, (int)INTER_BITS);
         const int AB_SCALE = 1 << AB_BITS;
         int round_delta = interpolation == INTER_NEAREST ? AB_SCALE/2 : AB_SCALE/INTER_TAB_SIZE/2, x, y, x1, y1;
+    #if CV_TRY_AVX2
+        bool useAVX2 = CV_CPU_HAS_SUPPORT_AVX2;
+    #endif
     #if CV_SSE2
         bool useSSE2 = checkHardwareSupport(CV_CPU_SSE2);
     #endif
-    #if CV_SSE4_1
-        bool useSSE4_1 = checkHardwareSupport(CV_CPU_SSE4_1);
+    #if CV_TRY_SSE4_1
+        bool useSSE4_1 = CV_CPU_HAS_SUPPORT_SSE4_1;
     #endif
 
         int bh0 = std::min(BLOCK_SZ/2, dst.rows);
@@ -5565,31 +5479,10 @@ public:
 
                             vst2q_s16(xy + (x1 << 1), v_dst);
                         }
-                        #elif CV_SSE4_1
+                        #elif CV_TRY_SSE4_1
                         if (useSSE4_1)
-                        {
-                            __m128i v_X0 = _mm_set1_epi32(X0);
-                            __m128i v_Y0 = _mm_set1_epi32(Y0);
-                            for ( ; x1 <= bw - 16; x1 += 16)
-                            {
-                                __m128i v_x0 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(v_X0, _mm_loadu_si128((__m128i const *)(adelta + x + x1))), AB_BITS),
-                                                               _mm_srai_epi32(_mm_add_epi32(v_X0, _mm_loadu_si128((__m128i const *)(adelta + x + x1 + 4))), AB_BITS));
-                                __m128i v_x1 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(v_X0, _mm_loadu_si128((__m128i const *)(adelta + x + x1 + 8))), AB_BITS),
-                                                               _mm_srai_epi32(_mm_add_epi32(v_X0, _mm_loadu_si128((__m128i const *)(adelta + x + x1 + 12))), AB_BITS));
-
-                                __m128i v_y0 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(v_Y0, _mm_loadu_si128((__m128i const *)(bdelta + x + x1))), AB_BITS),
-                                                               _mm_srai_epi32(_mm_add_epi32(v_Y0, _mm_loadu_si128((__m128i const *)(bdelta + x + x1 + 4))), AB_BITS));
-                                __m128i v_y1 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(v_Y0, _mm_loadu_si128((__m128i const *)(bdelta + x + x1 + 8))), AB_BITS),
-                                                               _mm_srai_epi32(_mm_add_epi32(v_Y0, _mm_loadu_si128((__m128i const *)(bdelta + x + x1 + 12))), AB_BITS));
-
-                                _mm_interleave_epi16(v_x0, v_x1, v_y0, v_y1);
-
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2), v_x0);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 8), v_x1);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 16), v_y0);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 24), v_y1);
-                            }
-                        }
+                            opt_SSE4_1::WarpAffineInvoker_Blockline_SSE41(adelta + x, bdelta + x, xy, X0, Y0, bw);
+                        else
                         #endif
                         for( ; x1 < bw; x1++ )
                         {
@@ -5603,6 +5496,10 @@ public:
                     {
                         short* alpha = A + y1*bw;
                         x1 = 0;
+                    #if CV_TRY_AVX2
+                        if ( useAVX2 )
+                            x1 = opt_AVX2::warpAffineBlockline(adelta + x, bdelta + x, xy, alpha, X0, Y0, bw);
+                    #endif
                     #if CV_SSE2
                         if( useSSE2 )
                         {
@@ -5691,7 +5588,9 @@ private:
 };
 
 
-#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && IPP_DISABLE_BLOCK
+#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && !IPP_DISABLE_WARPAFFINE
+typedef IppStatus (CV_STDCALL* ippiWarpAffineBackFunc)(const void*, IppiSize, int, IppiRect, void *, int, IppiRect, double [2][3], int);
+
 class IPPWarpAffineInvoker :
     public ParallelLoopBody
 {
@@ -5722,7 +5621,7 @@ public:
         }
 
         // Aug 2013: problem in IPP 7.1, 8.0 : sometimes function return ippStsCoeffErr
-        IppStatus status = CV_INSTRUMENT_FUN_PTR_CALL_IPP(func,( src.ptr(), srcsize, (int)src.step[0], srcroi, dst.ptr(),
+        IppStatus status = CV_INSTRUMENT_FUN_IPP(func,( src.ptr(), srcsize, (int)src.step[0], srcroi, dst.ptr(),
                                 (int)dst.step[0], dstroi, coeffs, mode ));
         if( status < 0)
             *ok = false;
@@ -5789,7 +5688,7 @@ static bool ocl_warpTransform_cols4(InputArray _src, OutputArray _dst, InputArra
     _dst.create( dsize.area() == 0 ? src.size() : dsize, src.type() );
     UMat dst = _dst.getUMat();
 
-    float M[9];
+    float M[9] = {0};
     int matRows = (op_type == OCL_OP_AFFINE ? 2 : 3);
     Mat matM(matRows, 3, CV_32F, M), M1 = _M0.getMat();
     CV_Assert( (M1.type() == CV_32F || M1.type() == CV_64F) && M1.rows == matRows && M1.cols == 3 );
@@ -5814,7 +5713,7 @@ static bool ocl_warpTransform_cols4(InputArray _src, OutputArray _dst, InputArra
     matM.convertTo(M0, CV_32F);
 
     k.args(ocl::KernelArg::ReadOnly(src), ocl::KernelArg::WriteOnly(dst), ocl::KernelArg::PtrReadOnly(M0),
-           ocl::KernelArg(0, 0, 0, 0, borderBuf, CV_ELEM_SIZE(sctype)));
+           ocl::KernelArg(ocl::KernelArg::CONSTANT, 0, 0, 0, borderBuf, CV_ELEM_SIZE(sctype)));
 
     size_t globalThreads[2];
     globalThreads[0] = (size_t)(dst.cols / 4);
@@ -5887,7 +5786,7 @@ static bool ocl_warpTransform(InputArray _src, OutputArray _dst, InputArray _M0,
     _dst.create( dsize.area() == 0 ? src.size() : dsize, src.type() );
     UMat dst = _dst.getUMat();
 
-    double M[9];
+    double M[9] = {0};
     int matRows = (op_type == OCL_OP_AFFINE ? 2 : 3);
     Mat matM(matRows, 3, CV_64F, M), M1 = _M0.getMat();
     CV_Assert( (M1.type() == CV_32F || M1.type() == CV_64F) &&
@@ -5913,7 +5812,7 @@ static bool ocl_warpTransform(InputArray _src, OutputArray _dst, InputArray _M0,
     matM.convertTo(M0, doubleSupport ? CV_64F : CV_32F);
 
     k.args(ocl::KernelArg::ReadOnly(src), ocl::KernelArg::WriteOnly(dst), ocl::KernelArg::PtrReadOnly(M0),
-           ocl::KernelArg(0, 0, 0, 0, borderBuf, CV_ELEM_SIZE(sctype)));
+           ocl::KernelArg(ocl::KernelArg::CONSTANT, 0, 0, 0, borderBuf, CV_ELEM_SIZE(sctype)));
 
     size_t globalThreads[2] = { (size_t)dst.cols, ((size_t)dst.rows + rowsPerWI - 1) / rowsPerWI };
     return k.run(2, globalThreads, NULL, false);
@@ -5962,6 +5861,10 @@ void cv::warpAffine( InputArray _src, OutputArray _dst,
 {
     CV_INSTRUMENT_REGION()
 
+    int interpolation = flags & INTER_MAX;
+    CV_Assert( _src.channels() <= 4 || (interpolation != INTER_LANCZOS4 &&
+                                        interpolation != INTER_CUBIC) );
+
     CV_OCL_RUN(_src.dims() <= 2 && _dst.isUMat() &&
                _src.cols() <= SHRT_MAX && _src.rows() <= SHRT_MAX,
                ocl_warpTransform_cols4(_src, _dst, _M0, dsize, flags, borderType,
@@ -5978,9 +5881,8 @@ void cv::warpAffine( InputArray _src, OutputArray _dst,
     if( dst.data == src.data )
         src = src.clone();
 
-    double M[6];
+    double M[6] = {0};
     Mat matM(2, 3, CV_64F, M);
-    int interpolation = flags & INTER_MAX;
     if( interpolation == INTER_AREA )
         interpolation = INTER_LINEAR;
 
@@ -5999,7 +5901,7 @@ void cv::warpAffine( InputArray _src, OutputArray _dst,
         M[2] = b1; M[5] = b2;
     }
 
-#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && IPP_DISABLE_BLOCK
+#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && !IPP_DISABLE_WARPAFFINE
     CV_IPP_CHECK()
     {
         int type = src.type(), depth = CV_MAT_DEPTH(type), cn = CV_MAT_CN(type);
@@ -6092,18 +5994,10 @@ public:
         int bw0 = std::min(BLOCK_SZ*BLOCK_SZ/bh0, width);
         bh0 = std::min(BLOCK_SZ*BLOCK_SZ/bw0, height);
 
-        #if CV_SSE4_1
-        bool haveSSE4_1 = checkHardwareSupport(CV_CPU_SSE4_1);
-        __m128d v_M0 = _mm_set1_pd(M[0]);
-        __m128d v_M3 = _mm_set1_pd(M[3]);
-        __m128d v_M6 = _mm_set1_pd(M[6]);
-        __m128d v_intmax = _mm_set1_pd((double)INT_MAX);
-        __m128d v_intmin = _mm_set1_pd((double)INT_MIN);
-        __m128d v_2 = _mm_set1_pd(2),
-                v_zero = _mm_setzero_pd(),
-                v_1 = _mm_set1_pd(1),
-                v_its = _mm_set1_pd(INTER_TAB_SIZE);
-        __m128i v_itsi1 = _mm_set1_epi32(INTER_TAB_SIZE - 1);
+        #if CV_TRY_SSE4_1
+        Ptr<opt_SSE4_1::WarpPerspectiveLine_SSE4> pwarp_impl_sse4;
+        if(CV_CPU_HAS_SUPPORT_SSE4_1)
+            pwarp_impl_sse4 = opt_SSE4_1::WarpPerspectiveLine_SSE4::getImpl(M);
         #endif
 
         for( y = range.start; y < range.end; y += bh0 )
@@ -6127,116 +6021,11 @@ public:
                     {
                         x1 = 0;
 
-                        #if CV_SSE4_1
-                        if (haveSSE4_1)
-                        {
-                            __m128d v_X0d = _mm_set1_pd(X0);
-                            __m128d v_Y0d = _mm_set1_pd(Y0);
-                            __m128d v_W0 = _mm_set1_pd(W0);
-                            __m128d v_x1 = _mm_set_pd(1, 0);
-
-                            for( ; x1 <= bw - 16; x1 += 16 )
-                            {
-                                // 0-3
-                                __m128i v_X0, v_Y0;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X0 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y0 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // 4-8
-                                __m128i v_X1, v_Y1;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X1 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y1 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // 8-11
-                                __m128i v_X2, v_Y2;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X2 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y2 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // 12-15
-                                __m128i v_X3, v_Y3;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_1, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X3 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y3 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // convert to 16s
-                                v_X0 = _mm_packs_epi32(v_X0, v_X1);
-                                v_X1 = _mm_packs_epi32(v_X2, v_X3);
-                                v_Y0 = _mm_packs_epi32(v_Y0, v_Y1);
-                                v_Y1 = _mm_packs_epi32(v_Y2, v_Y3);
-
-                                _mm_interleave_epi16(v_X0, v_X1, v_Y0, v_Y1);
-
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2), v_X0);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 8), v_X1);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 16), v_Y0);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 24), v_Y1);
-                            }
-                        }
+                        #if CV_TRY_SSE4_1
+                        if (pwarp_impl_sse4)
+                            pwarp_impl_sse4->processNN(M, xy, X0, Y0, W0, bw);
+                        else
                         #endif
-
                         for( ; x1 < bw; x1++ )
                         {
                             double W = W0 + M[6]*x1;
@@ -6255,129 +6044,11 @@ public:
                         short* alpha = A + y1*bw;
                         x1 = 0;
 
-                        #if CV_SSE4_1
-                        if (haveSSE4_1)
-                        {
-                            __m128d v_X0d = _mm_set1_pd(X0);
-                            __m128d v_Y0d = _mm_set1_pd(Y0);
-                            __m128d v_W0 = _mm_set1_pd(W0);
-                            __m128d v_x1 = _mm_set_pd(1, 0);
-
-                            for( ; x1 <= bw - 16; x1 += 16 )
-                            {
-                                // 0-3
-                                __m128i v_X0, v_Y0;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X0 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y0 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // 4-8
-                                __m128i v_X1, v_Y1;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X1 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y1 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // 8-11
-                                __m128i v_X2, v_Y2;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X2 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y2 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // 12-15
-                                __m128i v_X3, v_Y3;
-                                {
-                                    __m128d v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY0 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_W = _mm_add_pd(_mm_mul_pd(v_M6, v_x1), v_W0);
-                                    v_W = _mm_andnot_pd(_mm_cmpeq_pd(v_W, v_zero), _mm_div_pd(v_its, v_W));
-                                    __m128d v_fX1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_X0d, _mm_mul_pd(v_M0, v_x1)), v_W)));
-                                    __m128d v_fY1 = _mm_max_pd(v_intmin, _mm_min_pd(v_intmax, _mm_mul_pd(_mm_add_pd(v_Y0d, _mm_mul_pd(v_M3, v_x1)), v_W)));
-                                    v_x1 = _mm_add_pd(v_x1, v_2);
-
-                                    v_X3 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fX0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fX1))));
-                                    v_Y3 = _mm_castps_si128(_mm_movelh_ps(_mm_castsi128_ps(_mm_cvtpd_epi32(v_fY0)),
-                                                                          _mm_castsi128_ps(_mm_cvtpd_epi32(v_fY1))));
-                                }
-
-                                // store alpha
-                                __m128i v_alpha0 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_Y0, v_itsi1), INTER_BITS),
-                                                                 _mm_and_si128(v_X0, v_itsi1));
-                                __m128i v_alpha1 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_Y1, v_itsi1), INTER_BITS),
-                                                                 _mm_and_si128(v_X1, v_itsi1));
-                                _mm_storeu_si128((__m128i *)(alpha + x1), _mm_packs_epi32(v_alpha0, v_alpha1));
-
-                                v_alpha0 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_Y2, v_itsi1), INTER_BITS),
-                                                         _mm_and_si128(v_X2, v_itsi1));
-                                v_alpha1 = _mm_add_epi32(_mm_slli_epi32(_mm_and_si128(v_Y3, v_itsi1), INTER_BITS),
-                                                         _mm_and_si128(v_X3, v_itsi1));
-                                _mm_storeu_si128((__m128i *)(alpha + x1 + 8), _mm_packs_epi32(v_alpha0, v_alpha1));
-
-                                // convert to 16s
-                                v_X0 = _mm_packs_epi32(_mm_srai_epi32(v_X0, INTER_BITS), _mm_srai_epi32(v_X1, INTER_BITS));
-                                v_X1 = _mm_packs_epi32(_mm_srai_epi32(v_X2, INTER_BITS), _mm_srai_epi32(v_X3, INTER_BITS));
-                                v_Y0 = _mm_packs_epi32(_mm_srai_epi32(v_Y0, INTER_BITS), _mm_srai_epi32(v_Y1, INTER_BITS));
-                                v_Y1 = _mm_packs_epi32(_mm_srai_epi32(v_Y2, INTER_BITS), _mm_srai_epi32(v_Y3, INTER_BITS));
-
-                                _mm_interleave_epi16(v_X0, v_X1, v_Y0, v_Y1);
-
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2), v_X0);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 8), v_X1);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 16), v_Y0);
-                                _mm_storeu_si128((__m128i *)(xy + x1 * 2 + 24), v_Y1);
-                            }
-                        }
+                        #if CV_TRY_SSE4_1
+                        if (pwarp_impl_sse4)
+                            pwarp_impl_sse4->process(M, xy, alpha, X0, Y0, W0, bw);
+                        else
                         #endif
-
                         for( ; x1 < bw; x1++ )
                         {
                             double W = W0 + M[6]*x1;
@@ -6414,7 +6085,9 @@ private:
     Scalar borderValue;
 };
 
-#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && IPP_DISABLE_BLOCK
+#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && !IPP_DISABLE_WARPPERSPECTIVE
+typedef IppStatus (CV_STDCALL* ippiWarpPerspectiveFunc)(const void*, IppiSize, int, IppiRect, void *, int, IppiRect, double [3][3], int);
+
 class IPPWarpPerspectiveInvoker :
     public ParallelLoopBody
 {
@@ -6445,7 +6118,7 @@ public:
             }
         }
 
-        IppStatus status = CV_INSTRUMENT_FUN_PTR_CALL_IPP(func,(src.ptr(), srcsize, (int)src.step[0], srcroi, dst.ptr(), (int)dst.step[0], dstroi, coeffs, mode));
+        IppStatus status = CV_INSTRUMENT_FUN_IPP(func,(src.ptr(), srcsize, (int)src.step[0], srcroi, dst.ptr(), (int)dst.step[0], dstroi, coeffs, mode));
         if (status != ippStsNoErr)
             *ok = false;
         else
@@ -6518,7 +6191,7 @@ void cv::warpPerspective( InputArray _src, OutputArray _dst, InputArray _M0,
     CV_Assert( (M0.type() == CV_32F || M0.type() == CV_64F) && M0.rows == 3 && M0.cols == 3 );
     M0.convertTo(matM, matM.type());
 
-#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && IPP_DISABLE_BLOCK
+#if defined (HAVE_IPP) && IPP_VERSION_X100 >= 810 && !IPP_DISABLE_WARPPERSPECTIVE
     CV_IPP_CHECK()
     {
         int type = src.type(), depth = CV_MAT_DEPTH(type), cn = CV_MAT_CN(type);

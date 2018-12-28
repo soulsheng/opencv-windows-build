@@ -1,10 +1,33 @@
 #ifndef OPENCV_TS_HPP
 #define OPENCV_TS_HPP
 
-#include "opencv2/core/cvdef.h"
+#ifndef __OPENCV_TESTS
+#define __OPENCV_TESTS 1
+#endif
+
+#include "opencv2/opencv_modules.hpp"
+
+#include "opencv2/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/videoio.hpp"
+#include "opencv2/highgui.hpp"
+
+#include "opencv2/core/utility.hpp"
+
+#include "opencv2/core/utils/trace.hpp"
+
 #include <stdarg.h> // for va_list
 
 #include "cvconfig.h"
+
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iterator>
+#include <limits>
+#include <numeric>
 
 #ifdef WINRT
     #pragma warning(disable:4447) // Disable warning 'main' signature found without threading model
@@ -38,22 +61,15 @@
 #define PARAM_TEST_CASE(name, ...) struct name : testing::TestWithParam< std::tr1::tuple< __VA_ARGS__ > >
 #define GET_PARAM(k) std::tr1::get< k >(GetParam())
 
-#include "opencv2/core.hpp"
-#include "opencv2/core/utility.hpp"
-
 namespace cvtest
 {
 
 using std::vector;
 using std::string;
-using cv::RNG;
-using cv::Mat;
-using cv::Scalar;
-using cv::Size;
-using cv::Point;
-using cv::Rect;
-using cv::InputArray;
-using cv::noArray;
+using namespace cv;
+using testing::Values;
+using testing::Combine;
+
 
 class SkipTestException: public cv::Exception
 {
@@ -604,17 +620,25 @@ void dumpOpenCLDevice();
 
 void parseCustomOptions(int argc, char **argv);
 
-#define CV_TEST_MAIN(resourcesubdir, ...) \
+#define CV_TEST_INIT0_NOOP (void)0
+
+#define CV_TEST_MAIN(resourcesubdir, ...) CV_TEST_MAIN_EX(resourcesubdir, NOOP, __VA_ARGS__)
+
+#define CV_TEST_MAIN_EX(resourcesubdir, INIT0, ...) \
 int main(int argc, char **argv) \
 { \
+    CV_TRACE_FUNCTION(); \
+    { CV_TRACE_REGION("INIT"); \
     using namespace cvtest; \
     TS* ts = TS::ptr(); \
     ts->init(resourcesubdir); \
+    __CV_TEST_EXEC_ARGS(CV_TEST_INIT0_ ## INIT0) \
     ::testing::InitGoogleTest(&argc, argv); \
     cvtest::printVersionInfo(); \
     TEST_DUMP_OCL_INFO \
     __CV_TEST_EXEC_ARGS(__VA_ARGS__) \
     parseCustomOptions(argc, argv); \
+    } \
     return RUN_ALL_TESTS(); \
 }
 
@@ -627,9 +651,11 @@ int main(int argc, char **argv) \
 
 } //namespace cvtest
 
-#endif // OPENCV_TS_HPP
-
 #include "opencv2/ts/ts_perf.hpp"
+
+namespace cvtest {
+using perf::MatDepth;
+}
 
 #ifdef WINRT
 #ifndef __FSTREAM_EMULATED__
@@ -729,3 +755,5 @@ public:
 } // namespace std
 #endif // __FSTREAM_EMULATED__
 #endif // WINRT
+
+#endif // OPENCV_TS_HPP

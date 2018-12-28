@@ -57,14 +57,14 @@
 #define mingw_getsp(...) 0
 #define __builtin_frame_address(...) 0
 
-#ifdef WIN32
+#ifdef _WIN32
 
 #define XMD_H // prevent redefinition of INT32
 #undef FAR  // prevent FAR redefinition
 
 #endif
 
-#if defined WIN32 && defined __GNUC__
+#if defined _WIN32 && defined __GNUC__
 typedef unsigned char boolean;
 #endif
 
@@ -341,7 +341,7 @@ int my_jpeg_load_dht (struct jpeg_decompress_struct *info, unsigned char *dht,
 
     JHUFF_TBL **hufftbl;
     unsigned char bits[17];
-    unsigned char huffval[256];
+    unsigned char huffval[256] = {0};
 
     while (length > 16)
     {
@@ -364,7 +364,7 @@ int my_jpeg_load_dht (struct jpeg_decompress_struct *info, unsigned char *dht,
 
        if (index & 0x10)
        {
-           index -= 0x10;
+           index &= ~0x10;
            hufftbl = &ac_tables[index];
        }
        else

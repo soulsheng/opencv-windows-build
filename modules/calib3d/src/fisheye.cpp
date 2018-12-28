@@ -42,6 +42,7 @@
 
 #include "precomp.hpp"
 #include "fisheye.hpp"
+#include <limits>
 
 namespace cv { namespace
 {
@@ -378,9 +379,9 @@ void cv::fisheye::undistortPoints( InputArray distorted, OutputArray undistorted
 
         double theta_d = sqrt(pw[0]*pw[0] + pw[1]*pw[1]);
 
-        // the current camera model is only valid up to 180° FOV
+        // the current camera model is only valid up to 180 FOV
         // for larger FOV the loop below does not converge
-        // clip values so we still get plausible results for super fisheye images > 180°
+        // clip values so we still get plausible results for super fisheye images > 180 grad
         theta_d = min(max(-CV_PI/2., theta_d), CV_PI/2.);
 
         if (theta_d > 1e-8)
@@ -548,19 +549,6 @@ void cv::fisheye::estimateNewCameraMatrixForUndistortRectify(InputArray K, Input
     pptr[6] = Vec2d(0, h);
     pptr[7] = Vec2d(0, h/2);
 
-#if 0
-    const int N = 10;
-    cv::Mat points(1, N * 4, CV_64FC2);
-    Vec2d* pptr = points.ptr<Vec2d>();
-    for(int i = 0, k = 0; i < 10; ++i)
-    {
-        pptr[k++] = Vec2d(w/2,   0) - Vec2d(w/8,   0) + Vec2d(w/4/N*i,   0);
-        pptr[k++] = Vec2d(w/2, h-1) - Vec2d(w/8, h-1) + Vec2d(w/4/N*i, h-1);
-        pptr[k++] = Vec2d(0,   h/2) - Vec2d(0,   h/8) + Vec2d(0,   h/4/N*i);
-        pptr[k++] = Vec2d(w-1, h/2) - Vec2d(w-1, h/8) + Vec2d(w-1, h/4/N*i);
-    }
-#endif
-
     fisheye::undistortPoints(points, points, K, D, R);
     cv::Scalar center_mass = mean(points);
     cv::Vec2d cn(center_mass.val);
@@ -585,17 +573,6 @@ void cv::fisheye::estimateNewCameraMatrixForUndistortRectify(InputArray K, Input
         maxy = std::max(maxy, std::abs(pptr[i][1]-cn[1]));
         maxx = std::max(maxx, std::abs(pptr[i][0]-cn[0]));
     }
-
-#if 0
-    double minx = -DBL_MAX, miny = -DBL_MAX, maxx = DBL_MAX, maxy = DBL_MAX;
-    for(size_t i = 0; i < points.total(); ++i)
-    {
-        if (i % 4 == 0) miny = std::max(miny, pptr[i][1]);
-        if (i % 4 == 1) maxy = std::min(maxy, pptr[i][1]);
-        if (i % 4 == 2) minx = std::max(minx, pptr[i][0]);
-        if (i % 4 == 3) maxx = std::min(maxx, pptr[i][0]);
-    }
-#endif
 
     double f1 = w * 0.5/(minx);
     double f2 = w * 0.5/(maxx);
@@ -784,7 +761,7 @@ double cv::fisheye::calibrate(InputArrayOfArrays objectPoints, InputArrayOfArray
 
 
     //-------------------------------Optimization
-    for(int iter = 0; ; ++iter)
+    for(int iter = 0; iter <= std::numeric_limits<int>::max(); ++iter)
     {
         if ((criteria.type == 1 && iter >= criteria.maxCount)  ||
             (criteria.type == 2 && change <= criteria.epsilon) ||
@@ -1424,7 +1401,8 @@ void cv::internal::CalibrateExtrinsics(InputArrayOfArrays objectPoints, InputArr
         if (check_cond)
         {
             SVD svd(JJ_kk, SVD::NO_UV);
-            CV_Assert(svd.w.at<double>(0) / svd.w.at<double>((int)svd.w.total() - 1) < thresh_cond);
+            if(svd.w.at<double>(0) / svd.w.at<double>((int)svd.w.total() - 1) > thresh_cond )
+                CV_Error( cv::Error::StsInternal, format("CALIB_CHECK_COND - Ill-conditioned matrix for input array %d",image_idx));
         }
         omckk.reshape(3,1).copyTo(omc.getMat().col(image_idx));
         Tckk.reshape(3,1).copyTo(Tc.getMat().col(image_idx));

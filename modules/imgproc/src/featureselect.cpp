@@ -286,7 +286,7 @@ static bool openvx_harris(Mat image, OutputArray _corners,
 
     try
     {
-        Context context = Context::create();
+        Context context = ovx::getOpenVXContext();
 
         Image ovxImage = Image::createFromHandle(context, Image::matTypeToFormat(image.type()),
                                                  Image::createAddressing(image), image.data);
@@ -377,7 +377,8 @@ void cv::goodFeaturesToTrack( InputArray _image, OutputArray _corners,
     }
 
     // Disabled due to bad accuracy
-    CV_OVX_RUN(false && useHarrisDetector && _mask.empty(),
+    CV_OVX_RUN(false && useHarrisDetector && _mask.empty() &&
+               !ovx::skipSmallImages<VX_KERNEL_HARRIS_CORNERS>(image.cols, image.rows),
                openvx_harris(image, _corners, maxCorners, qualityLevel, minDistance, blockSize, harrisK))
 
     if( useHarrisDetector )

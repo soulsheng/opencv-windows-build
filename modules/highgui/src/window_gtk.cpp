@@ -42,7 +42,7 @@
 #include "precomp.hpp"
 #include "opencv2/imgproc.hpp"
 
-#ifndef WIN32
+#ifndef _WIN32
 
 #if defined (HAVE_GTK)
 
@@ -951,7 +951,8 @@ static gboolean cvImageWidget_draw(GtkWidget* widget, cairo_t *cr, gpointer data
   }
 
   cairo_paint(cr);
-  g_object_unref(pixbuf);
+  if(pixbuf)
+      g_object_unref(pixbuf);
   return TRUE;
 }
 
@@ -1005,7 +1006,8 @@ static gboolean cvImageWidget_expose(GtkWidget* widget, GdkEventExpose* event, g
   }
 
   cairo_paint(cr);
-  g_object_unref(pixbuf);
+  if(pixbuf)
+      g_object_unref(pixbuf);
   cairo_destroy(cr);
   return TRUE;
 }
@@ -1617,6 +1619,10 @@ CV_IMPL void cvSetTrackbarPos( const char* trackbar_name, const char* window_nam
         if( pos > trackbar->maxval )
             pos = trackbar->maxval;
     }
+    else
+    {
+        CV_ERROR( CV_StsNullPtr, "No trackbar found" );
+    }
 
     CV_LOCK_MUTEX();
 
@@ -2091,6 +2097,6 @@ CV_IMPL int cvWaitKey( int delay )
 
 
 #endif  // HAVE_GTK
-#endif  // WIN32
+#endif  // _WIN32
 
 /* End of file. */

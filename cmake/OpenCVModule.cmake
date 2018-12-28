@@ -65,6 +65,7 @@ foreach(mod ${OPENCV_MODULES_BUILD} ${OPENCV_MODULES_DISABLED_USER} ${OPENCV_MOD
   unset(OPENCV_MODULE_${mod}_PRIVATE_OPT_DEPS CACHE)
   unset(OPENCV_MODULE_${mod}_LINK_DEPS CACHE)
   unset(OPENCV_MODULE_${mod}_WRAPPERS CACHE)
+  unset(OPENCV_DEPENDANT_TARGETS_${mod} CACHE)
 endforeach()
 
 # clean modules info which needs to be recalculated
@@ -182,7 +183,7 @@ macro(ocv_add_module _name)
     # add self to the world dependencies
     if((NOT DEFINED OPENCV_MODULE_IS_PART_OF_WORLD
         AND NOT OPENCV_MODULE_${the_module}_CLASS STREQUAL "BINDINGS"
-        AND NOT OPENCV_PROCESSING_EXTRA_MODULES
+        AND (NOT OPENCV_PROCESSING_EXTRA_MODULES OR NOT OPENCV_WORLD_EXCLUDE_EXTRA_MODULES)
         AND (NOT BUILD_SHARED_LIBS OR NOT "x${OPENCV_MODULE_TYPE}" STREQUAL "xSTATIC"))
         OR OPENCV_MODULE_IS_PART_OF_WORLD
         )
@@ -222,14 +223,20 @@ macro(ocv_add_module _name)
     if(NOT BUILD_${the_module})
       return() # extra protection from redefinition
     endif()
-    if((NOT OPENCV_MODULE_${the_module}_IS_PART_OF_WORLD AND NOT ${the_module} STREQUAL opencv_world) OR NOT ${BUILD_opencv_world})
-      project(${the_module})
+    if(NOT OPENCV_MODULE_${the_module}_IS_PART_OF_WORLD OR NOT ${BUILD_opencv_world})
+      if (NOT ${the_module} STREQUAL opencv_world)
+        project(${the_module})
+      endif()
+      add_definitions(
+        -D_USE_MATH_DEFINES  # M_PI constant in MSVS
+        -D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS  # to use C libraries from C++ code (ffmpeg)
+      )
     endif()
   endif()
 endmacro()
 
 # excludes module from current configuration
-macro(ocv_module_disable module)
+macro(ocv_module_disable_ module)
   set(__modname ${module})
   if(NOT __modname MATCHES "^opencv_")
     set(__modname opencv_${module})
@@ -242,9 +249,12 @@ macro(ocv_module_disable module)
     # touch variable controlling build of the module to suppress "unused variable" CMake warning
   endif()
   unset(__modname)
-  return() # leave the current folder
 endmacro()
 
+macro(ocv_module_disable module)
+  ocv_module_disable_(${module})
+  return() # leave the current folder
+endmacro()
 
 # collect modules from specified directories
 # NB: must be called only once!
@@ -306,6 +316,7 @@ macro(ocv_glob_modules)
   set(OPENCV_INITIAL_PASS OFF)
   if(${BUILD_opencv_world})
     foreach(m ${OPENCV_MODULES_BUILD})
+      set(the_module "${m}")
       if("${m}" STREQUAL opencv_world)
         add_subdirectory("${OPENCV_MODULE_opencv_world_LOCATION}" "${CMAKE_CURRENT_BINARY_DIR}/world")
       elseif(NOT OPENCV_MODULE_${m}_IS_PART_OF_WORLD AND NOT ${m} STREQUAL opencv_world)
@@ -321,6 +332,7 @@ macro(ocv_glob_modules)
     endforeach()
   else()
     foreach(m ${OPENCV_MODULES_BUILD})
+      set(the_module "${m}")
       if(m MATCHES "^opencv_")
         string(REGEX REPLACE "^opencv_" "" __shortname "${m}")
         add_subdirectory("${OPENCV_MODULE_${m}_LOCATION}" "${CMAKE_CURRENT_BINARY_DIR}/${__shortname}")
@@ -638,6 +650,10 @@ macro(ocv_set_module_sources)
     ocv_get_module_external_sources()
   endif()
 
+  if(OPENCV_MODULE_${the_module}_SOURCES_DISPATCHED)
+    list(APPEND OPENCV_MODULE_${the_module}_SOURCES ${OPENCV_MODULE_${the_module}_SOURCES_DISPATCHED})
+  endif()
+
   # use full paths for module to be independent from the module location
   ocv_convert_to_full_paths(OPENCV_MODULE_${the_module}_HEADERS)
 
@@ -669,6 +685,8 @@ macro(ocv_glob_module_sources)
        "${CMAKE_CURRENT_LIST_DIR}/include/opencv2/${name}/*.h"
        "${CMAKE_CURRENT_LIST_DIR}/include/opencv2/${name}/hal/*.hpp"
        "${CMAKE_CURRENT_LIST_DIR}/include/opencv2/${name}/hal/*.h"
+       "${CMAKE_CURRENT_LIST_DIR}/include/opencv2/${name}/utils/*.hpp"
+       "${CMAKE_CURRENT_LIST_DIR}/include/opencv2/${name}/utils/*.h"
   )
   file(GLOB lib_hdrs_detail
        "${CMAKE_CURRENT_LIST_DIR}/include/opencv2/${name}/detail/*.hpp"
@@ -720,8 +738,10 @@ endmacro()
 #   ocv_create_module(<extra link dependencies>)
 #   ocv_create_module()
 macro(ocv_create_module)
-  ocv_debug_message("ocv_create_module(" ${ARGN} ")")
-  set(OPENCV_MODULE_${the_module}_LINK_DEPS "${OPENCV_MODULE_${the_module}_LINK_DEPS};${ARGN}" CACHE INTERNAL "")
+  ocv_debug_message("${the_module}: ocv_create_module(" ${ARGN} ")")
+  if(NOT " ${ARGN}" STREQUAL " ")
+    set(OPENCV_MODULE_${the_module}_LINK_DEPS "${OPENCV_MODULE_${the_module}_LINK_DEPS};${ARGN}" CACHE INTERNAL "")
+  endif()
   if(${BUILD_opencv_world} AND OPENCV_MODULE_${the_module}_IS_PART_OF_WORLD)
     # nothing
     set(the_module_target opencv_world)
@@ -754,6 +774,11 @@ macro(ocv_create_module)
 endmacro()
 
 macro(_ocv_create_module)
+
+  ocv_compiler_optimization_process_sources(OPENCV_MODULE_${the_module}_SOURCES OPENCV_MODULE_${the_module}_DEPS_EXT ${the_module})
+  set(OPENCV_MODULE_${the_module}_HEADERS ${OPENCV_MODULE_${the_module}_HEADERS} CACHE INTERNAL "List of header files for ${the_module}")
+  set(OPENCV_MODULE_${the_module}_SOURCES ${OPENCV_MODULE_${the_module}_SOURCES} CACHE INTERNAL "List of source files for ${the_module}")
+
   # The condition we ought to be testing here is whether ocv_add_precompiled_headers will
   # be called at some point in the future. We can't look into the future, though,
   # so this will have to do.
@@ -779,11 +804,37 @@ macro(_ocv_create_module)
     endforeach()
   endif()
 
+  if(WIN32
+      AND (BUILD_SHARED_LIBS AND NOT "x${OPENCV_MODULE_TYPE}" STREQUAL "xSTATIC")
+      AND NOT OPENCV_VS_VERSIONINFO_SKIP)
+    if(DEFINED OPENCV_VS_VERSIONINFO_FILE)
+      set(_VS_VERSION_FILE "${OPENCV_VS_VERSIONINFO_FILE}")
+    elseif(DEFINED OPENCV_VS_VERSIONINFO_${the_module}_FILE)
+      set(_VS_VERSION_FILE "${OPENCV_VS_VERSIONINFO_${the_module}_FILE}")
+    elseif(NOT OPENCV_VS_VERSIONINFO_SKIP_GENERATION)
+      set(_VS_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/vs_version.rc")
+      ocv_generate_vs_version_file("${_VS_VERSION_FILE}"
+        NAME "${the_module}"
+        FILEDESCRIPTION "OpenCV module: ${OPENCV_MODULE_${the_module}_DESCRIPTION}"
+        INTERNALNAME "${the_module}${OPENCV_DLLVERSION}"
+        ORIGINALFILENAME "${the_module}${OPENCV_DLLVERSION}.dll"
+      )
+    endif()
+    if(_VS_VERSION_FILE)
+      if(NOT EXISTS "${_VS_VERSION_FILE}")
+        message(STATUS "${the_module}: Required .rc file is missing: ${_VS_VERSION_FILE}")
+      endif()
+      source_group("Src" FILES "${_VS_VERSION_FILE}")
+    endif()
+  endif()
+
   source_group("Include" FILES "${OPENCV_CONFIG_FILE_INCLUDE_DIR}/cvconfig.h" "${OPENCV_CONFIG_FILE_INCLUDE_DIR}/opencv2/opencv_modules.hpp")
   source_group("Src" FILES "${${the_module}_pch}")
   ocv_add_library(${the_module} ${OPENCV_MODULE_TYPE} ${OPENCV_MODULE_${the_module}_HEADERS} ${OPENCV_MODULE_${the_module}_SOURCES}
     "${OPENCV_CONFIG_FILE_INCLUDE_DIR}/cvconfig.h" "${OPENCV_CONFIG_FILE_INCLUDE_DIR}/opencv2/opencv_modules.hpp"
-    ${${the_module}_pch} ${sub_objs})
+    ${${the_module}_pch} ${sub_objs}
+    ${_VS_VERSION_FILE}
+  )
 
   if (cuda_objs)
     target_link_libraries(${the_module} ${cuda_objs})
@@ -849,8 +900,11 @@ macro(_ocv_create_module)
 
   if((NOT DEFINED OPENCV_MODULE_TYPE AND BUILD_SHARED_LIBS)
       OR (DEFINED OPENCV_MODULE_TYPE AND OPENCV_MODULE_TYPE STREQUAL SHARED))
-    set_target_properties(${the_module} PROPERTIES COMPILE_DEFINITIONS CVAPI_EXPORTS)
     set_target_properties(${the_module} PROPERTIES DEFINE_SYMBOL CVAPI_EXPORTS)
+  endif()
+
+  if (ENABLE_GNU_STL_DEBUG)
+    target_compile_definitions(${the_module} PUBLIC _GLIBCXX_DEBUG)
   endif()
 
   if(MSVC)
@@ -879,7 +933,7 @@ macro(_ocv_create_module)
     if(OPENCV_MODULE_${m}_HEADERS AND ";${OPENCV_MODULES_PUBLIC};" MATCHES ";${m};")
       foreach(hdr ${OPENCV_MODULE_${m}_HEADERS})
         string(REGEX REPLACE "^.*opencv2/" "opencv2/" hdr2 "${hdr}")
-        if(NOT hdr2 MATCHES "opencv2/${m}/private.*" AND hdr2 MATCHES "^(opencv2/?.*)/[^/]+.h(..)?$" )
+        if(NOT hdr2 MATCHES "private" AND hdr2 MATCHES "^(opencv2/?.*)/[^/]+.h(..)?$" )
           install(FILES ${hdr} OPTIONAL DESTINATION "${OPENCV_INCLUDE_INSTALL_PATH}/${CMAKE_MATCH_1}" COMPONENT dev)
         endif()
       endforeach()
@@ -1109,6 +1163,8 @@ function(ocv_add_accuracy_tests)
         DEBUG_POSTFIX "${OPENCV_DEBUG_POSTFIX}"
         RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}"
       )
+
+      ocv_append_target_property(${the_target} COMPILE_DEFINITIONS "__OPENCV_TESTS=1")
 
       if(ENABLE_SOLUTION_FOLDERS)
         set_target_properties(${the_target} PROPERTIES FOLDER "tests accuracy")

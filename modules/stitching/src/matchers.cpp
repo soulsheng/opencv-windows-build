@@ -70,9 +70,12 @@ struct MatchPairsBody : ParallelLoopBody
 
     void operator ()(const Range &r) const
     {
+        cv::RNG rng = cv::theRNG(); // save entry rng state
         const int num_images = static_cast<int>(features.size());
         for (int i = r.start; i < r.end; ++i)
         {
+            cv::theRNG() = cv::RNG(rng.state + i); // force "stable" RNG seed for each processed pair
+
             int from = near_pairs[i].first;
             int to = near_pairs[i].second;
             int pair_idx = from*num_images + to;
@@ -555,10 +558,7 @@ AKAZEFeaturesFinder::AKAZEFeaturesFinder(int descriptor_type,
 void AKAZEFeaturesFinder::find(InputArray image, detail::ImageFeatures &features)
 {
     CV_Assert((image.type() == CV_8UC3) || (image.type() == CV_8UC1));
-    Mat descriptors;
-    UMat uimage = image.getUMat();
-    akaze->detectAndCompute(uimage, UMat(), features.keypoints, descriptors);
-    features.descriptors = descriptors.getUMat(ACCESS_READ);
+    akaze->detectAndCompute(image, noArray(), features.keypoints, features.descriptors);
 }
 
 #ifdef HAVE_OPENCV_XFEATURES2D

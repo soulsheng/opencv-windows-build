@@ -42,6 +42,7 @@
 
 #include "precomp.hpp"
 #include "opencv2/imgproc/detail/distortion_model.hpp"
+#include "undistort.hpp"
 
 cv::Mat cv::getDefaultNewCameraMatrix( InputArray _cameraMatrix, Size imgsize,
                                bool centerPrincipalPoint )
@@ -136,6 +137,10 @@ void cv::initUndistortRectifyMap( InputArray _cameraMatrix, InputArray _distCoef
     cv::Matx33d matTilt = cv::Matx33d::eye();
     cv::detail::computeTiltProjectionMatrix(tauX, tauY, &matTilt);
 
+#if CV_TRY_AVX2
+    bool USE_AVX2 = cv::checkHardwareSupport(CV_CPU_AVX2);
+#endif
+
     for( int i = 0; i < size.height; i++ )
     {
         float* m1f = map1.ptr<float>(i);
@@ -144,7 +149,21 @@ void cv::initUndistortRectifyMap( InputArray _cameraMatrix, InputArray _distCoef
         ushort* m2 = (ushort*)m2f;
         double _x = i*ir[1] + ir[2], _y = i*ir[4] + ir[5], _w = i*ir[7] + ir[8];
 
-        for( int j = 0; j < size.width; j++, _x += ir[0], _y += ir[3], _w += ir[6] )
+        int j = 0;
+
+        if (m1type == CV_16SC2)
+            CV_Assert(m1 != NULL && m2 != NULL);
+        else if (m1type == CV_32FC1)
+            CV_Assert(m1f != NULL && m2f != NULL);
+        else
+            CV_Assert(m1 != NULL);
+
+#if CV_TRY_AVX2
+        if( USE_AVX2 )
+            j = cv::initUndistortRectifyMapLine_AVX(m1f, m2f, m1, m2, matTilt.val, ir, _x, _y, _w, size.width, m1type,
+                                                    k1, k2, k3, k4, k5, k6, p1, p2, s1, s2, s3, s4, u0, v0, fx, fy);
+#endif
+        for( ; j < size.width; j++, _x += ir[0], _y += ir[3], _w += ir[6] )
         {
             double w = 1./_w, x = _x*w, y = _y*w;
             double x2 = x*x, y2 = y*y;
@@ -476,8 +495,6 @@ static Point2f mapPointSpherical(const Point2f& p, float alpha, Vec4d* J, int pr
 
 static Point2f invMapPointSpherical(Point2f _p, float alpha, int projType)
 {
-    static int avgiter = 0, avgn = 0;
-
     double eps = 1e-12;
     Vec2d p(_p.x, _p.y), q(_p.x, _p.y), err;
     Vec4d J;
@@ -500,14 +517,6 @@ static Point2f invMapPointSpherical(Point2f _p, float alpha, int projType)
         q -= Vec2d(iJtJ[0]*JtErr[0] + iJtJ[1]*JtErr[1], iJtJ[2]*JtErr[0] + iJtJ[3]*JtErr[1]);
         //Matx22d J(kx*x + k, kx*y, ky*x, ky*y + k);
         //q -= Vec2d((J.t()*J).inv()*(J.t()*err));
-    }
-
-    if( i < maxiter )
-    {
-        avgiter += i;
-        avgn++;
-        if( avgn == 1500 )
-            printf("avg iters = %g\n", (double)avgiter/avgn);
     }
 
     return i < maxiter ? Point2f((float)q[0], (float)q[1]) : Point2f(-FLT_MAX, -FLT_MAX);

@@ -730,7 +730,7 @@ icvNewSolution( CvEMDState * state )
     int i, j;
     float min_val = CV_EMD_INF;
     int steps;
-    CvNode2D head, *cur_x, *next_x, *leave_x = 0;
+    CvNode2D head = {0, {0}, 0, 0}, *cur_x, *next_x, *leave_x = 0;
     CvNode2D *enter_x = state->enter_x;
     CvNode2D **loop = state->loop;
 
@@ -773,6 +773,7 @@ icvNewSolution( CvEMDState * state )
     }
 
     /* remove the leaving basic variable */
+    CV_Assert(leave_x != NULL);
     i = leave_x->i;
     j = leave_x->j;
     state->is_x[i][j] = 0;
@@ -782,7 +783,7 @@ icvNewSolution( CvEMDState * state )
     while( (next_x = cur_x->next[0]) != leave_x )
     {
         cur_x = next_x;
-        assert( cur_x );
+        CV_Assert( cur_x );
     }
     cur_x->next[0] = next_x->next[0];
     state->rows_x[i] = head.next[0];
@@ -792,7 +793,7 @@ icvNewSolution( CvEMDState * state )
     while( (next_x = cur_x->next[1]) != leave_x )
     {
         cur_x = next_x;
-        assert( cur_x );
+        CV_Assert( cur_x );
     }
     cur_x->next[1] = next_x->next[1];
     state->cols_x[j] = head.next[1];
@@ -1162,6 +1163,13 @@ float cv::EMD( InputArray _signature1, InputArray _signature2,
 
     return cvCalcEMD2( &_csignature1, &_csignature2, distType, 0, cost.empty() ? 0 : &_ccost,
                        _flow.needed() ? &_cflow : 0, lowerBound, 0 );
+}
+
+float cv::wrapperEMD(InputArray _signature1, InputArray _signature2,
+               int distType, InputArray _cost,
+               Ptr<float> lowerBound, OutputArray _flow)
+{
+    return EMD(_signature1, _signature2, distType, _cost, lowerBound.get(), _flow);
 }
 
 /* End of file. */

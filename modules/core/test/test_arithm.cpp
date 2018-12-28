@@ -1912,3 +1912,97 @@ TEST(Subtract, scalarc4_matc4)
 
     ASSERT_EQ(0, cv::norm(cv::Mat(5, 5, CV_8UC4, cv::Scalar::all(250)), destImage, cv::NORM_INF));
 }
+
+TEST(Compare, empty)
+{
+    cv::Mat temp, dst1, dst2;
+    cv::compare(temp, temp, dst1, cv::CMP_EQ);
+    dst2 = temp > 5;
+
+    EXPECT_TRUE(dst1.empty());
+    EXPECT_TRUE(dst2.empty());
+}
+
+TEST(Compare, regression_8999)
+{
+    Mat_<double> A(4,1); A << 1, 3, 2, 4;
+    Mat_<double> B(1,1); B << 2;
+    Mat C;
+    ASSERT_ANY_THROW({
+                        compare(A, B, C, CMP_LT);
+                     });
+}
+
+
+TEST(Core_minMaxIdx, regression_9207_1)
+{
+    const int rows = 4;
+    const int cols = 3;
+    uchar mask_[rows*cols] = {
+ 255, 255, 255,
+ 255,   0, 255,
+   0, 255, 255,
+   0,   0, 255
+};
+    uchar src_[rows*cols] = {
+   1,   1,   1,
+   1,   1,   1,
+   2,   1,   1,
+   2,   2,   1
+};
+    Mat mask(Size(cols, rows), CV_8UC1, mask_);
+    Mat src(Size(cols, rows), CV_8UC1, src_);
+    double minVal = -0.0, maxVal = -0.0;
+    int minIdx[2] = { -2, -2 }, maxIdx[2] = { -2, -2 };
+    minMaxIdx(src, &minVal, &maxVal, minIdx, maxIdx, mask);
+    EXPECT_EQ(0, minIdx[0]);
+    EXPECT_EQ(0, minIdx[1]);
+    EXPECT_EQ(0, maxIdx[0]);
+    EXPECT_EQ(0, maxIdx[1]);
+}
+
+
+TEST(Core_minMaxIdx, regression_9207_2)
+{
+    const int rows = 13;
+    const int cols = 15;
+    uchar mask_[rows*cols] = {
+   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255,
+   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255,
+   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255,
+   0, 255, 255, 255, 255,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255,
+ 255,   0,   0,   0,   0, 255,   0,   0,   0,   0,   0,   0,   0,   0, 255,
+ 255,   0,   0,   0,   0,   0, 255,   0,   0,   0,   0,   0,   0, 255, 255,
+ 255,   0,   0,   0,   0,   0,   0, 255, 255,   0,   0, 255, 255, 255,   0,
+ 255,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255,   0, 255,   0,
+ 255,   0,   0,   0,   0,   0,   0, 255, 255,   0,   0,   0, 255, 255,   0,
+ 255,   0,   0,   0,   0,   0, 255,   0,   0,   0,   0,   0,   0, 255,   0,
+ 255,   0,   0,   0,   0, 255,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+   0, 255,   0,   0,   0, 255,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+   0, 255, 255, 255, 255,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+};
+    uchar src_[15*13] = {
+   5,   5,   5,   5,   5,   6,   5,   2,   0,   4,   6,   6,   4,   1,   0,
+   6,   5,   4,   4,   5,   6,   6,   5,   2,   0,   4,   6,   5,   2,   0,
+   3,   2,   1,   1,   2,   4,   6,   6,   4,   2,   3,   4,   4,   2,   0,
+   1,   0,   0,   0,   0,   1,   4,   5,   4,   4,   4,   4,   3,   2,   0,
+   0,   0,   0,   0,   0,   0,   2,   3,   4,   4,   4,   3,   2,   1,   0,
+   0,   0,   0,   0,   0,   0,   0,   2,   3,   4,   3,   2,   1,   0,   0,
+   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,   1,   0,   0,   0,   1,
+   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,
+   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,   1,   1,   0,   0,   1,
+   0,   0,   0,   0,   0,   0,   0,   1,   2,   4,   3,   3,   1,   0,   1,
+   0,   0,   0,   0,   0,   0,   1,   4,   5,   6,   5,   4,   3,   2,   0,
+   1,   0,   0,   0,   0,   0,   3,   5,   5,   4,   3,   4,   4,   3,   0,
+   2,   0,   0,   0,   0,   2,   5,   6,   5,   2,   2,   5,   4,   3,   0
+};
+    Mat mask(Size(cols, rows), CV_8UC1, mask_);
+    Mat src(Size(cols, rows), CV_8UC1, src_);
+    double minVal = -0.0, maxVal = -0.0;
+    int minIdx[2] = { -2, -2 }, maxIdx[2] = { -2, -2 };
+    minMaxIdx(src, &minVal, &maxVal, minIdx, maxIdx, mask);
+    EXPECT_EQ(0, minIdx[0]);
+    EXPECT_EQ(14, minIdx[1]);
+    EXPECT_EQ(0, maxIdx[0]);
+    EXPECT_EQ(14, maxIdx[1]);
+}

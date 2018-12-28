@@ -411,8 +411,9 @@ UMat::~UMat()
 
 void UMat::deallocate()
 {
-    u->currAllocator->deallocate(u);
+    UMatData* u_ = u;
     u = NULL;
+    u_->currAllocator->deallocate(u_);
 }
 
 
@@ -599,8 +600,13 @@ UMat& UMat::adjustROI( int dtop, int dbottom, int dleft, int dright )
     Size wholeSize; Point ofs;
     size_t esz = elemSize();
     locateROI( wholeSize, ofs );
-    int row1 = std::max(ofs.y - dtop, 0), row2 = std::min(ofs.y + rows + dbottom, wholeSize.height);
-    int col1 = std::max(ofs.x - dleft, 0), col2 = std::min(ofs.x + cols + dright, wholeSize.width);
+    int row1 = std::min(std::max(ofs.y - dtop, 0), wholeSize.height), row2 = std::max(0, std::min(ofs.y + rows + dbottom, wholeSize.height));
+    int col1 = std::min(std::max(ofs.x - dleft, 0), wholeSize.width), col2 = std::max(0, std::min(ofs.x + cols + dright, wholeSize.width));
+    if(row1 > row2)
+        std::swap(row1, row2);
+    if(col1 > col2)
+        std::swap(col1, col2);
+
     offset += (row1 - ofs.y)*step + (col1 - ofs.x)*esz;
     rows = row2 - row1; cols = col2 - col1;
     size.p[0] = rows; size.p[1] = cols;
@@ -819,7 +825,7 @@ void UMat::copyTo(OutputArray _dst) const
         return;
     }
 
-    size_t i, sz[CV_MAX_DIM], srcofs[CV_MAX_DIM], dstofs[CV_MAX_DIM], esz = elemSize();
+    size_t i, sz[CV_MAX_DIM] = {0}, srcofs[CV_MAX_DIM], dstofs[CV_MAX_DIM], esz = elemSize();
     for( i = 0; i < (size_t)dims; i++ )
         sz[i] = size.p[i];
     sz[dims-1] *= esz;
@@ -830,6 +836,7 @@ void UMat::copyTo(OutputArray _dst) const
     if( _dst.isUMat() )
     {
         UMat dst = _dst.getUMat();
+        CV_Assert(dst.u);
         if( u == dst.u && dst.offset == offset )
             return;
 
@@ -986,7 +993,7 @@ UMat& UMat::setTo(InputArray _value, InputArray _mask)
         ocl::Kernel setK(haveMask ? "setMask" : "set", ocl::core::copyset_oclsrc, opts);
         if( !setK.empty() )
         {
-            ocl::KernelArg scalararg(0, 0, 0, 0, buf, CV_ELEM_SIZE(d) * scalarcn);
+            ocl::KernelArg scalararg(ocl::KernelArg::CONSTANT, 0, 0, 0, buf, CV_ELEM_SIZE(d) * scalarcn);
             UMat mask;
 
             if( haveMask )

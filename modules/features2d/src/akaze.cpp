@@ -113,12 +113,12 @@ namespace cv
                 if (descriptor_size == 0)
                 {
                     int t = (6 + 36 + 120) * descriptor_channels;
-                    return (int)ceil(t / 8.);
+                    return divUp(t, 8);
                 }
                 else
                 {
                     // We use the random bit selection length binary descriptor
-                    return (int)ceil(descriptor_size / 8.);
+                    return divUp(descriptor_size, 8);
                 }
 
             default:
@@ -200,8 +200,7 @@ namespace cv
             if (!useProvidedKeypoints)
             {
                 impl.Feature_Detection(keypoints);
-                if( !descriptors.needed() )
-                    impl.Compute_Keypoints_Orientation(keypoints);
+                impl.Compute_Keypoints_Orientation(keypoints);
             }
 
             if (!mask.empty())
@@ -211,11 +210,10 @@ namespace cv
 
             if( descriptors.needed() )
             {
-                Mat& desc = descriptors.getMatRef();
-                impl.Compute_Descriptors(keypoints, desc);
+                impl.Compute_Descriptors(keypoints, descriptors);
 
-                CV_Assert((!desc.rows || desc.cols == descriptorSize()));
-                CV_Assert((!desc.rows || (desc.type() == descriptorType())));
+                CV_Assert((descriptors.empty() || descriptors.cols() == descriptorSize()));
+                CV_Assert((descriptors.empty() || (descriptors.type() == descriptorType())));
             }
         }
 

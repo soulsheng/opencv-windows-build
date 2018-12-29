@@ -23,3 +23,6 @@ tegra/
 /build/testdata/cv/face/*.dat
 /build/python_loader/cv2/*.py
 /build/python_loader/*.py
+/build/CMakeVars.txt
+/build/CPackConfig.cmake
+/build/CPackSourceConfig.cmake

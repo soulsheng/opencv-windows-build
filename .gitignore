@@ -21,3 +21,5 @@ tegra/
 *.opensdf
 /build/3rdparty/ffmpeg/*.dll
 /build/testdata/cv/face/*.dat
+/build/python_loader/cv2/*.py
+/build/python_loader/*.py

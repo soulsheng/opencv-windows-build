@@ -970,10 +970,10 @@ ocv_add_modules_compiler_options()
 add_subdirectory(modules)
 
 # Generate targets for documentation
-add_subdirectory(doc)
+# add_subdirectory(doc)
 
 # various data that is used by cv libraries and/or demo applications.
-add_subdirectory(data)
+# add_subdirectory(data)
 
 # extra applications
 if(BUILD_opencv_apps)

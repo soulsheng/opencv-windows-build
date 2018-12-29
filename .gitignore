@@ -19,3 +19,5 @@ tegra/
 *x64
 *.sdf
 *.opensdf
+/build/3rdparty/ffmpeg/*.dll
+/build/testdata/cv/face/*.dat

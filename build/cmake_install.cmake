@@ -1,8 +1,8 @@
-# Install script for directory: G:/file/code/image/opencv-windows-build
+# Install script for directory: G:/file/code/image/opencv-windows-build345
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "G:/file/code/image/opencv-windows-build/build/install")
+  set(CMAKE_INSTALL_PREFIX "G:/file/code/image/opencv-windows-build345/build/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -27,19 +27,27 @@ if(NOT CMAKE_INSTALL_COMPONENT)
   endif()
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "main" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/build/opencv2/opencv_modules.hpp")
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "licenses" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/etc/licenses" TYPE FILE OPTIONAL RENAME "ffmpeg-license.txt" FILES "G:/file/code/image/opencv-windows-build345/license.txt")
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/build/win-install/OpenCVConfig.cmake")
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "licenses" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/etc/licenses" TYPE FILE OPTIONAL RENAME "ffmpeg-readme.txt" FILES "G:/file/code/image/opencv-windows-build345/readme.txt")
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "G:/file/code/image/opencv-windows-build345/build/cvconfig.h")
+endif()
+
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "G:/file/code/image/opencv-windows-build345/build/opencv2/opencv_modules.hpp")
+endif()
+
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/x64/vc12/lib/OpenCVModules.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/x64/vc12/lib/OpenCVModules.cmake"
-         "G:/file/code/image/opencv-windows-build/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules.cmake")
+         "G:/file/code/image/opencv-windows-build345/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/x64/vc12/lib/OpenCVModules-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -48,46 +56,44 @@ if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMP
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build345/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules-debug.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build345/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules-debug.cmake")
   endif()
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES "G:/file/code/image/opencv-windows-build345/build/CMakeFiles/Export/x64/vc12/lib/OpenCVModules-release.cmake")
   endif()
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "G:/file/code/image/opencv-windows-build/build/install/OpenCVConfig-version.cmake")
-  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-file(INSTALL DESTINATION "G:/file/code/image/opencv-windows-build/build/install" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/build/win-install/OpenCVConfig-version.cmake")
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/x64/vc12/lib" TYPE FILE FILES
+    "G:/file/code/image/opencv-windows-build345/build/win-install/OpenCVConfig-version.cmake"
+    "G:/file/code/image/opencv-windows-build345/build/win-install/x64/vc12/lib/OpenCVConfig.cmake"
+    )
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "G:/file/code/image/opencv-windows-build/build/install/OpenCVConfig.cmake")
-  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-file(INSTALL DESTINATION "G:/file/code/image/opencv-windows-build/build/install" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/cmake/OpenCVConfig.cmake")
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE FILE FILES
+    "G:/file/code/image/opencv-windows-build345/build/win-install/OpenCVConfig-version.cmake"
+    "G:/file/code/image/opencv-windows-build345/build/win-install/OpenCVConfig.cmake"
+    )
+endif()
+
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "libs" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE FILE PERMISSIONS OWNER_READ GROUP_READ WORLD_READ FILES "G:/file/code/image/opencv-windows-build345/LICENSE")
+endif()
+
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "scripts" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE FILE PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE FILES "G:/file/code/image/opencv-windows-build345/build/CMakeFiles/install/setup_vars_opencv3.cmd")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("G:/file/code/image/opencv-windows-build/build/3rdparty/zlib/cmake_install.cmake")
-  include("G:/file/code/image/opencv-windows-build/build/3rdparty/libjpeg/cmake_install.cmake")
-  include("G:/file/code/image/opencv-windows-build/build/3rdparty/libpng/cmake_install.cmake")
-  include("G:/file/code/image/opencv-windows-build/build/include/cmake_install.cmake")
-  include("G:/file/code/image/opencv-windows-build/build/modules/cmake_install.cmake")
+  include("G:/file/code/image/opencv-windows-build345/build/3rdparty/zlib/cmake_install.cmake")
+  include("G:/file/code/image/opencv-windows-build345/build/3rdparty/libjpeg-turbo/cmake_install.cmake")
+  include("G:/file/code/image/opencv-windows-build345/build/3rdparty/libpng/cmake_install.cmake")
+  include("G:/file/code/image/opencv-windows-build345/build/include/cmake_install.cmake")
+  include("G:/file/code/image/opencv-windows-build345/build/modules/cmake_install.cmake")
 
 endif()
 
@@ -99,5 +105,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "G:/file/code/image/opencv-windows-build/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "G:/file/code/image/opencv-windows-build345/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

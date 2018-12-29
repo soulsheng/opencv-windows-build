@@ -1,8 +1,8 @@
-# Install script for directory: G:/file/code/image/opencv-windows-build/include
+# Install script for directory: G:/file/code/image/opencv-windows-build345/include
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "G:/file/code/image/opencv-windows-build/build/install")
+  set(CMAKE_INSTALL_PREFIX "G:/file/code/image/opencv-windows-build345/build/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -27,23 +27,23 @@ if(NOT CMAKE_INSTALL_COMPONENT)
   endif()
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "main" OR NOT CMAKE_INSTALL_COMPONENT)
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv" TYPE FILE FILES
-    "G:/file/code/image/opencv-windows-build/include/opencv/cv.h"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cv.hpp"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cvaux.h"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cvaux.hpp"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cvwimage.h"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cxcore.h"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cxcore.hpp"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cxeigen.hpp"
-    "G:/file/code/image/opencv-windows-build/include/opencv/cxmisc.h"
-    "G:/file/code/image/opencv-windows-build/include/opencv/highgui.h"
-    "G:/file/code/image/opencv-windows-build/include/opencv/ml.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cv.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cv.hpp"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cvaux.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cvaux.hpp"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cvwimage.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cxcore.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cxcore.hpp"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cxeigen.hpp"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/cxmisc.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/highgui.h"
+    "G:/file/code/image/opencv-windows-build345/include/opencv/ml.h"
     )
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "main" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "G:/file/code/image/opencv-windows-build/include/opencv2/opencv.hpp")
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "G:/file/code/image/opencv-windows-build345/include/opencv2/opencv.hpp")
 endif()
 

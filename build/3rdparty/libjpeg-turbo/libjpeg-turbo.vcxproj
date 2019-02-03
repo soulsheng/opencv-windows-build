@@ -93,7 +93,6 @@
       <AdditionalIncludeDirectories>G:\file\code\image\opencv-windows-build345\build;G:\file\code\image\opencv-windows-build345\build\3rdparty\libjpeg-turbo;G:\file\code\image\opencv-windows-build345\3rdparty\libjpeg-turbo\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4996;4018</DisableSpecificWarnings>
       <ExceptionHandling>
       </ExceptionHandling>
@@ -108,6 +107,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
       <ProgramDataBaseFileName>G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Release\libjpeg-turbo.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>

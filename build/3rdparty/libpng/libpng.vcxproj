@@ -92,7 +92,6 @@
       <AdditionalIncludeDirectories>G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\libpng;G:\file\code\image\opencv-windows-build345\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>
       </ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -106,6 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
       <ProgramDataBaseFileName>G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Release\libpng.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>

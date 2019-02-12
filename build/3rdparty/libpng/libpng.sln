@@ -68,6 +68,7 @@ Global
 		{6A03E45E-B914-3EEB-9C99-D56653E3C807}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7ED34AB-4F43-3AD3-B215-408C1310B9A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityAddIns) = postSolution
 	EndGlobalSection

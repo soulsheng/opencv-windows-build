@@ -7,5 +7,6 @@
 subdirs("3rdparty/zlib")
 subdirs("3rdparty/libjpeg-turbo")
 subdirs("3rdparty/libpng")
+subdirs("3rdparty/protobuf")
 subdirs("include")
 subdirs("modules")

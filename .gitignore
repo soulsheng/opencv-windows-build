@@ -26,3 +26,4 @@ tegra/
 /build/CMakeVars.txt
 /build/CPackConfig.cmake
 /build/CPackSourceConfig.cmake
+/build/*.suo

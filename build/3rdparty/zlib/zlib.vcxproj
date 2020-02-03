@@ -172,6 +172,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\zlib\uncompr.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\zlib\zutil.c"  />
     <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\zlib\zconf.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib\zconf.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\zlib\zlib.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\zlib\crc32.h" />
     <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\zlib\deflate.h" />

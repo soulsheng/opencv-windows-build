@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\modules\cudev\src\stub.cpp">
@@ -3431,373 +3431,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\core\src\cuda\gpu_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\absdiff_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\absdiff_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\add_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\add_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\add_weighted.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\bitwise_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\bitwise_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\cmp_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\cmp_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\copy_make_border.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\countnonzero.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\div_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\div_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\integral.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\lut.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\math.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\minmax.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\minmax_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\minmaxloc.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\mul_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\mul_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\mul_spectrums.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\norm.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\normalize.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\polar_cart.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\reduce.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\split_merge.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\sub_mat.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\sub_scalar.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\sum.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\threshold.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaarithm\src\cuda\transpose.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudabgsegm\src\cuda\mog.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudabgsegm\src\cuda\mog2.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.16sc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.16sc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.16sc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.16uc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.16uc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.16uc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.32fc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.32fc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.32fc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.32sc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.32sc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.32sc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.8uc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.8uc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\column_filter.8uc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\filter2d.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\median_filter.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.16sc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.16sc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.16sc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.16uc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.16uc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.16uc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.32fc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.32fc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.32fc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.32sc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.32sc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.32sc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.8uc1.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.8uc3.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafilters\src\cuda\row_filter.8uc4.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\bilateral_filter.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\blend.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\build_point_list.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\canny.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\clahe.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\color.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\corners.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\debayer.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\generalized_hough.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\gftt.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\hist.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\hough_circles.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\hough_lines.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\hough_segments.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\match_template.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaimgproc\src\cuda\mean_shift.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudawarping\src\cuda\pyr_down.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudawarping\src\cuda\pyr_up.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudawarping\src\cuda\remap.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudawarping\src\cuda\resize.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudawarping\src\cuda\warp.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\photo\src\cuda\nlm.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudacodec\src\cuda\nv12_to_rgb.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudacodec\src\cuda\rgb_to_yv12.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafeatures2d\src\cuda\bf_knnmatch.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafeatures2d\src\cuda\bf_match.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafeatures2d\src\cuda\bf_radius_match.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafeatures2d\src\cuda\fast.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudafeatures2d\src\cuda\orb.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudastereo\src\cuda\disparity_bilateral_filter.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudastereo\src\cuda\stereobm.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudastereo\src\cuda\stereobp.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudastereo\src\cuda\stereocsbp.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudastereo\src\cuda\util.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\NCV.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\NCVBroxOpticalFlow.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\NCVHaarObjectDetection.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\NCVPyramid.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\NPP_staging.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\bm.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\bm_fast.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\calib3d.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\ccomponetns.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\fgd.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\gmg.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudalegacy\src\cuda\needle_map.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaobjdetect\src\cuda\hog.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaobjdetect\src\cuda\lbp.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaoptflow\src\cuda\farneback.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaoptflow\src\cuda\pyrlk.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\cudaoptflow\src\cuda\tvl1flow.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\stitching\src\cuda\build_warp_maps.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\stitching\src\cuda\multiband_blend.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\superres\src\cuda\btv_l1_gpu.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\videostab\src\cuda\global_motion.cu">
-      <Filter>Src\Cuda</Filter>
-    </CustomBuild>
-    <CustomBuild Include="G:\file\code\image\opencv-windows-build345\modules\world\CMakeLists.txt" />
     <CustomBuild Include="G:\file\code\image\opencv-windows-build345\build\CMakeFiles\f02797ce349069724c2807020959a799\opencl_kernels_core.cpp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
@@ -3831,6 +3464,9 @@
     <CustomBuild Include="G:\file\code\image\opencv-windows-build345\build\CMakeFiles\f02797ce349069724c2807020959a799\opencl_kernels_superres.cpp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\absdiff_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="G:\file\code\image\opencv-windows-build345\build\modules\world\version_string.inc">
@@ -4128,372 +3764,6 @@
     </Object>
     <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\opencv_world_AVX.dir\$(Configuration)\haar.avx.obj">
       <Filter>Object Libraries</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\core\src\cuda\$(Configuration)\cuda_compile_1_generated_gpu_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_absdiff_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_absdiff_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_add_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_add_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_add_weighted.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_bitwise_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_bitwise_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_cmp_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_cmp_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_copy_make_border.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_countnonzero.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_div_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_div_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_integral.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_lut.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_math.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_minmax.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_minmax_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_minmaxloc.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_mul_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_mul_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_mul_spectrums.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_norm.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_normalize.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_polar_cart.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_reduce.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_split_merge.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_sub_mat.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_sub_scalar.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_sum.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_threshold.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaarithm\src\cuda\$(Configuration)\cuda_compile_1_generated_transpose.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudabgsegm\src\cuda\$(Configuration)\cuda_compile_1_generated_mog.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudabgsegm\src\cuda\$(Configuration)\cuda_compile_1_generated_mog2.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.16sc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.16sc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.16sc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.16uc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.16uc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.16uc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.32fc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.32fc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.32fc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.32sc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.32sc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.32sc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.8uc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.8uc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_column_filter.8uc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_filter2d.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_median_filter.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.16sc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.16sc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.16sc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.16uc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.16uc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.16uc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.32fc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.32fc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.32fc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.32sc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.32sc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.32sc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.8uc1.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.8uc3.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafilters\src\cuda\$(Configuration)\cuda_compile_1_generated_row_filter.8uc4.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_bilateral_filter.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_blend.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_build_point_list.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_canny.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_clahe.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_color.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_corners.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_debayer.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_generalized_hough.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_gftt.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_hist.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_hough_circles.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_hough_lines.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_hough_segments.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_match_template.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaimgproc\src\cuda\$(Configuration)\cuda_compile_1_generated_mean_shift.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudawarping\src\cuda\$(Configuration)\cuda_compile_1_generated_pyr_down.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudawarping\src\cuda\$(Configuration)\cuda_compile_1_generated_pyr_up.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudawarping\src\cuda\$(Configuration)\cuda_compile_1_generated_remap.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudawarping\src\cuda\$(Configuration)\cuda_compile_1_generated_resize.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudawarping\src\cuda\$(Configuration)\cuda_compile_1_generated_warp.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\photo\src\cuda\$(Configuration)\cuda_compile_1_generated_nlm.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudacodec\src\cuda\$(Configuration)\cuda_compile_1_generated_nv12_to_rgb.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudacodec\src\cuda\$(Configuration)\cuda_compile_1_generated_rgb_to_yv12.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafeatures2d\src\cuda\$(Configuration)\cuda_compile_1_generated_bf_knnmatch.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafeatures2d\src\cuda\$(Configuration)\cuda_compile_1_generated_bf_match.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafeatures2d\src\cuda\$(Configuration)\cuda_compile_1_generated_bf_radius_match.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafeatures2d\src\cuda\$(Configuration)\cuda_compile_1_generated_fast.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudafeatures2d\src\cuda\$(Configuration)\cuda_compile_1_generated_orb.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudastereo\src\cuda\$(Configuration)\cuda_compile_1_generated_disparity_bilateral_filter.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudastereo\src\cuda\$(Configuration)\cuda_compile_1_generated_stereobm.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudastereo\src\cuda\$(Configuration)\cuda_compile_1_generated_stereobp.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudastereo\src\cuda\$(Configuration)\cuda_compile_1_generated_stereocsbp.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudastereo\src\cuda\$(Configuration)\cuda_compile_1_generated_util.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_NCV.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_NCVBroxOpticalFlow.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_NCVHaarObjectDetection.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_NCVPyramid.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_NPP_staging.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_bm.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_bm_fast.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_calib3d.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_ccomponetns.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_fgd.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_gmg.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudalegacy\src\cuda\$(Configuration)\cuda_compile_1_generated_needle_map.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaobjdetect\src\cuda\$(Configuration)\cuda_compile_1_generated_hog.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaobjdetect\src\cuda\$(Configuration)\cuda_compile_1_generated_lbp.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaoptflow\src\cuda\$(Configuration)\cuda_compile_1_generated_farneback.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaoptflow\src\cuda\$(Configuration)\cuda_compile_1_generated_pyrlk.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\cudaoptflow\src\cuda\$(Configuration)\cuda_compile_1_generated_tvl1flow.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\stitching\src\cuda\$(Configuration)\cuda_compile_1_generated_build_warp_maps.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\stitching\src\cuda\$(Configuration)\cuda_compile_1_generated_multiband_blend.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\superres\src\cuda\$(Configuration)\cuda_compile_1_generated_btv_l1_gpu.cu.obj">
-      <Filter>Object Files</Filter>
-    </Object>
-    <Object Include="G:\file\code\image\opencv-windows-build345\build\modules\world\CMakeFiles\cuda_compile_1.dir\__\videostab\src\cuda\$(Configuration)\cuda_compile_1_generated_global_motion.cu.obj">
-      <Filter>Object Files</Filter>
     </Object>
   </ItemGroup>
   <ItemGroup>
@@ -5153,5 +4423,367 @@
     <Filter Include="opencv_cudafeatures2d\Include">
       <UniqueIdentifier>{79EF5D82-CA0E-30EE-96FE-7540BD80546B}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\add_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\add_weighted.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafeatures2d\src\cuda\bf_knnmatch.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafeatures2d\src\cuda\bf_match.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafeatures2d\src\cuda\bf_radius_match.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\bilateral_filter.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\bitwise_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\bitwise_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\blend.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\bm.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\bm_fast.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\superres\src\cuda\btv_l1_gpu.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\build_point_list.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\stitching\src\cuda\build_warp_maps.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\calib3d.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\canny.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\ccomponetns.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\clahe.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\cmp_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\cmp_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\color.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.8uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.8uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.8uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32fc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32fc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32fc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\copy_make_border.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\corners.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\countnonzero.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\debayer.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudastereo\src\cuda\disparity_bilateral_filter.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\div_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\div_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaoptflow\src\cuda\farneback.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafeatures2d\src\cuda\fast.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\fgd.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\filter2d.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\generalized_hough.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\gftt.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\videostab\src\cuda\global_motion.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\gmg.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\core\src\cuda\gpu_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\hist.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaobjdetect\src\cuda\hog.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\hough_circles.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\hough_lines.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\hough_segments.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\integral.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaobjdetect\src\cuda\lbp.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\lut.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\match_template.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\math.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaimgproc\src\cuda\mean_shift.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\median_filter.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\minmax.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\minmax_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\minmaxloc.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudabgsegm\src\cuda\mog.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudabgsegm\src\cuda\mog2.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\mul_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\mul_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\mul_spectrums.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\stitching\src\cuda\multiband_blend.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCV.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCVBroxOpticalFlow.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCVHaarObjectDetection.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCVPyramid.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\needle_map.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\photo\src\cuda\nlm.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\norm.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\normalize.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NPP_staging.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudacodec\src\cuda\nv12_to_rgb.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafeatures2d\src\cuda\orb.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\polar_cart.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudawarping\src\cuda\pyr_down.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudawarping\src\cuda\pyr_up.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\reduce.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudawarping\src\cuda\remap.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudawarping\src\cuda\resize.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudacodec\src\cuda\rgb_to_yv12.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.8uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.8uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.8uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32fc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32fc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32fc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\split_merge.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudastereo\src\cuda\stereobm.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudastereo\src\cuda\stereobp.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudastereo\src\cuda\stereocsbp.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\sub_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\sub_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\sum.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\threshold.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\transpose.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaoptflow\src\cuda\tvl1flow.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudastereo\src\cuda\util.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudawarping\src\cuda\warp.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\absdiff_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\add_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

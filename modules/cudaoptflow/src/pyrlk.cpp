@@ -45,7 +45,7 @@
 using namespace cv;
 using namespace cv::cuda;
 
-#if !defined (HAVE_CUDA) || defined (CUDA_DISABLER)
+#if 1//!defined (HAVE_CUDA) || defined (CUDA_DISABLER)
 
 Ptr<cv::cuda::SparsePyrLKOpticalFlow> cv::cuda::SparsePyrLKOpticalFlow::create(Size, int, int, bool) { throw_no_cuda(); return Ptr<SparsePyrLKOpticalFlow>(); }
 

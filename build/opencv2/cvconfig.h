@@ -11,13 +11,13 @@
 /* #undef CV_DISABLE_OPTIMIZATION */
 
 /* Compile for 'real' NVIDIA GPU architectures */
-#define CUDA_ARCH_BIN ""
+#define CUDA_ARCH_BIN " 20 30 35 37 50 52 60 61"
 
 /* Create PTX or BIN for 1.0 compute capability */
 /* #undef CUDA_ARCH_BIN_OR_PTX_10 */
 
 /* NVIDIA GPU features are used */
-#define CUDA_ARCH_FEATURES ""
+#define CUDA_ARCH_FEATURES " 20 30 35 37 50 52 60 61"
 
 /* Compile for 'virtual' NVIDIA PTX architectures */
 #define CUDA_ARCH_PTX ""
@@ -50,13 +50,13 @@
 /* #undef HAVE_CSTRIPES */
 
 /* NVIDIA CUDA Basic Linear Algebra Subprograms (BLAS) API*/
-/* #undef HAVE_CUBLAS */
+#define HAVE_CUBLAS
 
 /* NVIDIA CUDA Runtime API*/
-/* #undef HAVE_CUDA */
+#define HAVE_CUDA
 
 /* NVIDIA CUDA Fast Fourier Transform (FFT) API*/
-/* #undef HAVE_CUFFT */
+#define HAVE_CUFFT
 
 /* IEEE1394 capturing support */
 /* #undef HAVE_DC1394 */
@@ -126,7 +126,7 @@
 /* #undef HAVE_MSMF */
 
 /* NVIDIA Video Decoding API*/
-/* #undef HAVE_NVCUVID */
+#define HAVE_NVCUVID
 
 /* NVIDIA Video Encoding API*/
 /* #undef HAVE_NVCUVENC */

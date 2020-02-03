@@ -93,6 +93,59 @@ if(NOT COMMAND find_host_program)
 endif()
 
 
+# Version Compute Capability from which OpenCV has been compiled is remembered
+set(OpenCV_COMPUTE_CAPABILITIES "-gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35;-gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_52,code=sm_52;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-D_FORCE_INLINES")
+
+set(OpenCV_CUDA_VERSION "8.0")
+set(OpenCV_USE_CUBLAS   "1")
+set(OpenCV_USE_CUFFT    "1")
+set(OpenCV_USE_NVCUVID  "1")
+
+if(NOT CUDA_FOUND)
+  find_host_package(CUDA ${OpenCV_CUDA_VERSION} EXACT REQUIRED)
+else()
+  if(NOT CUDA_VERSION_STRING VERSION_EQUAL OpenCV_CUDA_VERSION)
+    message(FATAL_ERROR "OpenCV static library was compiled with CUDA ${OpenCV_CUDA_VERSION} support. Please, use the same version or rebuild OpenCV with CUDA ${CUDA_VERSION_STRING}")
+  endif()
+endif()
+
+set(OpenCV_CUDA_LIBS_ABSPATH ${CUDA_LIBRARIES})
+
+if(CUDA_VERSION VERSION_LESS "5.5")
+  list(APPEND OpenCV_CUDA_LIBS_ABSPATH ${CUDA_npp_LIBRARY})
+else()
+  find_cuda_helper_libs(nppc)
+  find_cuda_helper_libs(nppi)
+  find_cuda_helper_libs(npps)
+  list(APPEND OpenCV_CUDA_LIBS_ABSPATH ${CUDA_nppc_LIBRARY} ${CUDA_nppi_LIBRARY} ${CUDA_npps_LIBRARY})
+endif()
+
+if(OpenCV_USE_CUBLAS)
+  list(APPEND OpenCV_CUDA_LIBS_ABSPATH ${CUDA_CUBLAS_LIBRARIES})
+endif()
+
+if(OpenCV_USE_CUFFT)
+  list(APPEND OpenCV_CUDA_LIBS_ABSPATH ${CUDA_CUFFT_LIBRARIES})
+endif()
+
+if(OpenCV_USE_NVCUVID)
+  list(APPEND OpenCV_CUDA_LIBS_ABSPATH ${CUDA_nvcuvid_LIBRARIES})
+endif()
+
+if(WIN32)
+  list(APPEND OpenCV_CUDA_LIBS_ABSPATH ${CUDA_nvcuvenc_LIBRARIES})
+endif()
+
+set(OpenCV_CUDA_LIBS_RELPATH "")
+foreach(l ${OpenCV_CUDA_LIBS_ABSPATH})
+  get_filename_component(_tmp ${l} PATH)
+  if(NOT ${_tmp} MATCHES "-Wl.*")
+    list(APPEND OpenCV_CUDA_LIBS_RELPATH ${_tmp})
+  endif()
+endforeach()
+
+list(REMOVE_DUPLICATES OpenCV_CUDA_LIBS_RELPATH)
+link_directories(${OpenCV_CUDA_LIBS_RELPATH})
 
 
 
@@ -105,8 +158,8 @@ set(OpenCV_SHARED ON)
 # Enables mangled install paths, that help with side by side installs
 set(OpenCV_USE_MANGLED_PATHS FALSE)
 
-set(OpenCV_LIB_COMPONENTS opencv_calib3d;opencv_core;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab;opencv_world;opencv_datasets;opencv_face;opencv_plot;opencv_reg;opencv_surface_matching;opencv_tracking;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto)
-set(OpenCV_INCLUDE_DIRS "G:/file/code/image/opencv-windows-build345/build" "G:/file/code/image/opencv-windows-build345/include" "G:/file/code/image/opencv-windows-build345/include/opencv" "G:/file/code/image/opencv-windows-build345/modules/core/include" "G:/file/code/image/opencv-windows-build345/modules/flann/include" "G:/file/code/image/opencv-windows-build345/modules/imgproc/include" "G:/file/code/image/opencv-windows-build345/modules/ml/include" "G:/file/code/image/opencv-windows-build345/modules/photo/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/plot/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/reg/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/surface_matching/include" "G:/file/code/image/opencv-windows-build345/modules/video/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/xphoto/include" "G:/file/code/image/opencv-windows-build345/modules/imgcodecs/include" "G:/file/code/image/opencv-windows-build345/modules/shape/include" "G:/file/code/image/opencv-windows-build345/modules/videoio/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/datasets/include" "G:/file/code/image/opencv-windows-build345/modules/highgui/include" "G:/file/code/image/opencv-windows-build345/modules/superres/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/tracking/include" "G:/file/code/image/opencv-windows-build345/modules/features2d/include" "G:/file/code/image/opencv-windows-build345/modules/calib3d/include" "G:/file/code/image/opencv-windows-build345/modules/objdetect/include" "G:/file/code/image/opencv-windows-build345/modules/stitching/include" "G:/file/code/image/opencv-windows-build345/modules/videostab/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/ximgproc/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/xobjdetect/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/face/include" "G:/file/code/image/opencv-windows-build345/modules/world/include")
+set(OpenCV_LIB_COMPONENTS opencv_calib3d;opencv_core;opencv_cudaarithm;opencv_cudabgsegm;opencv_cudacodec;opencv_cudafeatures2d;opencv_cudafilters;opencv_cudaimgproc;opencv_cudalegacy;opencv_cudaobjdetect;opencv_cudaoptflow;opencv_cudastereo;opencv_cudawarping;opencv_cudev;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_shape;opencv_stitching;opencv_superres;opencv_video;opencv_videoio;opencv_videostab;opencv_world;opencv_datasets;opencv_face;opencv_plot;opencv_reg;opencv_surface_matching;opencv_tracking;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto)
+set(OpenCV_INCLUDE_DIRS "G:/file/code/image/opencv-windows-build345/build" "G:/file/code/image/opencv-windows-build345/include" "G:/file/code/image/opencv-windows-build345/include/opencv" "G:/file/code/image/opencv-windows-build345/modules/cudev/include" "G:/file/code/image/opencv-windows-build345/modules/core/include" "G:/file/code/image/opencv-windows-build345/modules/cudaarithm/include" "G:/file/code/image/opencv-windows-build345/modules/flann/include" "G:/file/code/image/opencv-windows-build345/modules/imgproc/include" "G:/file/code/image/opencv-windows-build345/modules/ml/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/plot/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/reg/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/surface_matching/include" "G:/file/code/image/opencv-windows-build345/modules/video/include" "G:/file/code/image/opencv-windows-build345/modules/cudabgsegm/include" "G:/file/code/image/opencv-windows-build345/modules/cudafilters/include" "G:/file/code/image/opencv-windows-build345/modules/cudaimgproc/include" "G:/file/code/image/opencv-windows-build345/modules/cudawarping/include" "G:/file/code/image/opencv-windows-build345/modules/imgcodecs/include" "G:/file/code/image/opencv-windows-build345/modules/photo/include" "G:/file/code/image/opencv-windows-build345/modules/shape/include" "G:/file/code/image/opencv-windows-build345/modules/videoio/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/xphoto/include" "G:/file/code/image/opencv-windows-build345/modules/cudacodec/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/datasets/include" "G:/file/code/image/opencv-windows-build345/modules/highgui/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/tracking/include" "G:/file/code/image/opencv-windows-build345/modules/features2d/include" "G:/file/code/image/opencv-windows-build345/modules/calib3d/include" "G:/file/code/image/opencv-windows-build345/modules/cudafeatures2d/include" "G:/file/code/image/opencv-windows-build345/modules/cudastereo/include" "G:/file/code/image/opencv-windows-build345/modules/objdetect/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/ximgproc/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/xobjdetect/include" "G:/file/code/image/opencv-windows-build345/modules/cudalegacy/include" "G:/file/code/image/opencv-windows-build345/modules/cudaobjdetect/include" "G:/file/code/image/opencv-windows-build345/modules/cudaoptflow/include" "G:/file/code/image/opencv_contrib-3.4.5/modules/face/include" "G:/file/code/image/opencv-windows-build345/modules/stitching/include" "G:/file/code/image/opencv-windows-build345/modules/superres/include" "G:/file/code/image/opencv-windows-build345/modules/videostab/include" "G:/file/code/image/opencv-windows-build345/modules/world/include")
 
 if(NOT TARGET opencv_core)
   include(${CMAKE_CURRENT_LIST_DIR}/OpenCVModules${OpenCV_MODULES_SUFFIX}.cmake)
@@ -181,7 +234,7 @@ if(NOT OpenCV_FIND_COMPONENTS)
   endif()
 endif()
 
-set(OpenCV_WORLD_COMPONENTS opencv_calib3d;opencv_core;opencv_datasets;opencv_face;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_plot;opencv_reg;opencv_shape;opencv_stitching;opencv_superres;opencv_surface_matching;opencv_tracking;opencv_video;opencv_videoio;opencv_videostab;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto)
+set(OpenCV_WORLD_COMPONENTS opencv_calib3d;opencv_core;opencv_cudaarithm;opencv_cudabgsegm;opencv_cudacodec;opencv_cudafeatures2d;opencv_cudafilters;opencv_cudaimgproc;opencv_cudalegacy;opencv_cudaobjdetect;opencv_cudaoptflow;opencv_cudastereo;opencv_cudawarping;opencv_cudev;opencv_datasets;opencv_face;opencv_features2d;opencv_flann;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_plot;opencv_reg;opencv_shape;opencv_stitching;opencv_superres;opencv_surface_matching;opencv_tracking;opencv_video;opencv_videoio;opencv_videostab;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto)
 
 # expand short module names and see if requested components exist
 foreach(__cvcomponent ${OpenCV_FIND_COMPONENTS})

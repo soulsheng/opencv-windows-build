@@ -11,21 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{7C5F9E9D-D2BC-37E7-83D8-6FC47136DABA}</ProjectGUID>
+    <ProjectGuid>{7C5F9E9D-D2BC-37E7-83D8-6FC47136DABA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>libpng</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
@@ -36,21 +35,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-    <PropertyGroup>
-      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Debug\</OutDir>
-      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libpng.dir\Debug\</IntDir>
-      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libpngd</TargetName>
-      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Release\</OutDir>
-      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libpng.dir\Release\</IntDir>
-      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libpng</TargetName>
-      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
-    </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libpng.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libpngd</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libpng.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libpng</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\libpng;G:\file\code\image\opencv-windows-build345\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsC</CompileAs>
@@ -66,12 +65,12 @@
       <ProcessorNumber>4</ProcessorNumber>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Debug\libpngd.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_VARIADIC_MAX=10;PNG_INTEL_SSE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\libpng;G:\file\code\image\opencv-windows-build345\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -83,13 +82,13 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Lib>
-      <AdditionalOptions> /machine:x64 /IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /IGNORE:4221</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\libpng;G:\file\code\image\opencv-windows-build345\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <ExceptionHandling>
@@ -103,13 +102,13 @@
       <ProcessorNumber>4</ProcessorNumber>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat></DebugInformationFormat>
       <ProgramDataBaseFileName>G:\file\code\image\opencv-windows-build345\build\3rdparty\lib\Release\libpng.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;PNG_INTEL_SSE;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\zlib;G:\file\code\image\opencv-windows-build345\3rdparty\libpng;G:\file\code\image\opencv-windows-build345\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -121,14 +120,14 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Lib>
-      <AdditionalOptions> /machine:x64 /IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /IGNORE:4221</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuild Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\CMakeLists.txt">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule G:/file/code/image/opencv-windows-build345/3rdparty/libpng/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HG:/file/code/image/opencv-windows-build345 -BG:/file/code/image/opencv-windows-build345/build --check-stamp-file G:\file\code\image\opencv-windows-build345\build\3rdparty\libpng\CMakeFiles\generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -HG:/file/code/image/opencv-windows-build345 -BG:/file/code/image/opencv-windows-build345/build --check-stamp-file G:/file/code/image/opencv-windows-build345/build/3rdparty/libpng/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -141,7 +140,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule G:/file/code/image/opencv-windows-build345/3rdparty/libpng/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HG:/file/code/image/opencv-windows-build345 -BG:/file/code/image/opencv-windows-build345/build --check-stamp-file G:\file\code\image\opencv-windows-build345\build\3rdparty\libpng\CMakeFiles\generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -HG:/file/code/image/opencv-windows-build345 -BG:/file/code/image/opencv-windows-build345/build --check-stamp-file G:/file/code/image/opencv-windows-build345/build/3rdparty/libpng/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -155,13 +154,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\png.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngconf.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngdebug.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pnginfo.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pnglibconf.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngpriv.h" />
-    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngstruct.h" />
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\png.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngerror.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngget.c"  />
@@ -179,13 +171,22 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngwutil.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\intel\intel_init.c"  />
     <ClCompile Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\intel\filter_sse2_intrinsics.c"  />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\png.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngconf.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngdebug.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pnginfo.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pnglibconf.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngpriv.h" />
+    <ClInclude Include="G:\file\code\image\opencv-windows-build345\3rdparty\libpng\pngstruct.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="G:/file/code/image/opencv-windows-build345/build/ZERO_CHECK.vcxproj">
-      <Project>9725B500-4F44-31B2-8BFF-7A61B47A94BB</Project>
+    <ProjectReference Include="G:\file\code\image\opencv-windows-build345\build\ZERO_CHECK.vcxproj">
+      <Project>{9725B500-4F44-31B2-8BFF-7A61B47A94BB}</Project>
+      <Name>ZERO_CHECK</Name>
     </ProjectReference>
-    <ProjectReference Include="G:/file/code/image/opencv-windows-build345/build/3rdparty/zlib/zlib.vcxproj">
-      <Project>6A03E45E-B914-3EEB-9C99-D56653E3C807</Project>
+    <ProjectReference Include="G:\file\code\image\opencv-windows-build345\build\3rdparty\zlib\zlib.vcxproj">
+      <Project>{6A03E45E-B914-3EEB-9C99-D56653E3C807}</Project>
+      <Name>zlib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

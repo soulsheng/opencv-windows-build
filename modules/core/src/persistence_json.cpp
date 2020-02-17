@@ -72,7 +72,7 @@ public:
         }
 
         char* ptr = fs->bufferPtr();
-        if( ptr > fs->bufferStart() + current_struct.indent && !FileNode::FileNode::isEmptyCollection(struct_flags) )
+        if( ptr > fs->bufferStart() + current_struct.indent && !FileNode::isEmptyCollection(struct_flags) )
             *ptr++ = ' ';
         *ptr++ = FileNode::isMap(struct_flags) ? '}' : ']';
         fs->setBufferPtr(ptr);
@@ -171,7 +171,7 @@ public:
         {
             int new_offset;
             ptr = fs->bufferPtr();
-            if( !FileNode::FileNode::isEmptyCollection(struct_flags) )
+            if( !FileNode::isEmptyCollection(struct_flags) )
                 *ptr++ = ',';
             new_offset = static_cast<int>(ptr - fs->bufferStart() + key_len + data_len);
             if( new_offset > fs->wrapMargin() && new_offset - current_struct.indent > 10 )
@@ -184,7 +184,7 @@ public:
         }
         else
         {
-            if ( !FileNode::FileNode::isEmptyCollection(struct_flags) )
+            if ( !FileNode::isEmptyCollection(struct_flags) )
             {
                 ptr = fs->bufferPtr();
                 *ptr++ = ',';
@@ -296,6 +296,8 @@ public:
 
         while ( is_eof == false && is_completed == false )
         {
+            if (!ptr)
+                CV_PARSE_ERROR_CPP("Invalid input");
             switch ( *ptr )
             {
                 /* comment */
@@ -381,6 +383,7 @@ public:
         if ( is_eof || !is_completed )
         {
             ptr = fs->bufferStart();
+            CV_Assert(ptr);
             *ptr = '\0';
             fs->setEof();
             if( !is_completed )
@@ -392,6 +395,9 @@ public:
 
     char* parseKey( char* ptr, FileNode& collection, FileNode& value_placeholder )
     {
+        if (!ptr)
+            CV_PARSE_ERROR_CPP("Invalid input");
+
         if( *ptr != '"' )
             CV_PARSE_ERROR_CPP( "Key must start with \'\"\'" );
 
@@ -430,6 +436,9 @@ public:
 
     char* parseValue( char* ptr, FileNode& node )
     {
+        if (!ptr)
+            CV_PARSE_ERROR_CPP("Invalid value input");
+
         ptr = skipSpaces( ptr );
         if( !ptr || !*ptr )
             CV_PARSE_ERROR_CPP( "Unexpected End-Of-File" );
@@ -569,10 +578,14 @@ public:
                             sz = (int)(ptr - beg);
                             if( sz > 0 )
                             {
+                                if (i + sz >= CV_FS_MAX_LEN)
+                                    CV_PARSE_ERROR_CPP("string is too long");
                                 memcpy(buf + i, beg, sz);
                                 i += sz;
                             }
                             ptr++;
+                            if (i + 1 >= CV_FS_MAX_LEN)
+                                CV_PARSE_ERROR_CPP("string is too long");
                             switch ( *ptr )
                             {
                             case '\\':
@@ -596,6 +609,8 @@ public:
                             sz = (int)(ptr - beg);
                             if( sz > 0 )
                             {
+                                if (i + sz >= CV_FS_MAX_LEN)
+                                    CV_PARSE_ERROR_CPP("string is too long");
                                 memcpy(buf + i, beg, sz);
                                 i += sz;
                             }
@@ -611,6 +626,8 @@ public:
                             sz = (int)(ptr - beg);
                             if( sz > 0 )
                             {
+                                if (i + sz >= CV_FS_MAX_LEN)
+                                    CV_PARSE_ERROR_CPP("string is too long");
                                 memcpy(buf + i, beg, sz);
                                 i += sz;
                             }
@@ -817,6 +834,9 @@ public:
 
     bool parse( char* ptr )
     {
+        if (!ptr)
+            CV_PARSE_ERROR_CPP("Invalid input");
+
         ptr = skipSpaces( ptr );
         if ( !ptr || !*ptr )
             return false;

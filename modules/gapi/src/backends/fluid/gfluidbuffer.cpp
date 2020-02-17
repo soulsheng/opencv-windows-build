@@ -9,12 +9,12 @@
 
 #include <iomanip>   // hex, dec (debug)
 
-#include "opencv2/gapi/own/convert.hpp"
-#include "opencv2/gapi/own/types.hpp"
+#include <opencv2/gapi/own/convert.hpp>
+#include <opencv2/gapi/own/types.hpp>
 
-#include "opencv2/gapi/fluid/gfluidbuffer.hpp"
+#include <opencv2/gapi/fluid/gfluidbuffer.hpp>
 #include "backends/fluid/gfluidbuffer_priv.hpp"
-#include "opencv2/gapi/opencv_includes.hpp"
+#include <opencv2/gapi/opencv_includes.hpp>
 
 #include "backends/fluid/gfluidutils.hpp" // saturate
 
@@ -347,12 +347,20 @@ std::unique_ptr<fluid::BufferStorage> createStorage(int capacity, int desc_width
         std::unique_ptr<fluid::BufferStorageWithBorder> storage(new BufferStorageWithBorder);
         storage->init(type, border_size, border.value());
         storage->create(capacity, desc_width, type);
+#if defined __GNUC__ && __GNUC__ < 5
         return std::move(storage);
+#else
+        return storage;
+#endif
     }
 
     std::unique_ptr<BufferStorageWithoutBorder> storage(new BufferStorageWithoutBorder);
     storage->create(capacity, desc_width, type);
+#if defined __GNUC__ && __GNUC__ < 5
     return std::move(storage);
+#else
+    return storage;
+#endif
 }
 
 std::unique_ptr<BufferStorage> createStorage(const cv::gapi::own::Mat& data, cv::gapi::own::Rect roi);
@@ -360,7 +368,11 @@ std::unique_ptr<BufferStorage> createStorage(const cv::gapi::own::Mat& data, cv:
 {
     std::unique_ptr<BufferStorageWithoutBorder> storage(new BufferStorageWithoutBorder);
     storage->attach(data, roi);
+#if defined __GNUC__ && __GNUC__ < 5
     return std::move(storage);
+#else
+    return storage;
+#endif
 }
 } // namespace
 } // namespace fluid
@@ -400,20 +412,6 @@ fluid::ViewPrivWithoutOwnBorder::ViewPrivWithoutOwnBorder(const Buffer *parent, 
     GAPI_Assert(parent);
     m_p           = parent;
     m_border_size = borderSize;
-}
-
-const uint8_t* fluid::ViewPrivWithoutOwnBorder::InLineB(int index) const
-{
-    GAPI_DbgAssert(m_p);
-
-    const auto &p_priv = m_p->priv();
-
-    GAPI_DbgAssert(index >= -m_border_size
-                && index <  -m_border_size + m_lines_next_iter);
-
-    const int log_idx = m_read_caret + index;
-
-    return p_priv.storage().inLineB(log_idx, m_p->meta().size.height);
 }
 
 void fluid::ViewPrivWithoutOwnBorder::allocate(int lineConsumption, BorderOpt)
@@ -475,17 +473,6 @@ std::size_t fluid::ViewPrivWithOwnBorder::size() const
     return m_own_storage.size();
 }
 
-const uint8_t* fluid::ViewPrivWithOwnBorder::InLineB(int index) const
-{
-    GAPI_DbgAssert(m_p);
-    GAPI_DbgAssert(index >= -m_border_size
-                && index <  -m_border_size + m_lines_next_iter);
-
-    const int log_idx = m_read_caret + index;
-
-    return m_own_storage.inLineB(log_idx, m_p->meta().size.height);
-}
-
 bool fluid::View::ready() const
 {
     return m_priv->ready();
@@ -544,6 +531,9 @@ void fluid::Buffer::Priv::allocate(BorderOpt border,
     // Init physical buffer
 
     // FIXME? combine line_consumption with skew?
+    // FIXME? This formula serves general case to avoid possible deadlock,
+    // in some cases this value can be smaller:
+    // 2 lines produced, 2 consumed, data_height can be 2, not 3
     auto data_height = std::max(line_consumption, skew) + m_writer_lpi - 1;
 
     m_storage = createStorage(data_height,
@@ -639,13 +629,6 @@ int fluid::Buffer::Priv::linesReady() const
         const int writes = std::min(m_write_caret - writeStart(), outputLines());
         return writes;
     }
-}
-
-uint8_t* fluid::Buffer::Priv::OutLineB(int index)
-{
-    GAPI_DbgAssert(index >= 0 && index < m_writer_lpi);
-
-    return m_storage->ptr(m_write_caret + index);
 }
 
 int fluid::Buffer::Priv::lpi() const

@@ -52,6 +52,7 @@
 #undef WINVER
 #define WINVER _WIN32_WINNT_WIN8
 #endif
+
 #include <windows.h>
 #include <guiddef.h>
 #include <mfidl.h>
@@ -60,7 +61,7 @@
 #include <mfobjects.h>
 #include <tchar.h>
 #include <strsafe.h>
-#include <Mfreadwrite.h>
+#include <mfreadwrite.h>
 #ifdef HAVE_MSMF_DXVA
 #include <d3d11.h>
 #include <d3d11_4.h>
@@ -1198,7 +1199,7 @@ bool CvCapture_MSMF::grabFrame()
         {
             if (streamIndex != dwStreamIndex)
             {
-                CV_LOG_DEBUG(NULL, "videoio(MSMF): Wrong stream readed. Abort capturing");
+                CV_LOG_DEBUG(NULL, "videoio(MSMF): Wrong stream read. Abort capturing");
                 close();
             }
             else if (flags & MF_SOURCE_READERF_ERROR)
@@ -2158,13 +2159,13 @@ void CvVideoWriter_MSMF::write(cv::InputArray img)
     }
 }
 
-cv::Ptr<cv::IVideoWriter> cv::cvCreateVideoWriter_MSMF( const cv::String& filename, int fourcc,
-                                                        double fps, cv::Size frameSize, int isColor )
+cv::Ptr<cv::IVideoWriter> cv::cvCreateVideoWriter_MSMF( const std::string& filename, int fourcc,
+                                                        double fps, const cv::Size &frameSize, bool isColor )
 {
     cv::Ptr<CvVideoWriter_MSMF> writer = cv::makePtr<CvVideoWriter_MSMF>();
     if (writer)
     {
-        writer->open(filename, fourcc, fps, frameSize, isColor != 0);
+        writer->open(filename, fourcc, fps, frameSize, isColor);
         if (writer->isOpened())
             return writer;
     }

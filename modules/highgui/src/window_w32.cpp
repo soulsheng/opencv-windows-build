@@ -40,6 +40,9 @@
 //M*/
 
 #include "precomp.hpp"
+
+using namespace cv;
+
 #include <windowsx.h> // required for GET_X_LPARAM() and GET_Y_LPARAM() macros
 
 #if defined _WIN32
@@ -66,12 +69,13 @@
 #include <functional>
 #include "opencv2/highgui.hpp"
 #include <GL/gl.h>
+#include "opencv2/core/opengl.hpp"
 #endif
 
 static const char* trackbar_text =
 "                                                                                             ";
 
-#if defined _M_X64 || defined __x86_64
+#if defined _M_X64 || defined __x86_64 || defined _M_ARM64
 
 #define icvGetWindowLongPtr GetWindowLongPtr
 #define icvSetWindowLongPtr( hwnd, id, ptr ) SetWindowLongPtr( hwnd, id, (LONG_PTR)(ptr) )
@@ -548,6 +552,48 @@ void cvSetModeWindow_W32( const char* name, double prop_value)//Yannick Verdie
     }
 
     __END__;
+}
+
+double cvGetPropTopmost_W32(const char* name)
+{
+    double result = -1;
+
+    CV_Assert(name);
+
+    CvWindow* window = icvFindWindowByName(name);
+    if (!window)
+        CV_Error(Error::StsNullPtr, "NULL window");
+
+    LONG style = GetWindowLongA(window->frame, GWL_EXSTYLE); // -20
+    if (!style)
+    {
+        std::ostringstream errorMsg;
+        errorMsg << "window(" << name << "): failed to retrieve extended window style using GetWindowLongA(); error code: " << GetLastError();
+        CV_Error(Error::StsError, errorMsg.str().c_str());
+    }
+
+    result = (style & WS_EX_TOPMOST) == WS_EX_TOPMOST;
+
+    return result;
+}
+
+void cvSetPropTopmost_W32(const char* name, const bool topmost)
+{
+    CV_Assert(name);
+
+    CvWindow* window = icvFindWindowByName(name);
+    if (!window)
+        CV_Error(Error::StsNullPtr, "NULL window");
+
+    HWND flag    = topmost ? HWND_TOPMOST : HWND_TOP;
+    BOOL success = SetWindowPos(window->frame, flag, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+    if (!success)
+    {
+        std::ostringstream errorMsg;
+        errorMsg << "window(" << name << "): error reported by SetWindowPos(" << (topmost ? "HWND_TOPMOST" : "HWND_TOP") << "), error code:  " << GetLastError();
+        CV_Error(Error::StsError, errorMsg.str().c_str());
+    }
 }
 
 void cv::setWindowTitle(const String& winname, const String& title)
@@ -1144,20 +1190,20 @@ static void icvUpdateWindowPos( CvWindow* window )
         {
             RECT rmw, rw = icvCalcWindowRect(window );
             MoveWindow(window->hwnd, rw.left, rw.top,
-                rw.right - rw.left + 1, rw.bottom - rw.top + 1, FALSE);
+                rw.right - rw.left, rw.bottom - rw.top, FALSE);
             GetClientRect(window->hwnd, &rw);
             GetWindowRect(window->frame, &rmw);
             // Resize the mainhWnd window in order to make the bitmap fit into the child window
             MoveWindow(window->frame, rmw.left, rmw.top,
-                rmw.right - rmw.left + size.cx - rw.right + rw.left,
-                rmw.bottom  - rmw.top + size.cy - rw.bottom + rw.top, TRUE );
+                size.cx + (rmw.right - rmw.left) - (rw.right - rw.left),
+                size.cy + (rmw.bottom - rmw.top) - (rw.bottom - rw.top), TRUE );
         }
     }
 
     rect = icvCalcWindowRect(window);
     MoveWindow(window->hwnd, rect.left, rect.top,
-               rect.right - rect.left + 1,
-               rect.bottom - rect.top + 1, TRUE );
+               rect.right - rect.left,
+               rect.bottom - rect.top, TRUE );
 }
 
 CV_IMPL void
@@ -1230,7 +1276,7 @@ cvShowImage( const char* name, const CvArr* arr )
         cv::flip(dst, dst, 0);
     }
 
-    // ony resize window if needed
+    // only resize window if needed
     if (changed_size)
         icvUpdateWindowPos(window);
     InvalidateRect(window->hwnd, 0, 0);
@@ -1263,18 +1309,18 @@ CV_IMPL void cvResizeWindow(const char* name, int width, int height )
     {
         rw = icvCalcWindowRect(window);
         MoveWindow(window->hwnd, rw.left, rw.top,
-            rw.right - rw.left + 1, rw.bottom - rw.top + 1, FALSE);
+            rw.right - rw.left, rw.bottom - rw.top, FALSE);
         GetClientRect(window->hwnd, &rw);
         GetWindowRect(window->frame, &rmw);
         // Resize the mainhWnd window in order to make the bitmap fit into the child window
         MoveWindow(window->frame, rmw.left, rmw.top,
-            rmw.right - rmw.left + width - rw.right + rw.left,
-            rmw.bottom  - rmw.top + height - rw.bottom + rw.top, TRUE);
+            width  + (rmw.right - rmw.left) - (rw.right - rw.left),
+            height + (rmw.bottom - rmw.top) - (rw.bottom - rw.top), TRUE);
     }
 
     rect = icvCalcWindowRect(window);
     MoveWindow(window->hwnd, rect.left, rect.top,
-        rect.right - rect.left + 1, rect.bottom - rect.top + 1, TRUE);
+        rect.right - rect.left, rect.bottom - rect.top, TRUE);
 
     __END__;
 }
@@ -1421,7 +1467,20 @@ MainWindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
           GetClientRect( window->hwnd, &rect );
 
           SIZE size = {0,0};
-          icvGetBitmapData( window, &size, 0, 0 );
+#ifdef HAVE_OPENGL
+          if (window->useGl)
+          {
+              cv::ogl::Texture2D* texObj = static_cast<cv::ogl::Texture2D*>(window->glDrawData);
+              size.cx = texObj->cols();
+              size.cy = texObj->rows();
+          }
+          else
+          {
+              icvGetBitmapData(window, &size, 0, 0);
+          }
+#else
+          icvGetBitmapData(window, &size, 0, 0);
+#endif
 
           window->on_mouse( event, pt.x*size.cx/MAX(rect.right - rect.left,1),
                                    pt.y*size.cy/MAX(rect.bottom - rect.top,1), flags,
@@ -1561,8 +1620,8 @@ static LRESULT CALLBACK HighGUIProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
             RECT rect = icvCalcWindowRect(window);
             pos->x = rect.left;
             pos->y = rect.top;
-            pos->cx = rect.right - rect.left + 1;
-            pos->cy = rect.bottom - rect.top + 1;
+            pos->cx = rect.right - rect.left;
+            pos->cy = rect.bottom - rect.top;
         }
         break;
 
@@ -1615,7 +1674,21 @@ static LRESULT CALLBACK HighGUIProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
                 SIZE size = {0, 0};
 
                 GetClientRect( window->hwnd, &rect );
+
+#ifdef HAVE_OPENGL
+                if (window->useGl)
+                {
+                    cv::ogl::Texture2D* texObj = static_cast<cv::ogl::Texture2D*>(window->glDrawData);
+                    size.cx = texObj->cols();
+                    size.cy = texObj->rows();
+                }
+                else
+                {
+                    icvGetBitmapData(window, &size, 0, 0);
+                }
+#else
                 icvGetBitmapData( window, &size, 0, 0 );
+#endif
 
                 window->on_mouse( event, pt.x*size.cx/MAX(rect.right - rect.left,1),
                                          pt.y*size.cy/MAX(rect.bottom - rect.top,1), flags,

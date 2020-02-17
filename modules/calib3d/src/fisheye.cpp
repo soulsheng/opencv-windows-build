@@ -104,8 +104,9 @@ void cv::fisheye::projectPoints(InputArray objectPoints, OutputArray imagePoints
 
     Vec4d k = _D.depth() == CV_32F ? (Vec4d)*_D.getMat().ptr<Vec4f>(): *_D.getMat().ptr<Vec4d>();
 
+    const bool isJacobianNeeded = jacobian.needed();
     JacobianRow *Jn = 0;
-    if (jacobian.needed())
+    if (isJacobianNeeded)
     {
         int nvars = 2 + 2 + 1 + 4 + 3 + 3; // f, c, alpha, k, om, T,
         jacobian.create(2*(int)n, nvars, CV_64F);
@@ -153,7 +154,7 @@ void cv::fisheye::projectPoints(InputArray objectPoints, OutputArray imagePoints
         else
             xpd[i] = final_point;
 
-        if (jacobian.needed())
+        if (isJacobianNeeded)
         {
             //Vec3d Xi = pdepth == CV_32F ? (Vec3d)Xf[i] : Xd[i];
             //Vec3d Y = aff*Xi;
@@ -856,8 +857,8 @@ double cv::fisheye::stereoCalibrate(InputArrayOfArrays objectPoints, InputArrayO
 
     CV_Assert(K1.empty() || (K1.size() == Size(3,3)));
     CV_Assert(D1.empty() || (D1.total() == 4));
-    CV_Assert(K2.empty() || (K1.size() == Size(3,3)));
-    CV_Assert(D2.empty() || (D1.total() == 4));
+    CV_Assert(K2.empty() || (K2.size() == Size(3,3)));
+    CV_Assert(D2.empty() || (D2.total() == 4));
 
     CV_Assert((!K1.empty() && !K2.empty() && !D1.empty() && !D2.empty()) || !(flags & CALIB_FIX_INTRINSIC));
 

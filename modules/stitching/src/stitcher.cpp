@@ -44,6 +44,12 @@
 
 namespace cv {
 
+#if __cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1900/*MSVS 2015*/)
+// Stitcher::ORIG_RESOL is initialized in stitching.hpp.
+#else
+const double Stitcher::ORIG_RESOL = -1.0;
+#endif
+
 Ptr<Stitcher> Stitcher::create(Mode mode)
 {
     Ptr<Stitcher> stitcher = makePtr<Stitcher>();
@@ -357,8 +363,8 @@ Stitcher::Status Stitcher::composePanorama(InputArrayOfArrays images, OutputArra
 #if ENABLE_LOG
         int64 blend_t = getTickCount();
 #endif
-    UMat result, result_mask;
-    blender_->blend(result, result_mask);
+    UMat result;
+    blender_->blend(result, result_mask_);
     LOGLN("blend time: " << ((getTickCount() - blend_t) / getTickFrequency()) << " sec");
 
     LOGLN("Compositing, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");

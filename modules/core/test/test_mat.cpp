@@ -1878,6 +1878,29 @@ TEST(Core_Split, crash_12171)
     EXPECT_EQ(2, dst2.ptr<uchar>(1)[1]);
 }
 
+TEST(Core_Merge, bug_13544)
+{
+    Mat src1(2, 2, CV_8UC3, Scalar::all(1));
+    Mat src2(2, 2, CV_8UC3, Scalar::all(2));
+    Mat src3(2, 2, CV_8UC3, Scalar::all(3));
+    Mat src_arr[] = { src1, src2, src3 };
+    Mat dst;
+    merge(src_arr, 3, dst);
+    ASSERT_EQ(9, dst.channels());  // Avoid memory access out of buffer
+    EXPECT_EQ(3, (int)dst.ptr<uchar>(0)[6]);
+    EXPECT_EQ(3, (int)dst.ptr<uchar>(0)[7]);
+    EXPECT_EQ(3, (int)dst.ptr<uchar>(0)[8]);
+    EXPECT_EQ(1, (int)dst.ptr<uchar>(1)[0]);
+    EXPECT_EQ(1, (int)dst.ptr<uchar>(1)[1]);
+    EXPECT_EQ(1, (int)dst.ptr<uchar>(1)[2]);
+    EXPECT_EQ(2, (int)dst.ptr<uchar>(1)[3]);
+    EXPECT_EQ(2, (int)dst.ptr<uchar>(1)[4]);
+    EXPECT_EQ(2, (int)dst.ptr<uchar>(1)[5]);
+    EXPECT_EQ(3, (int)dst.ptr<uchar>(1)[6]);
+    EXPECT_EQ(3, (int)dst.ptr<uchar>(1)[7]);
+    EXPECT_EQ(3, (int)dst.ptr<uchar>(1)[8]);
+}
+
 struct CustomType  // like cv::Keypoint
 {
     Point2f pt;
@@ -1968,6 +1991,22 @@ TEST(Core_Vectors, issue_13078_workaround)
     ASSERT_EQ(7, ints[3]);
 }
 
+TEST(Core_MatExpr, issue_13926)
+{
+    Mat M1 = (Mat_<double>(4,4,CV_64FC1) << 1, 2, 3, 4,
+                                           5, 6, 7, 8,
+                                           9, 10, 11, 12,
+                                           13, 14, 15, 16);
+
+    Matx44d M2(1, 2, 3, 4,
+               5, 6, 7, 8,
+               9, 10, 11, 12,
+               13, 14, 15, 16);
+
+    EXPECT_GE(1e-6, cvtest::norm(M1*M2, M1*M1, NORM_INF)) << Mat(M1*M2) << std::endl << Mat(M1*M1);
+    EXPECT_GE(1e-6, cvtest::norm(M2*M1, M2*M2, NORM_INF)) << Mat(M2*M1) << std::endl << Mat(M2*M2);
+}
+
 
 #ifdef HAVE_EIGEN
 TEST(Core_Eigen, eigen2cv_check_Mat_type)
@@ -1985,5 +2024,18 @@ TEST(Core_Eigen, eigen2cv_check_Mat_type)
     //EXPECT_EQ(CV_64FC1, d_mat.type());
 }
 #endif // HAVE_EIGEN
+
+TEST(Mat, regression_12943)  // memory usage: ~4.5 Gb
+{
+    applyTestTag(CV_TEST_TAG_MEMORY_6GB);
+
+    const int width = 0x8000;
+    const int height = 0x10001;
+
+    cv::Mat src(height, width, CV_8UC1, Scalar::all(128));
+
+    cv::Mat dst;
+    cv::flip(src, dst, 0);
+}
 
 }} // namespace

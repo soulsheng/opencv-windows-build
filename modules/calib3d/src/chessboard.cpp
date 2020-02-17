@@ -119,7 +119,7 @@ cv::Mat findHomography1D(cv::InputArray _src,cv::InputArray _dst)
     cv::Mat b = cv::Mat::zeros(count,1,CV_64FC1);
 
     // fill A;b and perform singular value decomposition
-    // it is assumed that w is one for both cooridnates
+    // it is assumed that w is one for both coordinates
     // h22 is kept to 1
     switch(src_n.type())
     {
@@ -282,9 +282,9 @@ void FastX::rotate(float angle,const cv::Mat &img,cv::Size size,cv::Mat &out)con
     }
     else
     {
-        cv::Mat_<double> m = cv::getRotationMatrix2D(cv::Point2f(float(img.cols*0.5),float(img.rows*0.5)),float(angle/CV_PI*180),1);
-        m.at<double>(0,2) += 0.5*(size.width-img.cols);
-        m.at<double>(1,2) += 0.5*(size.height-img.rows);
+        cv::Matx23d m = cv::getRotationMatrix2D(cv::Point2f(float(img.cols*0.5),float(img.rows*0.5)),float(angle/CV_PI*180),1);
+        m(0,2) += 0.5*(size.width-img.cols);
+        m(1,2) += 0.5*(size.height-img.rows);
         cv::warpAffine(img,out,m,size);
     }
 }
@@ -698,15 +698,6 @@ Ellipse::Ellipse(const cv::Point2f &_center, const cv::Size2f &_axes, float _ang
     cosf(cos(-_angle)),
     sinf(sin(-_angle))
 {
-}
-
-Ellipse::Ellipse(const Ellipse &other)
-{
-    center = other.center;
-    axes= other.axes;
-    angle= other.angle;
-    cosf = other.cosf;
-    sinf = other.sinf;
 }
 
 const cv::Size2f &Ellipse::getAxes()const
@@ -1167,7 +1158,7 @@ std::vector<cv::Point2f> Chessboard::Board::getCellCenters()const
     int icols = int(colCount());
     int irows = int(rowCount());
     if(icols < 3 || irows < 3)
-        throw std::runtime_error("getCellCenters: Chessboard must be at least consist of 3 rows and cols to calcualte the cell centers");
+        throw std::runtime_error("getCellCenters: Chessboard must be at least consist of 3 rows and cols to calculate the cell centers");
 
     std::vector<cv::Point2f> points;
     cv::Matx33d H(estimateHomography(DUMMY_FIELD_SIZE));
@@ -1626,7 +1617,7 @@ bool Chessboard::Board::init(const std::vector<cv::Point2f> points)
     rows = 3;
     cols = 3;
 
-    // set inital cell colors
+    // set initial cell colors
     Point2f pt1 = *(cells[0]->top_right)-*(cells[0]->bottom_left);
     pt1 /= cv::norm(pt1);
     cv::Point2f pt2(cos(white_angle),-sin(white_angle));
@@ -2923,7 +2914,7 @@ Chessboard::BState Chessboard::generateBoards(cv::flann::Index &flann_index,cons
             points.push_back(*iter1);
     }
 
-    // genreate pairs those connection goes through the center
+    // generate pairs those connection goes through the center
     std::vector<std::pair<cv::KeyPoint,cv::KeyPoint> > pairs;
     iter1 = points.begin();
     for(;iter1 != points.end();++iter1)
@@ -3209,7 +3200,7 @@ bool findChessboardCornersSB(cv::InputArray image_, cv::Size pattern_size,
         flags ^= CALIB_CB_ACCURACY;
     }
     if(flags)
-        CV_Error(Error::StsOutOfRange, cv::format("Invalid remaing flags %d", (int)flags));
+        CV_Error(Error::StsOutOfRange, cv::format("Invalid remaining flags %d", (int)flags));
 
     std::vector<cv::KeyPoint> corners;
     details::Chessboard board(para);

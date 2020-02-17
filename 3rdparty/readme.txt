@@ -5,6 +5,8 @@ On UNIX systems all the libraries are automatically detected by configure script
 In order to use these versions of libraries instead of system ones on UNIX systems you
 should use BUILD_<library_name> CMake flags (for example, BUILD_PNG for the libpng library).
 
+-libjasper/libtiff/libwebp/openexr/openvx from official/4.2.0/3rdparty
+
 ------------------------------------------------------------------------------------
 libjpeg (deprecated)  The Independent JPEG Group's JPEG software.
                       Copyright (C) 1991-2012, Thomas G. Lane, Guido Vollbeding.

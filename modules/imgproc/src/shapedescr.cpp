@@ -39,6 +39,8 @@
 //
 //M*/
 #include "precomp.hpp"
+#include "opencv2/core/hal/intrin.hpp"
+
 namespace cv
 {
 
@@ -58,6 +60,29 @@ static void findCircle3pts(Point2f *pts, Point2f &center, float &radius)
     Point2f midPoint2 = (pts[0] + pts[2]) / 2.0f;
     float c2 = midPoint2.x * v2.x + midPoint2.y * v2.y;
     float det = v1.x * v2.y - v1.y * v2.x;
+    if (fabs(det) <= EPS)
+    {
+        // v1 and v2 are colinear, so the longest distance between any 2 points
+        // is the diameter of the minimum enclosing circle.
+        float d1 = normL2Sqr<float>(pts[0] - pts[1]);
+        float d2 = normL2Sqr<float>(pts[0] - pts[2]);
+        float d3 = normL2Sqr<float>(pts[1] - pts[2]);
+        radius = sqrt(std::max(d1, std::max(d2, d3))) * 0.5f + EPS;
+        if (d1 >= d2 && d1 >= d3)
+        {
+            center = (pts[0] + pts[1]) * 0.5f;
+        }
+        else if (d2 >= d1 && d2 >= d3)
+        {
+            center = (pts[0] + pts[2]) * 0.5f;
+        }
+        else
+        {
+            CV_DbgAssert(d3 >= d1 && d3 >= d2);
+            center = (pts[1] + pts[2]) * 0.5f;
+        }
+        return;
+    }
     float cx = (c1 * v2.y - c2 * v1.y) / det;
     float cy = (v1.x * c2 - v2.x * c1) / det;
     center.x = (float)cx;
@@ -90,7 +115,13 @@ static void findThirdPoint(const PT *pts, int i, int j, Point2f &center, float &
             ptsf[0] = (Point2f)pts[i];
             ptsf[1] = (Point2f)pts[j];
             ptsf[2] = (Point2f)pts[k];
-            findCircle3pts(ptsf, center, radius);
+            Point2f new_center; float new_radius = 0;
+            findCircle3pts(ptsf, new_center, new_radius);
+            if (new_radius > 0)
+            {
+                radius = new_radius;
+                center = new_center;
+            }
         }
     }
 }
@@ -115,7 +146,13 @@ void findSecondPoint(const PT *pts, int i, Point2f &center, float &radius)
         }
         else
         {
-            findThirdPoint(pts, i, j, center, radius);
+            Point2f new_center; float new_radius = 0;
+            findThirdPoint(pts, i, j, new_center, new_radius);
+            if (new_radius > 0)
+            {
+                radius = new_radius;
+                center = new_center;
+            }
         }
     }
 }
@@ -141,7 +178,13 @@ static void findMinEnclosingCircle(const PT *pts, int count, Point2f &center, fl
         }
         else
         {
-            findSecondPoint(pts, i, center, radius);
+            Point2f new_center; float new_radius = 0;
+            findSecondPoint(pts, i, new_center, new_radius);
+            if (new_radius > 0)
+            {
+                radius = new_radius;
+                center = new_center;
+            }
         }
     }
 }
@@ -746,109 +789,161 @@ static Rect pointSetBoundingRect( const Mat& points )
     if( npoints == 0 )
         return Rect();
 
+#if CV_SIMD
+    const int64_t* pts = points.ptr<int64_t>();
+
+    if( !is_float )
+    {
+        v_int32 minval, maxval;
+        minval = maxval = v_reinterpret_as_s32(vx_setall_s64(*pts)); //min[0]=pt.x, min[1]=pt.y, min[2]=pt.x, min[3]=pt.y
+        for( i = 1; i <= npoints - v_int32::nlanes/2; i+= v_int32::nlanes/2 )
+        {
+            v_int32 ptXY2 = v_reinterpret_as_s32(vx_load(pts + i));
+            minval = v_min(ptXY2, minval);
+            maxval = v_max(ptXY2, maxval);
+        }
+        minval = v_min(v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(minval))), v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(minval))));
+        maxval = v_max(v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(maxval))), v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(maxval))));
+        if( i <= npoints - v_int32::nlanes/4 )
+        {
+            v_int32 ptXY = v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(vx_load_low(pts + i))));
+            minval = v_min(ptXY, minval);
+            maxval = v_max(ptXY, maxval);
+            i += v_int64::nlanes/2;
+        }
+        for(int j = 16; j < CV_SIMD_WIDTH; j*=2)
+        {
+            minval = v_min(v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(minval))), v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(minval))));
+            maxval = v_max(v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(maxval))), v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(maxval))));
+        }
+        xmin = minval.get0();
+        xmax = maxval.get0();
+        ymin = v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(minval))).get0();
+        ymax = v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(maxval))).get0();
+#if CV_SIMD_WIDTH > 16
+        if( i < npoints )
+        {
+            v_int32x4 minval2, maxval2;
+            minval2 = maxval2 = v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(v_load_low(pts + i))));
+            for( i++; i < npoints; i++ )
+            {
+                v_int32x4 ptXY = v_reinterpret_as_s32(v_expand_low(v_reinterpret_as_u32(v_load_low(pts + i))));
+                minval2 = v_min(ptXY, minval2);
+                maxval2 = v_max(ptXY, maxval2);
+            }
+            xmin = min(xmin, minval2.get0());
+            xmax = max(xmax, maxval2.get0());
+            ymin = min(ymin, v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(minval2))).get0());
+            ymax = max(ymax, v_reinterpret_as_s32(v_expand_high(v_reinterpret_as_u32(maxval2))).get0());
+        }
+#endif
+    }
+    else
+    {
+        v_float32 minval, maxval;
+        minval = maxval = v_reinterpret_as_f32(vx_setall_s64(*pts)); //min[0]=pt.x, min[1]=pt.y, min[2]=pt.x, min[3]=pt.y
+        for( i = 1; i <= npoints - v_float32::nlanes/2; i+= v_float32::nlanes/2 )
+        {
+            v_float32 ptXY2 = v_reinterpret_as_f32(vx_load(pts + i));
+            minval = v_min(ptXY2, minval);
+            maxval = v_max(ptXY2, maxval);
+        }
+        minval = v_min(v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(minval))), v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(minval))));
+        maxval = v_max(v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(maxval))), v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(maxval))));
+        if( i <= npoints - v_float32::nlanes/4 )
+        {
+            v_float32 ptXY = v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(vx_load_low(pts + i))));
+            minval = v_min(ptXY, minval);
+            maxval = v_max(ptXY, maxval);
+            i += v_float32::nlanes/4;
+        }
+        for(int j = 16; j < CV_SIMD_WIDTH; j*=2)
+        {
+            minval = v_min(v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(minval))), v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(minval))));
+            maxval = v_max(v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(maxval))), v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(maxval))));
+        }
+        xmin = cvFloor(minval.get0());
+        xmax = cvFloor(maxval.get0());
+        ymin = cvFloor(v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(minval))).get0());
+        ymax = cvFloor(v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(maxval))).get0());
+#if CV_SIMD_WIDTH > 16
+        if( i < npoints )
+        {
+            v_float32x4 minval2, maxval2;
+            minval2 = maxval2 = v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(v_load_low(pts + i))));
+            for( i++; i < npoints; i++ )
+            {
+                v_float32x4 ptXY = v_reinterpret_as_f32(v_expand_low(v_reinterpret_as_u32(v_load_low(pts + i))));
+                minval2 = v_min(ptXY, minval2);
+                maxval2 = v_max(ptXY, maxval2);
+            }
+            xmin = min(xmin, cvFloor(minval2.get0()));
+            xmax = max(xmax, cvFloor(maxval2.get0()));
+            ymin = min(ymin, cvFloor(v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(minval2))).get0()));
+            ymax = max(ymax, cvFloor(v_reinterpret_as_f32(v_expand_high(v_reinterpret_as_u32(maxval2))).get0()));
+        }
+#endif
+    }
+#else
     const Point* pts = points.ptr<Point>();
     Point pt = pts[0];
 
-#if CV_SSE4_2
-    if(cv::checkHardwareSupport(CV_CPU_SSE4_2))
+    if( !is_float )
     {
-        if( !is_float )
+        xmin = xmax = pt.x;
+        ymin = ymax = pt.y;
+
+        for( i = 1; i < npoints; i++ )
         {
-            __m128i minval, maxval;
-            minval = maxval = _mm_loadl_epi64((const __m128i*)(&pt)); //min[0]=pt.x, min[1]=pt.y
+            pt = pts[i];
 
-            for( i = 1; i < npoints; i++ )
-            {
-                __m128i ptXY = _mm_loadl_epi64((const __m128i*)&pts[i]);
-                minval = _mm_min_epi32(ptXY, minval);
-                maxval = _mm_max_epi32(ptXY, maxval);
-            }
-            xmin = _mm_cvtsi128_si32(minval);
-            ymin = _mm_cvtsi128_si32(_mm_srli_si128(minval, 4));
-            xmax = _mm_cvtsi128_si32(maxval);
-            ymax = _mm_cvtsi128_si32(_mm_srli_si128(maxval, 4));
-        }
-        else
-        {
-            __m128 minvalf, maxvalf, z = _mm_setzero_ps(), ptXY = _mm_setzero_ps();
-            minvalf = maxvalf = _mm_loadl_pi(z, (const __m64*)(&pt));
+            if( xmin > pt.x )
+                xmin = pt.x;
 
-            for( i = 1; i < npoints; i++ )
-            {
-                ptXY = _mm_loadl_pi(ptXY, (const __m64*)&pts[i]);
+            if( xmax < pt.x )
+                xmax = pt.x;
 
-                minvalf = _mm_min_ps(minvalf, ptXY);
-                maxvalf = _mm_max_ps(maxvalf, ptXY);
-            }
+            if( ymin > pt.y )
+                ymin = pt.y;
 
-            float xyminf[2], xymaxf[2];
-            _mm_storel_pi((__m64*)xyminf, minvalf);
-            _mm_storel_pi((__m64*)xymaxf, maxvalf);
-            xmin = cvFloor(xyminf[0]);
-            ymin = cvFloor(xyminf[1]);
-            xmax = cvFloor(xymaxf[0]);
-            ymax = cvFloor(xymaxf[1]);
+            if( ymax < pt.y )
+                ymax = pt.y;
         }
     }
     else
-#endif
     {
-        if( !is_float )
+        Cv32suf v;
+        // init values
+        xmin = xmax = CV_TOGGLE_FLT(pt.x);
+        ymin = ymax = CV_TOGGLE_FLT(pt.y);
+
+        for( i = 1; i < npoints; i++ )
         {
-            xmin = xmax = pt.x;
-            ymin = ymax = pt.y;
+            pt = pts[i];
+            pt.x = CV_TOGGLE_FLT(pt.x);
+            pt.y = CV_TOGGLE_FLT(pt.y);
 
-            for( i = 1; i < npoints; i++ )
-            {
-                pt = pts[i];
+            if( xmin > pt.x )
+                xmin = pt.x;
 
-                if( xmin > pt.x )
-                    xmin = pt.x;
+            if( xmax < pt.x )
+                xmax = pt.x;
 
-                if( xmax < pt.x )
-                    xmax = pt.x;
+            if( ymin > pt.y )
+                ymin = pt.y;
 
-                if( ymin > pt.y )
-                    ymin = pt.y;
-
-                if( ymax < pt.y )
-                    ymax = pt.y;
-            }
+            if( ymax < pt.y )
+                ymax = pt.y;
         }
-        else
-        {
-            Cv32suf v;
-            // init values
-            xmin = xmax = CV_TOGGLE_FLT(pt.x);
-            ymin = ymax = CV_TOGGLE_FLT(pt.y);
 
-            for( i = 1; i < npoints; i++ )
-            {
-                pt = pts[i];
-                pt.x = CV_TOGGLE_FLT(pt.x);
-                pt.y = CV_TOGGLE_FLT(pt.y);
-
-                if( xmin > pt.x )
-                    xmin = pt.x;
-
-                if( xmax < pt.x )
-                    xmax = pt.x;
-
-                if( ymin > pt.y )
-                    ymin = pt.y;
-
-                if( ymax < pt.y )
-                    ymax = pt.y;
-            }
-
-            v.i = CV_TOGGLE_FLT(xmin); xmin = cvFloor(v.f);
-            v.i = CV_TOGGLE_FLT(ymin); ymin = cvFloor(v.f);
-            // because right and bottom sides of the bounding rectangle are not inclusive
-            // (note +1 in width and height calculation below), cvFloor is used here instead of cvCeil
-            v.i = CV_TOGGLE_FLT(xmax); xmax = cvFloor(v.f);
-            v.i = CV_TOGGLE_FLT(ymax); ymax = cvFloor(v.f);
-        }
+        v.i = CV_TOGGLE_FLT(xmin); xmin = cvFloor(v.f);
+        v.i = CV_TOGGLE_FLT(ymin); ymin = cvFloor(v.f);
+        // because right and bottom sides of the bounding rectangle are not inclusive
+        // (note +1 in width and height calculation below), cvFloor is used here instead of cvCeil
+        v.i = CV_TOGGLE_FLT(xmax); xmax = cvFloor(v.f);
+        v.i = CV_TOGGLE_FLT(ymax); ymax = cvFloor(v.f);
     }
+#endif
 
     return Rect(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
 }

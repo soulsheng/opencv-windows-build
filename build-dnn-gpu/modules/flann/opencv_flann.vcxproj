@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3F1F7CAE-1AA9-30FC-B57C-FD12AC5F9590}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>opencv_flann</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opencv_flann.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opencv_flann345d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">opencv_flann.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">opencv_flann345</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;D:\code\opencv-code\opencv-windows-build345\modules\flann\src;D:\code\opencv-code\opencv-windows-build345\modules\flann\include;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann;D:\code\opencv-code\opencv-windows-build345\modules\cudev\include;D:\code\opencv-code\opencv-windows-build345\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4127;4251;4324;4275;4512;4589</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>12</ProcessorNumber>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR="Debug";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\lib\Debug\opencv_flann345d.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR=\"Debug\";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;D:\code\opencv-code\opencv-windows-build345\modules\flann\src;D:\code\opencv-code\opencv-windows-build345\modules\flann\include;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann;D:\code\opencv-code\opencv-windows-build345\modules\cudev\include;D:\code\opencv-code\opencv-windows-build345\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;D:\code\opencv-code\opencv-windows-build345\modules\flann\src;D:\code\opencv-code\opencv-windows-build345\modules\flann\include;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann;D:\code\opencv-code\opencv-windows-build345\modules\cudev\include;D:\code\opencv-code\opencv-windows-build345\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\lib\Debug\opencv_core345d.lib;cudart_static.lib;nppc.lib;nppi.lib;npps.lib;cublas.lib;cufft.lib;-LIBPATH:C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;cudart_static.lib;nppc.lib;nppi.lib;npps.lib;..\..\lib\Debug\opencv_cudev345d.lib;cublas.lib;cufft.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>libc;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/lib/Debug/opencv_flann345d.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/bin/Debug/opencv_flann345d.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;D:\code\opencv-code\opencv-windows-build345\modules\flann\src;D:\code\opencv-code\opencv-windows-build345\modules\flann\include;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann;D:\code\opencv-code\opencv-windows-build345\modules\cudev\include;D:\code\opencv-code\opencv-windows-build345\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4127;4251;4324;4275;4512;4589</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>12</ProcessorNumber>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR="Release";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\lib\Release\opencv_flann345.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR=\"Release\";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;D:\code\opencv-code\opencv-windows-build345\modules\flann\src;D:\code\opencv-code\opencv-windows-build345\modules\flann\include;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann;D:\code\opencv-code\opencv-windows-build345\modules\cudev\include;D:\code\opencv-code\opencv-windows-build345\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;D:\code\opencv-code\opencv-windows-build345\modules\flann\src;D:\code\opencv-code\opencv-windows-build345\modules\flann\include;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann;D:\code\opencv-code\opencv-windows-build345\modules\cudev\include;D:\code\opencv-code\opencv-windows-build345\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\lib\Release\opencv_core345.lib;cudart_static.lib;nppc.lib;nppi.lib;npps.lib;cublas.lib;cufft.lib;-LIBPATH:C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;cudart_static.lib;nppc.lib;nppi.lib;npps.lib;..\..\lib\Release\opencv_cudev345.lib;cublas.lib;cufft.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>libc;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/lib/Release/opencv_flann345.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/bin/Release/opencv_flann345.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann.hpp" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\flann.hpp" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\flann_base.hpp" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\miniflann.hpp" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\all_indices.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\allocator.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\any.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\autotuned_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\composite_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\config.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\defines.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\dist.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\dummy.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\dynamic_bitset.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\general.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\ground_truth.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\hdf5.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\heap.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\hierarchical_clustering_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\index_testing.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\kdtree_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\kdtree_single_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\kmeans_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\linear_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\logger.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\lsh_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\lsh_table.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\matrix.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\nn_index.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\object_factory.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\params.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\random.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\result_set.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\sampling.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\saving.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\simplex_downhill.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\include\opencv2\flann\timer.h" />
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\src\flann.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\src\miniflann.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\flann\src\precomp.hpp" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\cvconfig.h" />
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\opencv2\opencv_modules.hpp" />
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann\opencv_flann_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann\vs_version.rc" />
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\flann\opencv_flann_main.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/modules/flann/src/precomp.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\ZERO_CHECK.vcxproj">
+      <Project>{A1269DED-497E-306A-885A-E935664A0CC4}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\core\opencv_core.vcxproj">
+      <Project>{11E027A0-5AEA-342B-9D9D-6E47A551B7C1}</Project>
+      <Name>opencv_core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\cudev\opencv_cudev.vcxproj">
+      <Project>{2C3FBE63-74E9-341E-82E7-D56314B5BD8B}</Project>
+      <Name>opencv_cudev</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

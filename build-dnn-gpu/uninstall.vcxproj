@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B5BCC150-DAAF-3489-BB91-B1218F66CC24}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>uninstall</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\b8d0b756e1b8d2928e1bc1e1397ba1e4\uninstall.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/cmake_uninstall.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/CMakeFiles/b8d0b756e1b8d2928e1bc1e1397ba1e4/uninstall.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\uninstall</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/cmake_uninstall.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/CMakeFiles/b8d0b756e1b8d2928e1bc1e1397ba1e4/uninstall.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\uninstall</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\code\opencv-code\opencv-windows-build345\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/code/opencv-code/opencv-windows-build345/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/code/opencv-code/opencv-windows-build345 -BD:/code/opencv-code/opencv-windows-build345/build-dnn-gpu --check-stamp-file D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/code/opencv-code/opencv-windows-build345/CMakeLists.txt;D:\code\opencv-code\opencv-windows-build345\CMakeLists.txt;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVMinDepVersions.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVUtils.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInitialize.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeCXXCompiler.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCommonLanguageInclude.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDownload.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectCXXCompiler.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVVersion.cmake;D:\code\opencv-code\opencv-windows-build345\modules\core\include\opencv2\core\version.hpp;C:\Program Files\CMake\share\cmake-3.11\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectPython.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVCompilerOptions.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVCompilerOptimizations.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVCRTLinkage.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\ProcessorCount.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVPCHSupport.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVModule.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\TestBigEndian.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindFrameworks.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsGrfmt.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsGUI.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\checks\win32uitest.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsVideo.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsPerf.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectCUDA.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindCUDA.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindCUDA\select_compute_arch.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLAPACK.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindMKL.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindOpenBLAS.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindLAPACK.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindBLAS.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckFortranFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindProtobuf.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectOpenCL.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\checks\opencl.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectDirectX.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\checks\directx.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\checks\directx.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\templates\custom_hal.hpp.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectTrace.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVExtraTargets.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cmake_uninstall.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenHeaders.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cvconfig.h.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cvconfig.h.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cv_cpu_config.h.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\opencv_modules.hpp.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenAndroidMK.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenConfig.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig-version.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig-version.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig.root-WIN32.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenABI.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenSetupVars.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\setup_vars_win32.cmd.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\setup_vars_win32.cmd.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVPackaging.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.11\Templates\CPackConfig.cmake.in;C:\Program Files\CMake\share\cmake-3.11\Templates\CPackConfig.cmake.in;D:\code\opencv-code\opencv-windows-build345\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/code/opencv-code/opencv-windows-build345/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/code/opencv-code/opencv-windows-build345 -BD:/code/opencv-code/opencv-windows-build345/build-dnn-gpu --check-stamp-file D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/code/opencv-code/opencv-windows-build345/CMakeLists.txt;D:\code\opencv-code\opencv-windows-build345\CMakeLists.txt;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVMinDepVersions.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVUtils.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInitialize.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeCXXCompiler.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake;D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\3.11.1\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeCommonLanguageInclude.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDownload.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectCXXCompiler.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVVersion.cmake;D:\code\opencv-code\opencv-windows-build345\modules\core\include\opencv2\core\version.hpp;C:\Program Files\CMake\share\cmake-3.11\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectPython.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVCompilerOptions.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVCompilerOptimizations.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVCRTLinkage.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\ProcessorCount.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVPCHSupport.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVModule.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\TestBigEndian.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindFrameworks.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsGrfmt.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsGUI.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\checks\win32uitest.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsVideo.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLibsPerf.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectCUDA.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindCUDA.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindCUDA\select_compute_arch.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindLAPACK.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindMKL.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindOpenBLAS.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindLAPACK.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindBLAS.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckFortranFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\FindPackageMessage.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVFindProtobuf.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectOpenCL.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\checks\opencl.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectDirectX.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\checks\directx.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\checks\directx.cpp;D:\code\opencv-code\opencv-windows-build345\cmake\templates\custom_hal.hpp.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVDetectTrace.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVExtraTargets.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cmake_uninstall.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenHeaders.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cvconfig.h.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cvconfig.h.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\cv_cpu_config.h.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\opencv_modules.hpp.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenAndroidMK.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenConfig.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig-version.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig-version.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\OpenCVConfig.root-WIN32.cmake.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenABI.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVGenSetupVars.cmake;D:\code\opencv-code\opencv-windows-build345\cmake\templates\setup_vars_win32.cmd.in;D:\code\opencv-code\opencv-windows-build345\cmake\templates\setup_vars_win32.cmd.in;D:\code\opencv-code\opencv-windows-build345\cmake\OpenCVPackaging.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.11\Templates\CPackConfig.cmake.in;C:\Program Files\CMake\share\cmake-3.11\Templates\CPackConfig.cmake.in;D:\code\opencv-code\opencv-windows-build345\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\ZERO_CHECK.vcxproj">
+      <Project>{A1269DED-497E-306A-885A-E935664A0CC4}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

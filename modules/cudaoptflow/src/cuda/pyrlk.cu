@@ -40,7 +40,7 @@
 //
 //M*/
 
-#if !defined CUDA_DISABLER
+#if 0//!defined CUDA_DISABLER
 
 #include "opencv2/core/cuda/common.hpp"
 #include "opencv2/core/cuda/utility.hpp"

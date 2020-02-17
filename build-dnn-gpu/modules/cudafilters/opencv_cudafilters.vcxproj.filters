@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\modules\cudafilters\src\filtering.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\cudafilters\opencv_cudafilters_pch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\cudafilters\opencv_cudafilters_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\modules\cudafilters\include\opencv2\cudafilters.hpp">
+      <Filter>Include\opencv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudafilters\src\cuda\column_filter.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudafilters\src\cuda\row_filter.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudafilters\src\precomp.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\cvconfig.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\opencv2\opencv_modules.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\build-dnn-gpu\modules\cudafilters\vs_version.rc">
+      <Filter>Src</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C80D499D-E6C9-3629-9CAA-D557D6C1E4A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{9DF1B291-E6B0-33E4-BC6C-C53AF40E6D59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\opencv2">
+      <UniqueIdentifier>{41B254F0-6395-3255-A3CA-6FE5F3E47B2E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Files">
+      <UniqueIdentifier>{51851CEA-0602-31B6-B183-E7C80D198AAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0FA2E0EA-45E7-34D4-BEF7-FD5F6BDEB376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{CEFABED2-5FDC-3EFB-9917-6D77D1471FF8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Cuda">
+      <UniqueIdentifier>{E784DE1C-0386-3BF8-A804-7FD6C11053C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\cuda">
+      <UniqueIdentifier>{868F58A9-DC97-3F8A-B10B-76ED02DF0AFB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.8uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.8uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.8uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.16uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32fc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32fc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32fc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\column_filter.32sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\filter2d.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\median_filter.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.8uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.8uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.8uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16uc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16uc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.16uc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32fc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32fc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32fc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32sc1.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32sc3.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudafilters\src\cuda\row_filter.32sc4.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+  </ItemGroup>
+</Project>

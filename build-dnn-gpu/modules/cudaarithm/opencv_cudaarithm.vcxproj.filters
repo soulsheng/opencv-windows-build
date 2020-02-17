@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\modules\cudaarithm\src\arithm.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudaarithm\src\core.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudaarithm\src\element_operations.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudaarithm\src\reductions.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\cudaarithm\opencv_cudaarithm_pch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\cudaarithm\opencv_cudaarithm_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\modules\cudaarithm\include\opencv2\cudaarithm.hpp">
+      <Filter>Include\opencv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudaarithm\src\precomp.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\cvconfig.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\opencv2\opencv_modules.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\build-dnn-gpu\modules\cudaarithm\vs_version.rc">
+      <Filter>Src</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C80D499D-E6C9-3629-9CAA-D557D6C1E4A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{9DF1B291-E6B0-33E4-BC6C-C53AF40E6D59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\opencv2">
+      <UniqueIdentifier>{41B254F0-6395-3255-A3CA-6FE5F3E47B2E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Files">
+      <UniqueIdentifier>{51851CEA-0602-31B6-B183-E7C80D198AAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0FA2E0EA-45E7-34D4-BEF7-FD5F6BDEB376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{CEFABED2-5FDC-3EFB-9917-6D77D1471FF8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Cuda">
+      <UniqueIdentifier>{E784DE1C-0386-3BF8-A804-7FD6C11053C9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\absdiff_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\absdiff_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\add_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\add_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\add_weighted.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\bitwise_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\bitwise_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\cmp_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\cmp_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\copy_make_border.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\countnonzero.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\div_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\div_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\integral.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\lut.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\math.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\minmax.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\minmax_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\minmaxloc.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\mul_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\mul_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\mul_spectrums.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\norm.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\normalize.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\polar_cart.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\reduce.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\split_merge.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\sub_mat.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\sub_scalar.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\sum.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\threshold.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudaarithm\src\cuda\transpose.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+  </ItemGroup>
+</Project>

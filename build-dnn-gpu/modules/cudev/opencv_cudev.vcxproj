@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2C3FBE63-74E9-341E-82E7-D56314B5BD8B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>opencv_cudev</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\build-dnn-gpu\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opencv_cudev.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opencv_cudev345d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\build-dnn-gpu\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">opencv_cudev.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">opencv_cudev345</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\build-dnn-gpu;..\..\..\modules\cudev\src;..\..\..\modules\cudev\include;..\..\..\build-dnn-gpu\modules\cudev;..\..\..\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4127;4251;4324;4275;4512;4589;4189;4505</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>12</ProcessorNumber>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR="Debug";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>..\..\..\build-dnn-gpu\lib\Debug\opencv_cudev345d.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR=\"Debug\";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\build-dnn-gpu;..\..\..\modules\cudev\src;..\..\..\modules\cudev\include;..\..\..\build-dnn-gpu\modules\cudev;..\..\..\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>..\..\..\build-dnn-gpu;..\..\..\modules\cudev\src;..\..\..\modules\cudev\include;..\..\..\build-dnn-gpu\modules\cudev;..\..\..\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>cudart_static.lib;nppc.lib;nppi.lib;npps.lib;cublas.lib;cufft.lib;-LIBPATH:C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;cudart_static.lib;nppc.lib;nppi.lib;npps.lib;cublas.lib;cufft.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>libc;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/lib/Debug/opencv_cudev345d.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/bin/Debug/opencv_cudev345d.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\build-dnn-gpu;..\..\..\modules\cudev\src;..\..\..\modules\cudev\include;..\..\..\build-dnn-gpu\modules\cudev;..\..\..\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4127;4251;4324;4275;4512;4589;4189;4505</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>12</ProcessorNumber>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR="Release";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>..\..\..\build-dnn-gpu\lib\Release\opencv_cudev345.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;__OPENCV_BUILD=1;_USE_MATH_DEFINES;__STDC_CONSTANT_MACROS;__STDC_LIMIT_MACROS;__STDC_FORMAT_MACROS;CMAKE_INTDIR=\"Release\";CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\build-dnn-gpu;..\..\..\modules\cudev\src;..\..\..\modules\cudev\include;..\..\..\build-dnn-gpu\modules\cudev;..\..\..\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>..\..\..\build-dnn-gpu;..\..\..\modules\cudev\src;..\..\..\modules\cudev\include;..\..\..\build-dnn-gpu\modules\cudev;..\..\..\modules\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>cudart_static.lib;nppc.lib;nppi.lib;npps.lib;cublas.lib;cufft.lib;-LIBPATH:C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;cudart_static.lib;nppc.lib;nppi.lib;npps.lib;cublas.lib;cufft.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64;C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v6.5/lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>libc;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/lib/Release/opencv_cudev345.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/code/opencv-code/opencv-windows-build345/build-dnn-gpu/bin/Release/opencv_cudev345.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\block.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\detail\reduce.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\detail\reduce_key_val.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\dynamic_smem.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\reduce.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\scan.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\block\vec_distance.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\common.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\binary_func.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\binary_op.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\color.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\deriv.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\expr.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\per_element_func.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\reduction.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\unary_func.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\unary_op.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\expr\warping.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\functional\color_cvt.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\functional\detail\color_cvt.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\functional\functional.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\functional\tuple_adapter.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\copy.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\copy.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\histogram.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\integral.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\minmaxloc.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\pyr_down.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\pyr_up.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\reduce.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\reduce_to_column.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\reduce_to_row.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\split_merge.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\transform.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\detail\transpose.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\histogram.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\integral.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\pyramids.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\reduce.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\reduce_to_vec.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\split_merge.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\transform.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\grid\transpose.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\constant.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\deriv.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\detail\gpumat.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\extrapolation.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\glob.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\gpumat.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\interpolation.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\lut.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\mask.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\remap.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\resize.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\texture.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\traits.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\transform.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\warping.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\ptr2d\zip.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\atomic.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\detail\tuple.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\detail\type_traits.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\limits.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\saturate_cast.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\simd_functions.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\tuple.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\type_traits.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\vec_math.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\util\vec_traits.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\warp\detail\reduce.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\warp\detail\reduce_key_val.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\warp\reduce.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\warp\scan.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\warp\shuffle.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev\warp\warp.hpp" />
+    <ClInclude Include="..\..\..\modules\cudev\include\opencv2\cudev.hpp" />
+    <ClCompile Include="..\..\..\modules\cudev\src\stub.cpp" />
+    <ClInclude Include="..\..\..\build-dnn-gpu\cvconfig.h" />
+    <ClInclude Include="..\..\..\build-dnn-gpu\opencv2\opencv_modules.hpp" />
+    <ResourceCompile Include="..\..\..\build-dnn-gpu\modules\cudev\vs_version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\build-dnn-gpu\ZERO_CHECK.vcxproj">
+      <Project>{A1269DED-497E-306A-885A-E935664A0CC4}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\videoio_registry.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\videoio_c.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap_images.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap_mjpeg_encoder.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap_mjpeg_decoder.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\container_avi.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap_cmu.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap_dshow.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\videoio\opencv_videoio_pch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\videoio\opencv_videoio_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\include\opencv2\videoio.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\include\opencv2\videoio\container_avi.private.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\include\opencv2\videoio\registry.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\include\opencv2\videoio\videoio.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\include\opencv2\videoio\cap_ios.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\include\opencv2\videoio\videoio_c.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\precomp.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\src\cap_dshow.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\cvconfig.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\opencv2\opencv_modules.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\code\opencv-code\opencv-windows-build345\modules\videoio\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\code\opencv-code\opencv-windows-build345\build-dnn-gpu\modules\videoio\vs_version.rc">
+      <Filter>Src</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{9DF1B291-E6B0-33E4-BC6C-C53AF40E6D59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0FA2E0EA-45E7-34D4-BEF7-FD5F6BDEB376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{CEFABED2-5FDC-3EFB-9917-6D77D1471FF8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

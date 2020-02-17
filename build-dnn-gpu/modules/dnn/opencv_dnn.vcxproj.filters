@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\attr_value.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\function.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\graph.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\op_def.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\tensor.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\tensor_shape.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\types.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\tensorflow\versions.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\caffe\opencv-caffe.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\misc\onnx\opencv-onnx.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\caffe\caffe_importer.cpp">
+      <Filter>Src\caffe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\caffe\caffe_io.cpp">
+      <Filter>Src\caffe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\caffe\caffe_shrinker.cpp">
+      <Filter>Src\caffe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\darknet\darknet_importer.cpp">
+      <Filter>Src\darknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\darknet\darknet_io.cpp">
+      <Filter>Src\darknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\dnn.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\halide_scheduler.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\init.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\batch_norm_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\blank_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\concat_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\const_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\convolution_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\crop_and_resize_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\crop_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\detection_output_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\elementwise_layers.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\eltwise_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\flatten_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\fully_connected_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\layers_common.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\lrn_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\max_unpooling_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\mvn_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\normalize_bbox_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\padding_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\permute_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\pooling_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\prior_box_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\proposal_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\recurrent_layers.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\region_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\reorg_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\reshape_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\resize_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\scale_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\shuffle_channel_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\slice_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\softmax_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\layers\split_layer.cpp">
+      <Filter>Src\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\nms.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\onnx\onnx_importer.cpp">
+      <Filter>Src\onnx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\op_halide.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\op_inf_engine.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\tensorflow\tf_graph_simplifier.cpp">
+      <Filter>Src\tensorflow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\tensorflow\tf_importer.cpp">
+      <Filter>Src\tensorflow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\tensorflow\tf_io.cpp">
+      <Filter>Src\tensorflow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\torch\THDiskFile.cpp">
+      <Filter>Src\torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\torch\THFile.cpp">
+      <Filter>Src\torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\torch\THGeneral.cpp">
+      <Filter>Src\torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\dnn\src\torch\torch_importer.cpp">
+      <Filter>Src\torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\dnn\opencv_dnn_pch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\dnn\opencv_dnn_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn.hpp">
+      <Filter>Include\opencv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\all_layers.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\dict.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\dnn.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\dnn.inl.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\layer.details.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\layer.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\include\opencv2\dnn\shape_utils.hpp">
+      <Filter>Include\opencv2\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\caffe\caffe_io.hpp">
+      <Filter>Src\caffe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\caffe\glog_emulator.hpp">
+      <Filter>Src\caffe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\darknet\darknet_io.hpp">
+      <Filter>Src\darknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\halide_scheduler.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\layers\layers_common.hpp">
+      <Filter>Src\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\layers\layers_common.simd.hpp">
+      <Filter>Src\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\nms.inl.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\op_halide.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\op_inf_engine.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\precomp.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\tensorflow\tf_graph_simplifier.hpp">
+      <Filter>Src\tensorflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\tensorflow\tf_io.hpp">
+      <Filter>Src\tensorflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\torch\THDiskFile.h">
+      <Filter>Src\torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\torch\THFile.h">
+      <Filter>Src\torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\torch\THFilePrivate.h">
+      <Filter>Src\torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\dnn\src\torch\THGeneral.h">
+      <Filter>Src\torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\cvconfig.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\opencv2\opencv_modules.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\modules\dnn\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\..\build-dnn-gpu\modules\dnn\opencv_dnn_AVX.dir\$(Configuration)\layers_common.avx.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\build-dnn-gpu\modules\dnn\vs_version.rc">
+      <Filter>Src</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{9DF1B291-E6B0-33E4-BC6C-C53AF40E6D59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\opencv2">
+      <UniqueIdentifier>{41B254F0-6395-3255-A3CA-6FE5F3E47B2E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\opencv2\dnn">
+      <UniqueIdentifier>{79122642-9CFE-315B-B689-0EC35E63FF77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{9EA016A2-FF61-3B1C-B1BB-3119CC1419DA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0FA2E0EA-45E7-34D4-BEF7-FD5F6BDEB376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{CEFABED2-5FDC-3EFB-9917-6D77D1471FF8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\caffe">
+      <UniqueIdentifier>{A51CDE82-EDBC-34C6-8AF0-A09E68CEBCA4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\darknet">
+      <UniqueIdentifier>{1392BE54-B3BF-33C0-85A9-1380906D4284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\layers">
+      <UniqueIdentifier>{6EC20252-1FA7-32AB-8CCA-3EA999801336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\onnx">
+      <UniqueIdentifier>{953E064F-742A-3363-B39F-1380F6828935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\tensorflow">
+      <UniqueIdentifier>{7521D271-CAA7-3DD8-ABC9-AC6F8E1F7FA4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\torch">
+      <UniqueIdentifier>{9CAD5F99-F7F1-32B5-A56E-0EEDC54A7134}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

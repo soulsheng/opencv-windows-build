@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\NCV.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\bm.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\bm_fast.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\calib3d.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\fgd.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\gmg.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\graphcuts.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\image_pyramid.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\interpolate_frames.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\cudalegacy\src\needle_map.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\cudalegacy\opencv_cudalegacy_pch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build-dnn-gpu\modules\cudalegacy\opencv_cudalegacy_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy.hpp">
+      <Filter>Include\opencv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy\NCV.hpp">
+      <Filter>Include\opencv2\cudalegacy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy\NCVBroxOpticalFlow.hpp">
+      <Filter>Include\opencv2\cudalegacy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy\NCVHaarObjectDetection.hpp">
+      <Filter>Include\opencv2\cudalegacy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy\NCVPyramid.hpp">
+      <Filter>Include\opencv2\cudalegacy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy\NPP_staging.hpp">
+      <Filter>Include\opencv2\cudalegacy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\include\opencv2\cudalegacy\private.hpp">
+      <Filter>Include\opencv2\cudalegacy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\src\cuda\NCVAlg.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\src\cuda\NCVColorConversion.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\src\cuda\NCVPixelOperations.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\src\cuda\NCVRuntimeTemplates.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\src\cuda\fgd.hpp">
+      <Filter>Src\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\cudalegacy\src\precomp.hpp">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\cvconfig.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build-dnn-gpu\opencv2\opencv_modules.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\build-dnn-gpu\modules\cudalegacy\vs_version.rc">
+      <Filter>Src</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C80D499D-E6C9-3629-9CAA-D557D6C1E4A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{9DF1B291-E6B0-33E4-BC6C-C53AF40E6D59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\opencv2">
+      <UniqueIdentifier>{41B254F0-6395-3255-A3CA-6FE5F3E47B2E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\opencv2\cudalegacy">
+      <UniqueIdentifier>{57F85D82-EAC9-3AEE-A3EB-D27186E68BB1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Files">
+      <UniqueIdentifier>{51851CEA-0602-31B6-B183-E7C80D198AAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0FA2E0EA-45E7-34D4-BEF7-FD5F6BDEB376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{CEFABED2-5FDC-3EFB-9917-6D77D1471FF8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Cuda">
+      <UniqueIdentifier>{E784DE1C-0386-3BF8-A804-7FD6C11053C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\cuda">
+      <UniqueIdentifier>{868F58A9-DC97-3F8A-B10B-76ED02DF0AFB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\bm.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\bm_fast.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\calib3d.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\ccomponetns.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\fgd.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\gmg.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCVBroxOpticalFlow.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCVHaarObjectDetection.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCVPyramid.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\needle_map.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NPP_staging.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+    <CudaCompile Include="..\..\..\modules\cudalegacy\src\cuda\NCV.cu">
+      <Filter>Src\Cuda</Filter>
+    </CudaCompile>
+  </ItemGroup>
+</Project>
